@@ -103,7 +103,7 @@ class WebScrapingJinaTool:
 
     def __call__(self, query: str) -> List[Dict[str, Any]]:
         print(f"Searching for {query}")
-        all_urls = self._jina_search(query)
+        all_urls = self._jina_deepsearch(query)
         return_content = []
         print(f"Found {len(all_urls)} URLs")
         if len(all_urls)>1:
@@ -115,6 +115,7 @@ class WebScrapingJinaTool:
             print(f"Scraped {url}")
 
         return return_content  
+    
 
     def _jina_scrape(self, url: str) -> Dict[str, Any]:
         try:
@@ -148,6 +149,80 @@ class WebScrapingJinaTool:
                 'error': str(e)
             }
 
+    def _jina_deepsearch(self, query: str) -> List[str]:
+        url = 'https://deepsearch.jina.ai/v1/chat/completions'
+        headers = {
+            'Authorization': f'Bearer {self.api_key}',        
+            "Accept": "application/json",
+            "X-Respond-With": "no-content"
+        }
+
+        data = {
+            "model": "jina-deepsearch-v1",
+            "messages" : [
+                {
+                    "role": "user",
+                    "content": query
+                }
+            ],
+            "stream" : True,
+            "reasoning_effort" : "medium"
+        }
+
+        try:
+            response = requests.post(url, headers=headers, data = json.dumps(data))
+            response.raise_for_status()  # 检查HTTP状态码
+            
+            json_data = response.json()
+            
+            # Check if response data is valid
+            if json_data is None:
+                print(f"⚠️ Jina API returned empty data, query: {query}")
+                return []
+            
+            if 'data' not in json_data:
+                print(f"⚠️ Jina API response format abnormal, query: {query}, response: {json_data}")
+                return []
+            
+            all_urls = []
+            filtered_urls = []
+            
+            # Process search results, filter out content from TODAY_DATE and later
+            for item in json_data.get('data', []):
+                if 'url' not in item:
+                    continue
+                    
+                # Get publication date and convert to standard format
+                raw_date = item.get('date', 'unknown')
+                standardized_date = parse_date_to_standard(raw_date)
+                
+                # If unable to parse date, keep this result
+                if standardized_date == 'unknown' or standardized_date == raw_date:
+                    filtered_urls.append(item['url'])
+                    continue
+                
+                # Check if before TODAY_DATE
+                today_date = get_config_value("TODAY_DATE")
+                if today_date:
+                    if today_date > standardized_date:
+                        filtered_urls.append(item['url'])
+                else:
+                    # If TODAY_DATE is not set, keep all results
+                    filtered_urls.append(item['url'])
+            
+            print(f"Found {len(filtered_urls)} URLs after filtering")
+            return filtered_urls
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Jina API request failed: {e}")
+            return []
+        except ValueError as e:
+            print(f"❌ Jina API response parsing failed: {e}")
+            return []
+        except Exception as e:
+            print(f"❌ Jina search unknown error: {e}")
+            return []
+        
+
     def _jina_search(self, query: str) -> List[str]:
         url = f'https://s.jina.ai/?q={query}&n=1'
         headers = {
@@ -157,6 +232,7 @@ class WebScrapingJinaTool:
         }
    
         try:
+            
             response = requests.get(url, headers=headers)
             response.raise_for_status()  # 检查HTTP状态码
             
