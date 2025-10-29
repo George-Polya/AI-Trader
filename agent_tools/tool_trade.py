@@ -2,6 +2,8 @@ from fastmcp import FastMCP
 import sys
 import os
 from typing import Dict, List, Optional, Any
+from dotenv import load_dotenv
+load_dotenv()
 # Add project root directory to Python path
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
