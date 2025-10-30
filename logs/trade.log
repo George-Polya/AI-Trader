@@ -1,0 +1,862 @@
+
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│                                                                            │
+│        _ __ ___  _____           __  __  _____________    ____    ____     │
+│       _ __ ___ .'____/___ ______/ /_/  |/  / ____/ __ \  |___ \  / __ \    │
+│      _ __ ___ / /_  / __ `/ ___/ __/ /|_/ / /   / /_/ /  ___/ / / / / /    │
+│     _ __ ___ / __/ / /_/ (__  ) /_/ /  / / /___/ ____/  /  __/_/ /_/ /     │
+│    _ __ ___ /_/    \____/____/\__/_/  /_/\____/_/      /_____(*)____/      │
+│                                                                            │
+│                                                                            │
+│                                FastMCP  2.0                                │
+│                                                                            │
+│                                                                            │
+│               🖥️  Server name:     TradeTools                               │
+│               📦 Transport:       Streamable-HTTP                          │
+│               🔗 Server URL:      http://127.0.0.1:8002/mcp                │
+│                                                                            │
+│               🏎️  FastMCP version: 2.12.5                                   │
+│               🤝 MCP SDK version: 1.16.0                                   │
+│                                                                            │
+│               📚 Docs:            https://gofastmcp.com                    │
+│               🚀 Deploy:          https://fastmcp.cloud                    │
+│                                                                            │
+╰────────────────────────────────────────────────────────────────────────────╯
+
+
+[10/30/25 14:23:35] INFO     Starting MCP server 'TradeTools' with transport 'streamable-http' on http://127.0.0.1:8002/mcp                                                                                                                                                                                                     server.py:1579
+INFO:     Started server process [118427]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8002 (Press CTRL+C to quit)
+INFO:     127.0.0.1:41084 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41108 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41092 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41110 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41116 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58558 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58560 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58574 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:58576 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58586 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58598 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42806 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42810 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42826 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42838 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 6, "this_action": {"action": "sell", "symbol": "WBD", "amount": 2}, "positions": {"NVDA": 30, "MSFT": 0, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 15, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 43.92099999999982}}
+INFO:     127.0.0.1:42846 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42848 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42854 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42858 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42864 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42874 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42890 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42902 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42904 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42920 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42928 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42932 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42944 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42958 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42972 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42984 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42974 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42998 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 7, "this_action": {"action": "buy", "symbol": "INTC", "amount": 1}, "positions": {"NVDA": 30, "MSFT": 0, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 15, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 5.970999999999819}}
+IF_TRADE True
+INFO:     127.0.0.1:43008 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43012 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51998 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52014 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52024 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52034 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 8, "this_action": {"action": "sell", "symbol": "AMD", "amount": 5}, "positions": {"NVDA": 30, "MSFT": 0, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 10, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 1138.1959999999997}}
+INFO:     127.0.0.1:52042 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52050 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52062 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52066 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52068 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52072 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 9, "this_action": {"action": "buy", "symbol": "MSFT", "amount": 2}, "positions": {"NVDA": 30, "MSFT": 2, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 10, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 100.97599999999966}}
+IF_TRADE True
+INFO:     127.0.0.1:52084 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52090 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52092 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52114 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52102 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52118 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52122 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52126 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52138 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52160 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52148 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52168 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52174 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52188 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52204 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52222 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52212 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52232 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52236 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52248 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52262 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52284 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52274 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52290 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52294 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52296 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52310 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52320 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52314 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52324 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 10, "this_action": {"action": "buy", "symbol": "CSCO", "amount": 1}, "positions": {"NVDA": 30, "MSFT": 2, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 10, "CSCO": 1, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 32.540999999999656}}
+IF_TRADE True
+INFO:     127.0.0.1:52334 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52348 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52358 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52368 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52370 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52372 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 11, "this_action": {"action": "buy", "symbol": "WBD", "amount": 1}, "positions": {"NVDA": 30, "MSFT": 2, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 10, "CSCO": 1, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 1, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 13.510999999999655}}
+IF_TRADE True
+INFO:     127.0.0.1:52374 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52390 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57280 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57284 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57288 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57294 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57310 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57320 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57326 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57328 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57344 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57360 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57376 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57390 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57400 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57416 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57418 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57420 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57422 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57432 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57440 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57456 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57468 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57478 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57480 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57484 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57488 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57514 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57502 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57530 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57536 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57546 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57552 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57564 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57554 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57568 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57576 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57592 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57594 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57624 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57608 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57626 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57636 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57648 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57664 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57678 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57694 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57698 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57702 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57712 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57718 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57720 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57728 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57742 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57744 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57758 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57772 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57778 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57788 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57790 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57806 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57822 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50184 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50190 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50188 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50206 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50212 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50220 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50228 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50244 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50254 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50268 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50284 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50294 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50308 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50326 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50320 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50332 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50340 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50356 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50370 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50384 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50386 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50392 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50402 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50414 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50426 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50434 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50432 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50450 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50452 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50460 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50466 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50472 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50482 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50496 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50500 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50510 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50522 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50526 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50540 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50546 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50560 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50568 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50572 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50580 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50592 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50594 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50606 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50616 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33382 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33404 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33392 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33418 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33428 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33438 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33442 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33450 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33454 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33464 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33466 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33476 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33484 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33508 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33496 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33518 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33534 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33550 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33564 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33570 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33580 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33596 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33602 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33612 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33624 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33634 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33650 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33652 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33656 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33658 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33664 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33676 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33684 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33686 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33698 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33702 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33710 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33724 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33726 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33730 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33736 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33744 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33752 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33762 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33768 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33770 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33774 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33790 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33798 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33824 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33812 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33832 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33840 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33852 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33866 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33878 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33880 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33892 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33898 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33900 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56326 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56340 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56336 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:56356 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56368 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56384 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56386 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56402 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56416 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:56428 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56436 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56448 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56460 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56470 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:56484 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56496 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56498 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56504 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56510 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56524 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56514 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:56534 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56536 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41594 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41598 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41614 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41620 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41632 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41634 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41650 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41664 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41680 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41688 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41694 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41698 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41702 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41714 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41720 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41732 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41744 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41756 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46546 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46558 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46560 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46570 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 12, "this_action": {"action": "sell", "symbol": "AMD", "amount": 5}, "positions": {"NVDA": 30, "MSFT": 2, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 1, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 1, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 1145.7359999999996}}
+INFO:     127.0.0.1:46576 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46580 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46596 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46624 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46612 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46634 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 13, "this_action": {"action": "sell", "symbol": "NVDA", "amount": 10}, "positions": {"NVDA": 20, "MSFT": 2, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 1, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 1, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 3000.736}}
+INFO:     127.0.0.1:46650 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46652 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46656 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46684 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46670 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46694 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 14, "this_action": {"action": "buy", "symbol": "MSFT", "amount": 3}, "positions": {"NVDA": 20, "MSFT": 5, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 1, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 1, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 1444.906}}
+IF_TRADE True
+INFO:     127.0.0.1:46708 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46716 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46726 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46730 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46740 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46752 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 15, "this_action": {"action": "buy", "symbol": "META", "amount": 2}, "positions": {"NVDA": 20, "MSFT": 5, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 2, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 1, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 1, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 34.53600000000006}}
+IF_TRADE True
+INFO:     127.0.0.1:46762 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46772 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53658 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53674 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53684 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53696 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53702 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53714 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53724 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53748 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53738 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53752 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53762 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53772 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53788 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53798 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53808 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53814 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 16, "this_action": {"action": "buy", "symbol": "WBD", "amount": 1}, "positions": {"NVDA": 20, "MSFT": 5, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 2, "AVGO": 5, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 1, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 1, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 2, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 15.506000000000057}}
+IF_TRADE True
+INFO:     127.0.0.1:53826 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53830 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57540 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57556 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57550 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57572 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57576 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52268 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52292 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52284 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52306 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52316 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39112 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39120 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:39134 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39138 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39152 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57798 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57802 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57816 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57824 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 1, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 10}, "positions": {"NVDA": 10, "MSFT": 0, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 8104.0}}
+IF_TRADE True
+INFO:     127.0.0.1:57836 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57840 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57854 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57868 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57876 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57884 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 2, "this_action": {"action": "buy", "symbol": "MSFT", "amount": 5}, "positions": {"NVDA": 10, "MSFT": 5, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 5515.8}}
+IF_TRADE True
+INFO:     127.0.0.1:57894 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57910 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40700 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40716 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:40730 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40736 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 3, "this_action": {"action": "buy", "symbol": "AAPL", "amount": 10}, "positions": {"NVDA": 10, "MSFT": 5, "AAPL": 10, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 2950.05}}
+IF_TRADE True
+INFO:     127.0.0.1:40748 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40752 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40762 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40778 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:40784 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40800 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 4, "this_action": {"action": "buy", "symbol": "GOOG", "amount": 10}, "positions": {"NVDA": 10, "MSFT": 5, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 493.65000000000055}}
+IF_TRADE True
+INFO:     127.0.0.1:40808 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40818 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50700 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50722 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50708 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50732 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 5, "this_action": {"action": "buy", "symbol": "AMD", "amount": 2}, "positions": {"NVDA": 10, "MSFT": 5, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 156.30000000000052}}
+IF_TRADE True
+INFO:     127.0.0.1:50744 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50750 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47076 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47094 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47084 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:47100 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 6, "this_action": {"action": "buy", "symbol": "WBD", "amount": 8}, "positions": {"NVDA": 10, "MSFT": 5, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 8, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 1.6600000000005366}}
+IF_TRADE True
+INFO:     127.0.0.1:47116 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47132 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48482 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48496 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:48510 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48516 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48532 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48544 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59460 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59476 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59492 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59508 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59510 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49544 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49558 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49560 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49564 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 7, "this_action": {"action": "sell", "symbol": "NVDA", "amount": 1}, "positions": {"NVDA": 9, "MSFT": 5, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 8, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 190.85000000000053}}
+INFO:     127.0.0.1:49578 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49592 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52406 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52432 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52416 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52434 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 8, "this_action": {"action": "buy", "symbol": "WBD", "amount": 9}, "positions": {"NVDA": 9, "MSFT": 5, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 17, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 16.448000000000548}}
+IF_TRADE True
+INFO:     127.0.0.1:52448 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52462 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51438 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51444 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:51448 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51464 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51468 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35600 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35606 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35608 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:35616 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 9, "this_action": {"action": "sell", "symbol": "MSFT", "amount": 1}, "positions": {"NVDA": 9, "MSFT": 4, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 17, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 533.5480000000006}}
+INFO:     127.0.0.1:35632 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35646 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55036 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55050 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55046 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55056 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 10, "this_action": {"action": "buy", "symbol": "WBD", "amount": 27}, "positions": {"NVDA": 9, "MSFT": 4, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 44, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 10.342000000000553}}
+IF_TRADE True
+INFO:     127.0.0.1:55068 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55070 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52316 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52344 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52330 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52348 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 11, "this_action": {"action": "sell", "symbol": "NVDA", "amount": 1}, "positions": {"NVDA": 8, "MSFT": 4, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 44, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 199.53200000000055}}
+INFO:     127.0.0.1:52350 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52356 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51766 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51780 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:51782 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51798 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-03", "id": 12, "this_action": {"action": "buy", "symbol": "WBD", "amount": 10}, "positions": {"NVDA": 8, "MSFT": 4, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 2, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 54, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 5.75200000000055}}
+IF_TRADE True
+INFO:     127.0.0.1:51808 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51820 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60294 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60310 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60302 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60316 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60318 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50664 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50670 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50672 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50676 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50680 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53384 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53390 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53406 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53422 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 13, "this_action": {"action": "sell", "symbol": "AMD", "amount": 1}, "positions": {"NVDA": 8, "MSFT": 4, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 1, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 54, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 232.19700000000054}}
+INFO:     127.0.0.1:53424 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53428 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44062 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44072 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44086 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44088 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 14, "this_action": {"action": "sell", "symbol": "AMD", "amount": 1}, "positions": {"NVDA": 8, "MSFT": 4, "AAPL": 10, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 54, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 458.6420000000005}}
+INFO:     127.0.0.1:44098 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44114 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44122 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44142 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44138 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44156 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 15, "this_action": {"action": "sell", "symbol": "AAPL", "amount": 2}, "positions": {"NVDA": 8, "MSFT": 4, "AAPL": 8, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 54, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 974.6220000000005}}
+INFO:     127.0.0.1:44170 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44174 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36436 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36442 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36454 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36468 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 16, "this_action": {"action": "sell", "symbol": "NVDA", "amount": 2}, "positions": {"NVDA": 6, "MSFT": 4, "AAPL": 8, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 54, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 1345.6220000000005}}
+INFO:     127.0.0.1:36480 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36490 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36502 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36518 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36522 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36524 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 17, "this_action": {"action": "sell", "symbol": "MSFT", "amount": 2}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 54, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 2382.8420000000006}}
+INFO:     127.0.0.1:36538 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36542 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36554 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36564 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36580 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36596 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 18, "this_action": {"action": "sell", "symbol": "WBD", "amount": 54}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 10, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 3410.4620000000004}}
+INFO:     127.0.0.1:36608 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36614 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54928 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54946 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54938 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:54954 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-06", "id": 19, "this_action": {"action": "buy", "symbol": "AMZN", "amount": 1}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 10, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 3189.4620000000004}}
+IF_TRADE True
+INFO:     127.0.0.1:54956 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54968 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54974 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54976 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:54982 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54998 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55012 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51998 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52012 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52024 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52028 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-07", "id": 20, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 1}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 9, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 3438.3920000000003}}
+INFO:     127.0.0.1:52034 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52048 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40536 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40542 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:40548 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40552 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40560 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56782 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56798 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:56814 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56824 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 21, "this_action": {"action": "buy", "symbol": "AMD", "amount": 5}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 9, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 2373.6420000000003}}
+IF_TRADE True
+INFO:     127.0.0.1:56832 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56838 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38656 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38668 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38660 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38678 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 22, "this_action": {"action": "buy", "symbol": "GOOG", "amount": 9}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 18, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 157.84200000000055}}
+IF_TRADE True
+INFO:     127.0.0.1:38692 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38694 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41832 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41858 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41844 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41864 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41876 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41878 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36010 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36018 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36034 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36050 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 23, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 1}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 17, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 404.04200000000054}}
+INFO:     127.0.0.1:36054 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36070 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42886 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42898 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42888 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42904 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 24, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 2}, "positions": {"NVDA": 6, "MSFT": 2, "AAPL": 8, "GOOG": 15, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 896.4420000000005}}
+INFO:     127.0.0.1:42918 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42934 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49912 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49934 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49928 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49936 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 25, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 4}, "positions": {"NVDA": 10, "MSFT": 2, "AAPL": 8, "GOOG": 15, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 150.1620000000005}}
+IF_TRADE True
+INFO:     127.0.0.1:49948 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49962 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41564 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41584 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41570 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41590 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 26, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 1}, "positions": {"NVDA": 10, "MSFT": 2, "AAPL": 8, "GOOG": 14, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 396.3620000000005}}
+INFO:     127.0.0.1:41604 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41608 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42748 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42756 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42762 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42768 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 27, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 2}, "positions": {"NVDA": 12, "MSFT": 2, "AAPL": 8, "GOOG": 14, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 23.22200000000049}}
+IF_TRADE True
+INFO:     127.0.0.1:42784 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42788 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36408 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36416 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36426 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36436 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 28, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 2}, "positions": {"NVDA": 12, "MSFT": 2, "AAPL": 8, "GOOG": 12, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 515.6220000000005}}
+INFO:     127.0.0.1:36452 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36462 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46224 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46234 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46236 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46244 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 29, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 2}, "positions": {"NVDA": 14, "MSFT": 2, "AAPL": 8, "GOOG": 12, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 142.48200000000054}}
+IF_TRADE True
+INFO:     127.0.0.1:46248 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46264 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50022 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50036 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50028 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50044 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 30, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 1}, "positions": {"NVDA": 14, "MSFT": 2, "AAPL": 8, "GOOG": 11, "GOOGL": 0, "AMZN": 1, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 388.6820000000005}}
+INFO:     127.0.0.1:50048 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50054 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36768 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36794 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36778 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36810 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 31, "this_action": {"action": "buy", "symbol": "AMZN", "amount": 1}, "positions": {"NVDA": 14, "MSFT": 2, "AAPL": 8, "GOOG": 11, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 165.76200000000054}}
+IF_TRADE True
+INFO:     127.0.0.1:36816 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36822 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44264 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44268 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44276 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44280 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 32, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 2}, "positions": {"NVDA": 14, "MSFT": 2, "AAPL": 8, "GOOG": 9, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 658.1620000000005}}
+INFO:     127.0.0.1:44294 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44306 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50574 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50578 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50584 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50590 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 33, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 3}, "positions": {"NVDA": 17, "MSFT": 2, "AAPL": 8, "GOOG": 9, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 98.45200000000045}}
+IF_TRADE True
+INFO:     127.0.0.1:50602 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50618 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56376 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56392 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:56400 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56402 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 34, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 1}, "positions": {"NVDA": 17, "MSFT": 2, "AAPL": 8, "GOOG": 8, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 344.65200000000044}}
+INFO:     127.0.0.1:56418 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56426 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34602 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34614 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34606 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:34620 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 35, "this_action": {"action": "sell", "symbol": "GOOG", "amount": 2}, "positions": {"NVDA": 17, "MSFT": 2, "AAPL": 8, "GOOG": 6, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 837.0520000000004}}
+INFO:     127.0.0.1:34622 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34628 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47880 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47892 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47884 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:47896 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 36, "this_action": {"action": "sell", "symbol": "NVDA", "amount": 6}, "positions": {"NVDA": 11, "MSFT": 2, "AAPL": 8, "GOOG": 6, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 1956.4720000000004}}
+INFO:     127.0.0.1:47912 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47918 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47920 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47934 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:47940 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47954 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-08", "id": 37, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 10}, "positions": {"NVDA": 21, "MSFT": 2, "AAPL": 8, "GOOG": 6, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 90.77200000000062}}
+IF_TRADE True
+INFO:     127.0.0.1:47958 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47970 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58802 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58824 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58816 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:58840 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58844 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50678 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50694 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50690 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50698 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-10", "id": 39, "this_action": {"action": "sell", "symbol": "MSFT", "amount": 1}, "positions": {"NVDA": 21, "MSFT": 1, "AAPL": 8, "GOOG": 6, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 610.4120000000006}}
+INFO:     127.0.0.1:50712 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50716 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50730 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50742 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50758 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50762 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-10", "id": 40, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 2}, "positions": {"NVDA": 23, "MSFT": 1, "AAPL": 8, "GOOG": 6, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 5, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 223.4020000000006}}
+IF_TRADE True
+INFO:     127.0.0.1:50772 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50782 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50792 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50800 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50812 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50826 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-10", "id": 41, "this_action": {"action": "sell", "symbol": "AMD", "amount": 1}, "positions": {"NVDA": 23, "MSFT": 1, "AAPL": 8, "GOOG": 6, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 4, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 456.1720000000006}}
+INFO:     127.0.0.1:50842 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50848 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49260 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49268 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49264 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49282 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-10", "id": 42, "this_action": {"action": "buy", "symbol": "AAPL", "amount": 1}, "positions": {"NVDA": 23, "MSFT": 1, "AAPL": 9, "GOOG": 6, "GOOGL": 0, "AMZN": 2, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 4, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 201.2320000000006}}
+IF_TRADE True
+INFO:     127.0.0.1:58332 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58344 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58336 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:58346 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58350 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51764 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51770 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51782 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:51784 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51786 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44958 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44974 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44984 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44992 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45002 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51734 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51746 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:51756 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51760 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51762 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38902 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38904 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38908 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38918 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38922 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58752 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58776 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58760 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:58784 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58794 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42100 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42124 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42114 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42126 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42140 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52608 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52632 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52620 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:52636 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52648 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34082 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34100 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34098 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:34102 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34108 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60776 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60780 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60792 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60794 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60806 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55144 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55164 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55148 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55170 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55176 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38804 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38814 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38808 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38822 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38828 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51114 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51120 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51116 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:51136 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51146 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41942 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41962 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41948 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41964 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41978 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59918 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59950 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59934 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59960 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 1, "this_action": {"action": "buy", "symbol": "NVDA", "amount": 13}, "positions": {"NVDA": 13, "MSFT": 0, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 7535.200000000001}}
+IF_TRADE True
+INFO:     127.0.0.1:59962 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59974 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35148 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35156 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:35160 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35170 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 2, "this_action": {"action": "buy", "symbol": "MSFT", "amount": 4}, "positions": {"NVDA": 13, "MSFT": 4, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 0, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 5464.640000000001}}
+IF_TRADE True
+INFO:     127.0.0.1:35172 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35176 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35188 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35198 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35200 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:35210 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 3, "this_action": {"action": "buy", "symbol": "AMZN", "amount": 10}, "positions": {"NVDA": 13, "MSFT": 4, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 10, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 0, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 3254.5400000000013}}
+IF_TRADE True
+INFO:     127.0.0.1:35218 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35222 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33662 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33678 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33690 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33704 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 4, "this_action": {"action": "buy", "symbol": "MU", "amount": 10}, "positions": {"NVDA": 13, "MSFT": 4, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 10, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 10, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 0, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 1404.9900000000011}}
+IF_TRADE True
+INFO:     127.0.0.1:33716 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33722 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33734 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33738 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33740 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33752 - "POST /mcp HTTP/1.1" 200 OK
+Writing to position.jsonl: {"date": "2025-10-02", "id": 5, "this_action": {"action": "buy", "symbol": "QCOM", "amount": 5}, "positions": {"NVDA": 13, "MSFT": 4, "AAPL": 0, "GOOG": 0, "GOOGL": 0, "AMZN": 10, "META": 0, "AVGO": 0, "TSLA": 0, "NFLX": 0, "PLTR": 0, "COST": 0, "ASML": 0, "AMD": 0, "CSCO": 0, "AZN": 0, "TMUS": 0, "MU": 10, "LIN": 0, "PEP": 0, "SHOP": 0, "APP": 0, "INTU": 0, "AMAT": 0, "LRCX": 0, "PDD": 0, "QCOM": 5, "ARM": 0, "INTC": 0, "BKNG": 0, "AMGN": 0, "TXN": 0, "ISRG": 0, "GILD": 0, "KLAC": 0, "PANW": 0, "ADBE": 0, "HON": 0, "CRWD": 0, "CEG": 0, "ADI": 0, "ADP": 0, "DASH": 0, "CMCSA": 0, "VRTX": 0, "MELI": 0, "SBUX": 0, "CDNS": 0, "ORLY": 0, "SNPS": 0, "MSTR": 0, "MDLZ": 0, "ABNB": 0, "MRVL": 0, "CTAS": 0, "TRI": 0, "MAR": 0, "MNST": 0, "CSX": 0, "ADSK": 0, "PYPL": 0, "FTNT": 0, "AEP": 0, "WDAY": 0, "REGN": 0, "ROP": 0, "NXPI": 0, "DDOG": 0, "AXON": 0, "ROST": 0, "IDXX": 0, "EA": 0, "PCAR": 0, "FAST": 0, "EXC": 0, "TTWO": 0, "XEL": 0, "ZS": 0, "PAYX": 0, "WBD": 0, "BKR": 0, "CPRT": 0, "CCEP": 0, "FANG": 0, "TEAM": 0, "CHTR": 0, "KDP": 0, "MCHP": 0, "GEHC": 0, "VRSK": 0, "CTSH": 0, "CSGP": 0, "KHC": 0, "ODFL": 0, "DXCM": 0, "TTD": 0, "ON": 0, "BIIB": 0, "LULU": 0, "CDW": 0, "GFS": 0, "CASH": 566.2400000000011}}
+IF_TRADE True
+INFO:     127.0.0.1:33758 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33770 - "DELETE /mcp HTTP/1.1" 200 OK

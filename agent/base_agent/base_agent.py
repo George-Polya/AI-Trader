@@ -1,17 +1,18 @@
 """
-BaseAgent class - Base class for trading agents
+BaseAgent class - Abstract base class for trading agents
 Encapsulates core functionality including MCP tool management, AI agent creation, and trading execution
 """
 
 import os
 import json
 import asyncio
+from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from langchain_openai import ChatOpenAI
+from langchain_core.language_models import BaseChatModel
 from langchain.agents import create_agent
 from dotenv import load_dotenv
 
@@ -28,16 +29,24 @@ from prompts.agent_prompt import get_agent_system_prompt, STOP_SIGNAL
 load_dotenv()
 
 
-class BaseAgent:
+class BaseAgent(ABC):
     """
-    Base class for trading agents
-    
+    Abstract base class for trading agents
+
     Main functionalities:
     1. MCP tool management and connection
     2. AI agent creation and configuration
     3. Trading execution and decision loops
     4. Logging and management
     5. Position and configuration management
+
+    Subclasses must implement:
+    - _create_model(): Create LLM client
+    - _get_model_config(): Return model configuration
+
+    Optional hooks:
+    - _configure_agent(): Customize agent creation
+    - _post_initialize(): Post-initialization setup
     """
     
     # Default NASDAQ 100 stock symbols
@@ -65,14 +74,13 @@ class BaseAgent:
         max_steps: int = 10,
         max_retries: int = 3,
         base_delay: float = 0.5,
-        openai_base_url: Optional[str] = None,
-        openai_api_key: Optional[str] = None,
         initial_cash: float = 10000.0,
-        init_date: str = "2025-10-13"
+        init_date: str = "2025-10-13",
+        **kwargs  # 추가: 서브클래스별 커스텀 매개변수
     ):
         """
         Initialize BaseAgent
-        
+
         Args:
             signature: Agent signature/name
             basemodel: Base model name
@@ -82,10 +90,9 @@ class BaseAgent:
             max_steps: Maximum reasoning steps
             max_retries: Maximum retry attempts
             base_delay: Base delay time for retries
-            openai_base_url: OpenAI API base URL
-            openai_api_key: OpenAI API key
             initial_cash: Initial cash amount
             init_date: Initialization date
+            **kwargs: Additional parameters for subclasses
         """
         self.signature = signature
         self.basemodel = basemodel
@@ -95,29 +102,22 @@ class BaseAgent:
         self.base_delay = base_delay
         self.initial_cash = initial_cash
         self.init_date = init_date
-        
+
+        # Store additional config for subclasses
+        self.additional_config = kwargs
+
         # Set MCP configuration
         self.mcp_config = mcp_config or self._get_default_mcp_config()
-        
+
         # Set log path
         self.base_log_path = log_path or "./data/agent_data"
-        
-        # Set OpenAI configuration
-        if openai_base_url==None:
-            self.openai_base_url = os.getenv("OPENAI_API_BASE")
-        else:
-            self.openai_base_url = openai_base_url
-        if openai_api_key==None:
-            self.openai_api_key = os.getenv("OPENAI_API_KEY")
-        else:
-            self.openai_api_key = openai_api_key
-        
+
         # Initialize components
         self.client: Optional[MultiServerMCPClient] = None
         self.tools: Optional[List] = None
-        self.model: Optional[ChatOpenAI] = None
+        self.model: Optional[BaseChatModel] = None
         self.agent: Optional[Any] = None
-        
+
         # Data paths
         self.data_path = os.path.join(self.base_log_path, self.signature)
         self.position_file = os.path.join(self.data_path, "position", "position.jsonl")
@@ -142,30 +142,68 @@ class BaseAgent:
                 "url": f"http://localhost:{os.getenv('TRADE_HTTP_PORT', '8002')}/mcp",
             },
         }
-    
+
+    @abstractmethod
+    def _create_model(self) -> BaseChatModel:
+        """
+        Create LLM client (must be implemented by subclass)
+
+        Returns:
+            BaseChatModel: LangChain chat model instance
+        """
+        pass
+
+    @abstractmethod
+    def _get_model_config(self) -> Dict[str, Any]:
+        """
+        Get model configuration (must be implemented by subclass)
+
+        Returns:
+            Dict containing model-specific configuration
+        """
+        pass
+
+    def _configure_agent(self, tools: List) -> Dict[str, Any]:
+        """
+        Hook method: Customize agent creation (optional)
+
+        Args:
+            tools: MCP tools list
+
+        Returns:
+            Dict with additional agent configuration
+        """
+        return {}
+
+    def _post_initialize(self) -> None:
+        """
+        Hook method: Post-initialization setup (optional)
+        """
+        pass
+
     async def initialize(self) -> None:
-        """Initialize MCP client and AI model"""
+        """
+        Initialize MCP client and AI model (Template Method)
+        """
         print(f"🚀 Initializing agent: {self.signature}")
-        
+
         # Create MCP client
         self.client = MultiServerMCPClient(self.mcp_config)
-        
+
         # Get tools
         self.tools = await self.client.get_tools()
         print(f"✅ Loaded {len(self.tools)} MCP tools")
-        
-        # Create AI model
-        self.model = ChatOpenAI(
-            model=self.basemodel,
-            base_url=self.openai_base_url,
-            api_key=self.openai_api_key,
-            max_retries=3,
-            timeout=30
-        )
-        
+
+        # Create AI model (delegated to subclass)
+        self.model = self._create_model()
+        print(f"✅ Model created: {type(self.model).__name__}")
+
+        # Post-initialization hook
+        self._post_initialize()
+
         # Note: agent will be created in run_trading_session() based on specific date
         # because system_prompt needs the current date and price information
-        
+
         print(f"✅ Agent {self.signature} initialization completed")
     
     def _setup_logging(self, today_date: str) -> str:
@@ -211,12 +249,16 @@ class BaseAgent:
         
         # Set up logging
         log_file = self._setup_logging(today_date)
-        
-        # Update system prompt
+
+        # Get additional agent configuration from subclass
+        agent_config = self._configure_agent(self.tools)
+
+        # Update system prompt and create agent
         self.agent = create_agent(
             self.model,
             tools=self.tools,
             system_prompt=get_agent_system_prompt(today_date, self.signature),
+            **agent_config  # Apply subclass customizations
         )
         
         # Initial user query
@@ -440,7 +482,7 @@ class BaseAgent:
         }
     
     def __str__(self) -> str:
-        return f"BaseAgent(signature='{self.signature}', basemodel='{self.basemodel}', stocks={len(self.stock_symbols)})"
-    
+        return f"{self.__class__.__name__}(signature='{self.signature}', basemodel='{self.basemodel}')"
+
     def __repr__(self) -> str:
         return self.__str__()

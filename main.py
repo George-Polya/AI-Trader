@@ -13,11 +13,24 @@ from prompts.agent_prompt import all_nasdaq_100_symbols
 
 # Agent class mapping table - for dynamic import and instantiation
 AGENT_REGISTRY = {
-    "BaseAgent": {
-        "module": "agent.base_agent.base_agent",
-        "class": "BaseAgent"
+    "BaseAgent": {  # Deprecated, redirects to OpenRouterAgent
+        "module": "agent.openrouter.openrouter_agent",
+        "class": "OpenRouterAgent"
+    },
+    "OpenAIAgent": {
+        "module": "agent.openai.openai_agent",
+        "class": "OpenAIAgent"
+    },
+    "OpenRouterAgent": {
+        "module": "agent.openrouter.openrouter_agent",
+        "class": "OpenRouterAgent"
+    },
+    "GoogleAgent": {
+        "module": "agent.google.google_agent",
+        "class": "GoogleAgent"
     },
 }
+
 
 
 def get_agent_class(agent_type):
@@ -92,22 +105,17 @@ def load_config(config_path=None):
 
 
 async def main(config_path=None):
-    """Run trading experiment using BaseAgent class
-    
+    """Run trading experiment using agent classes
+
     Args:
         config_path: Configuration file path, if None use default config
     """
     # Load configuration file
     config = load_config(config_path)
-    
-    # Get Agent type
-    agent_type = config.get("agent_type", "BaseAgent")
-    try:
-        AgentClass = get_agent_class(agent_type)
-    except (ValueError, ImportError, AttributeError) as e:
-        print(str(e))
-        exit(1)
-    
+
+    # Get global agent type (fallback for models without agent_type)
+    global_agent_type = config.get("agent_type", "OpenAIAgent")
+
     # Get date range from configuration file
     INIT_DATE = config["date_range"]["init_date"]
     END_DATE = config["date_range"]["end_date"]
@@ -143,20 +151,25 @@ async def main(config_path=None):
     
     # Display enabled model information
     model_names = [m.get("name", m.get("signature")) for m in enabled_models]
-    
+
     print("🚀 Starting trading experiment")
-    print(f"🤖 Agent type: {agent_type}")
     print(f"📅 Date range: {INIT_DATE} to {END_DATE}")
     print(f"🤖 Model list: {model_names}")
     print(f"⚙️  Agent config: max_steps={max_steps}, max_retries={max_retries}, base_delay={base_delay}, initial_cash={initial_cash}")
-                    
+
     for model_config in enabled_models:
         # Read basemodel and signature directly from configuration file
         model_name = model_config.get("name", "unknown")
         basemodel = model_config.get("basemodel")
         signature = model_config.get("signature")
-        openai_base_url = model_config.get("openai_base_url",None)
-        openai_api_key = model_config.get("openai_api_key",None)
+
+        # Get agent type from model config (fallback to global agent_type)
+        agent_type = model_config.get("agent_type", global_agent_type)
+
+        # Backward compatibility: BaseAgent -> OpenAIAgent
+        if agent_type == "BaseAgent":
+            print(f"⚠️  'BaseAgent' is deprecated. Using 'OpenAIAgent' instead.")
+            agent_type = "OpenAIAgent"
 
         # Validate required fields
         if not basemodel:
@@ -165,11 +178,19 @@ async def main(config_path=None):
         if not signature:
             print(f"❌ Model {model_name} missing signature field")
             continue
-        
+
         print("=" * 60)
         print(f"🤖 Processing model: {model_name}")
         print(f"📝 Signature: {signature}")
         print(f"🔧 BaseModel: {basemodel}")
+        print(f"🏗️  Agent Type: {agent_type}")
+
+        # Get agent class
+        try:
+            AgentClass = get_agent_class(agent_type)
+        except (ValueError, ImportError, AttributeError) as e:
+            print(f"❌ Failed to load agent class for {model_name}: {e}")
+            continue
         
         # Initialize runtime configuration
         write_config_value("SIGNATURE", signature)
@@ -181,19 +202,22 @@ async def main(config_path=None):
         log_path = log_config.get("log_path", "./data/agent_data")
 
         try:
+            # Prepare additional config (remove duplicates)
+            additional_config = {k: v for k, v in model_config.items()
+                               if k not in ['name', 'signature', 'basemodel', 'enabled', 'agent_type']}
+
             # Dynamically create Agent instance
             agent = AgentClass(
                 signature=signature,
                 basemodel=basemodel,
                 stock_symbols=all_nasdaq_100_symbols,
                 log_path=log_path,
-                openai_base_url=openai_base_url,
-                openai_api_key=openai_api_key,
                 max_steps=max_steps,
                 max_retries=max_retries,
                 base_delay=base_delay,
                 initial_cash=initial_cash,
-                init_date=INIT_DATE
+                init_date=INIT_DATE,
+                **additional_config  # Pass additional config without duplicates
             )
             
             print(f"✅ {agent_type} instance created successfully: {agent}")

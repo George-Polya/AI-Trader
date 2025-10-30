@@ -1,0 +1,625 @@
+
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│                                                                            │
+│        _ __ ___  _____           __  __  _____________    ____    ____     │
+│       _ __ ___ .'____/___ ______/ /_/  |/  / ____/ __ \  |___ \  / __ \    │
+│      _ __ ___ / /_  / __ `/ ___/ __/ /|_/ / /   / /_/ /  ___/ / / / / /    │
+│     _ __ ___ / __/ / /_/ (__  ) /_/ /  / / /___/ ____/  /  __/_/ /_/ /     │
+│    _ __ ___ /_/    \____/____/\__/_/  /_/\____/_/      /_____(*)____/      │
+│                                                                            │
+│                                                                            │
+│                                FastMCP  2.0                                │
+│                                                                            │
+│                                                                            │
+│               🖥️  Server name:     Search                                   │
+│               📦 Transport:       Streamable-HTTP                          │
+│               🔗 Server URL:      http://127.0.0.1:8001/mcp                │
+│                                                                            │
+│               🏎️  FastMCP version: 2.12.5                                   │
+│               🤝 MCP SDK version: 1.16.0                                   │
+│                                                                            │
+│               📚 Docs:            https://gofastmcp.com                    │
+│               🚀 Deploy:          https://fastmcp.cloud                    │
+│                                                                            │
+╰────────────────────────────────────────────────────────────────────────────╯
+
+
+[10/30/25 14:23:35] INFO     Starting MCP server 'Search' with transport 'streamable-http' on http://127.0.0.1:8001/mcp                                                                                                                                                                                                         server.py:1579
+INFO:     Started server process [118426]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:37962 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37978 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37964 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:37984 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37998 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51812 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51816 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:51832 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51846 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVDA NVIDIA stock news October 2025 earnings AI chip demand
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2026
+Scraped https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2026
+INFO:     127.0.0.1:40916 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40928 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40940 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40970 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40954 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:40982 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AVGO Broadcom stock news October 2025 earnings semiconductor AI
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://finance.yahoo.com/quote/AVGO/
+Scraped https://finance.yahoo.com/quote/AVGO/
+INFO:     127.0.0.1:40986 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40994 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41000 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41012 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41028 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41042 - "POST /mcp HTTP/1.1" 200 OK
+Jina AI Reader Failed for https://www.quiverquant.com/news/Advanced+Micro+Devices+Stock+%28AMD%29+Opinions+on+AI+Chip+Developments: 524
+Searching for AMD Advanced Micro Devices stock news October 2025 earnings AI chips
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://www.quiverquant.com/news/Advanced+Micro+Devices+Stock+%28AMD%29+Opinions+on+AI+Chip+Developments
+Scraped https://www.quiverquant.com/news/Advanced+Micro+Devices+Stock+%28AMD%29+Opinions+on+AI+Chip+Developments
+INFO:     127.0.0.1:50886 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50892 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46632 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46638 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46650 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46660 - "POST /mcp HTTP/1.1" 200 OK
+Searching for WBD Warner Bros Discovery stock news October 2025 streaming media
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://www.reuters.com/business/warner-bros-discovery-initiates-review-strategic-alternatives-2025-10-21/
+Scraped https://www.reuters.com/business/warner-bros-discovery-initiates-review-strategic-alternatives-2025-10-21/
+INFO:     127.0.0.1:56796 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56798 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58506 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58528 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58516 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:58536 - "POST /mcp HTTP/1.1" 200 OK
+Searching for stock market October 2025 tech sector performance AI semiconductor trends
+Found 6 URLs after filtering
+Found 6 URLs
+Scraping https://hai.stanford.edu/ai-index/2025-ai-index-report
+Scraped https://hai.stanford.edu/ai-index/2025-ai-index-report
+INFO:     127.0.0.1:58552 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38464 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38488 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38478 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38498 - "POST /mcp HTTP/1.1" 200 OK
+Searching for INTC Intel stock news October 2025 semiconductor turnaround
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://seekingalpha.com/news/4508161-intels-results-and-guidance-show-its-turnaround-effort-is-working-to-some-extent
+Scraped https://seekingalpha.com/news/4508161-intels-results-and-guidance-show-its-turnaround-effort-is-working-to-some-extent
+INFO:     127.0.0.1:57230 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57236 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33944 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33954 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33946 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33968 - "POST /mcp HTTP/1.1" 200 OK
+Searching for stock market analysis October 6 2025 tech stocks NVDA AMD AVGO semiconductor sector performance
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://seekingalpha.com/article/4827938-semiconductors-winners-and-losers-at-the-start-of-q4-2025
+Scraped https://seekingalpha.com/article/4827938-semiconductors-winners-and-losers-at-the-start-of-q4-2025
+INFO:     127.0.0.1:50594 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50610 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50624 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50632 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50648 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50662 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AMD stock price jump October 6 2025 earnings news semiconductor
+Found 0 URLs after filtering
+Found 0 URLs
+INFO:     127.0.0.1:50512 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50516 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50518 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50534 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50536 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50538 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVDA AMD AVGO stock performance October 2025 semiconductor market
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://www.nasdaq.com/articles/should-investors-buy-semiconductor-stock-right-now-october-2025
+Scraped https://www.nasdaq.com/articles/should-investors-buy-semiconductor-stock-right-now-october-2025
+INFO:     127.0.0.1:50652 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50668 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50672 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50682 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50692 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50694 - "POST /mcp HTTP/1.1" 200 OK
+Searching for "October 6 2025" stock market news semiconductor earnings AMD NVDA
+Found 6 URLs after filtering
+Found 6 URLs
+Scraping https://www.aol.com/finance/meet-unstoppable-semiconductor-stock-crushing-083200558.html
+Scraped https://www.aol.com/finance/meet-unstoppable-semiconductor-stock-crushing-083200558.html
+INFO:     127.0.0.1:48874 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48886 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48890 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48894 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:48910 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48922 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AMD stock news October 2025 earnings report semiconductor rally
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://ir.amd.com/news-events/press-releases/detail/1257/amd-reports-second-quarter-2025-financial-results
+Scraped https://ir.amd.com/news-events/press-releases/detail/1257/amd-reports-second-quarter-2025-financial-results
+INFO:     127.0.0.1:48930 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48942 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48944 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48950 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:48962 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48978 - "POST /mcp HTTP/1.1" 200 OK
+Searching for stock market October 6 2025 today news semiconductor sector performance
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://www.gurufocus.com/news/3132526/semiconductor-sector-breakout-shows-longterm-strength
+Scraped https://www.gurufocus.com/news/3132526/semiconductor-sector-breakout-shows-longterm-strength
+INFO:     127.0.0.1:37470 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37486 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37490 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37502 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:37516 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37524 - "POST /mcp HTTP/1.1" 200 OK
+Searching for "October 6 2025" "stock market" "earnings" "technology" "semiconductor"
+❌ Jina API request failed: 422 Client Error: Unprocessable Entity for url: https://s.jina.ai/?q=%22October%206%202025%22%20%22stock%20market%22%20%22earnings%22%20%22technology%22%20%22semiconductor%22&n=1
+Found 0 URLs
+INFO:     127.0.0.1:37532 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37546 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50596 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50606 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50612 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50616 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AMD stock news October 6 2025 earnings guidance semiconductor
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://www.reuters.com/business/amd-signs-ai-chip-supply-deal-with-openai-gives-it-option-take-10-stake-2025-10-06/
+Scraped https://www.reuters.com/business/amd-signs-ai-chip-supply-deal-with-openai-gives-it-option-take-10-stake-2025-10-06/
+INFO:     127.0.0.1:43218 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43226 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43236 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43242 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43246 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:43262 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AMD OpenAI AI chip deal details revenue impact October 2025
+Found 0 URLs after filtering
+Found 0 URLs
+INFO:     127.0.0.1:43278 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43286 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43292 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43300 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:43306 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43316 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVDA stock news October 6 2025 NVIDIA AI chip competition
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://seekingalpha.com/article/4833969-nvidia-2-what-ifs-that-could-change-everything
+Scraped https://seekingalpha.com/article/4833969-nvidia-2-what-ifs-that-could-change-everything
+INFO:     127.0.0.1:36450 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36460 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36476 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36482 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36492 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36504 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AVGO stock news October 6 2025 Broadcom earnings AI chips
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://www.aol.com/articles/why-broadcom-stock-jumped-today-220400914.html
+Scraped https://www.aol.com/articles/why-broadcom-stock-jumped-today-220400914.html
+INFO:     127.0.0.1:44126 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44138 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44150 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44156 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44158 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44162 - "POST /mcp HTTP/1.1" 200 OK
+Searching for INTC Intel stock news October 6 2025 earnings turnaround
+Found 0 URLs after filtering
+Found 0 URLs
+INFO:     127.0.0.1:44166 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44176 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44192 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44200 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44212 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:44222 - "POST /mcp HTTP/1.1" 200 OK
+Searching for stock market October 6 2025 AI semiconductor sector performance
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://www.cnbc.com/2025/10/05/stock-market-today-live-updates.html
+Scraped https://www.cnbc.com/2025/10/05/stock-market-today-live-updates.html
+INFO:     127.0.0.1:48902 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48904 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49100 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49128 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49114 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49142 - "POST /mcp HTTP/1.1" 200 OK
+Searching for stock market news October 7 2025 NVIDIA Microsoft Apple Google Amazon Tesla earnings guidance
+Found 0 URLs after filtering
+Found 0 URLs
+INFO:     127.0.0.1:49152 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49162 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49174 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49198 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49182 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49208 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVIDIA NVDA stock news October 2025
+Found 0 URLs after filtering
+Found 0 URLs
+INFO:     127.0.0.1:49220 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49224 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49232 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49234 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49244 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49258 - "POST /mcp HTTP/1.1" 200 OK
+Searching for tech stocks performance October 2025
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://www.bankrate.com/investing/best-performing-stocks/
+Scraped https://www.bankrate.com/investing/best-performing-stocks/
+INFO:     127.0.0.1:57074 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57080 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57088 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57090 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57104 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57106 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVIDIA Microsoft Apple stock analysis October 2025
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://www.fool.com/investing/2025/10/28/prediction-this-unstoppable-stock-will-join-nvidia/
+Scraped https://www.fool.com/investing/2025/10/28/prediction-this-unstoppable-stock-will-join-nvidia/
+INFO:     127.0.0.1:55164 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55192 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55178 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55196 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55208 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59202 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59218 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59220 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59226 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59228 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49702 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49704 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49716 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49720 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49732 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38498 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38504 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38510 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38514 - "POST /mcp HTTP/1.1" 200 OK
+Searching for market outlook 2025
+Found 6 URLs after filtering
+Found 6 URLs
+Scraping https://www.deloitte.com/us/en/insights/topics/economy/us-economic-forecast/united-states-outlook-analysis.html
+Scraped https://www.deloitte.com/us/en/insights/topics/economy/us-economic-forecast/united-states-outlook-analysis.html
+INFO:     127.0.0.1:43094 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43102 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49072 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49088 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49098 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49110 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49114 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40108 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40124 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:40140 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40146 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40150 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59526 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59538 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59572 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59540 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59582 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59598 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59590 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59548 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59604 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59612 - "POST /mcp HTTP/1.1" 202 Accepted
+Searching for NVDA recent news
+Found 6 URLs after filtering
+Found 6 URLs
+Scraping https://robinhood.com/us/en/stocks/NVDA/
+Scraped https://robinhood.com/us/en/stocks/NVDA/
+INFO:     127.0.0.1:59614 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59626 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59640 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59646 - "GET /mcp HTTP/1.1" 200 OK
+Searching for MSFT recent news
+Found 6 URLs after filtering
+Found 6 URLs
+Scraping https://finance.yahoo.com/quote/MSFT/
+Scraped https://finance.yahoo.com/quote/MSFT/
+INFO:     127.0.0.1:59654 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59552 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AAPL recent news
+Found 10 URLs after filtering
+Found 10 URLs
+Scraping https://robinhood.com/us/en/stocks/AAPL/
+Scraped https://robinhood.com/us/en/stocks/AAPL/
+INFO:     127.0.0.1:48504 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48518 - "POST /mcp HTTP/1.1" 200 OK
+Searching for GOOG recent news
+Found 7 URLs after filtering
+Found 7 URLs
+Scraping https://research.google/blog/
+Scraped https://research.google/blog/
+INFO:     127.0.0.1:33160 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:33186 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33156 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33172 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59562 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41764 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AMD recent news
+Found 7 URLs after filtering
+Found 7 URLs
+Scraping https://finance.yahoo.com/quote/AMD/
+Scraped https://finance.yahoo.com/quote/AMD/
+INFO:     127.0.0.1:41780 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41792 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41804 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:41806 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41814 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41824 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36522 - "POST /mcp HTTP/1.1" 200 OK
+Searching for WBD recent news
+Found 5 URLs after filtering
+Found 5 URLs
+Scraping https://finance.yahoo.com/quote/WBD/
+Scraped https://finance.yahoo.com/quote/WBD/
+INFO:     127.0.0.1:36536 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36530 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42478 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42494 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42502 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42116 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42120 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42136 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42150 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42152 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59838 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59846 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59850 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59856 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59870 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49326 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49342 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49356 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49362 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49364 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53102 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53112 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53122 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53136 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVDA news 2025-10-08
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://www.fool.com/investing/2025/10/08/is-nvidia-stock-a-buy-after-its-blockbuster-deal-w/
+Scraped https://www.fool.com/investing/2025/10/08/is-nvidia-stock-a-buy-after-its-blockbuster-deal-w/
+INFO:     127.0.0.1:49756 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49768 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35752 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35756 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35766 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:35782 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVDA stock news 2025-10-08
+Found 4 URLs after filtering
+Found 4 URLs
+Scraping https://www.investing.com/equities/nvidia-corp-historical-data
+Scraped https://www.investing.com/equities/nvidia-corp-historical-data
+INFO:     127.0.0.1:41022 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41036 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40530 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40540 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:40546 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40548 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40554 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38822 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38826 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38882 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38836 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38880 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38900 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38894 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38840 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38850 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38916 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVDA stock news
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://www.cnbc.com/quotes/NVDA
+Scraped https://www.cnbc.com/quotes/NVDA
+INFO:     127.0.0.1:38918 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38934 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38930 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38940 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38946 - "GET /mcp HTTP/1.1" 200 OK
+Searching for MSFT stock news
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://www.morningstar.com/stocks/xnas/msft/quote
+Scraped https://www.morningstar.com/stocks/xnas/msft/quote
+INFO:     127.0.0.1:46114 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:38864 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46110 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46124 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46130 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46136 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AAPL stock news
+Found 8 URLs after filtering
+Found 8 URLs
+Scraping https://robinhood.com/us/en/stocks/AAPL/
+Scraped https://robinhood.com/us/en/stocks/AAPL/
+Searching for GOOG stock news
+Found 0 URLs after filtering
+Found 0 URLs
+INFO:     127.0.0.1:59398 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59404 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AMZN stock news
+Found 5 URLs after filtering
+Found 5 URLs
+Scraping https://www.cnn.com/markets/stocks/AMZN
+Scraped https://www.cnn.com/markets/stocks/AMZN
+INFO:     127.0.0.1:59418 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59432 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59446 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59462 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59470 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33628 - "POST /mcp HTTP/1.1" 200 OK
+Searching for AMD stock news
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://finance.yahoo.com/quote/AMD/
+Scraped https://finance.yahoo.com/quote/AMD/
+INFO:     127.0.0.1:33630 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33648 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33654 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33646 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33656 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33662 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33678 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39332 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39348 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:39352 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39360 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39370 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48488 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48502 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:48510 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48518 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48528 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42476 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42488 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42494 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42548 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42562 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42574 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42508 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42590 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42522 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42596 - "POST /mcp HTTP/1.1" 200 OK
+Searching for Tesla Q3 2025 deliveries reported October 2025
+Found 1 URLs after filtering
+Found 1 URLs
+Scraping https://ir.tesla.com/_flysystem/s3/sec/000162828025045861/tsla-20251022-gen.pdf
+Scraped https://ir.tesla.com/_flysystem/s3/sec/000162828025045861/tsla-20251022-gen.pdf
+INFO:     127.0.0.1:42604 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42610 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42616 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42624 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42638 - "GET /mcp HTTP/1.1" 200 OK
+Searching for US stock market today October 2, 2025 premarket futures news
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://markets.businessinsider.com/premarket
+Scraped https://markets.businessinsider.com/premarket
+INFO:     127.0.0.1:42654 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:42656 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42536 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42660 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42676 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42680 - "POST /mcp HTTP/1.1" 200 OK
+Searching for Apple October 2025 iPhone sales China news
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://www.reddit.com/r/apple/comments/1nfw187/chinese_preorders_for_apples_iphone_17_break/
+Scraped https://www.reddit.com/r/apple/comments/1nfw187/chinese_preorders_for_apples_iphone_17_break/
+Searching for Nvidia news October 2025 AI chips H200 Blackwell B200 earnings guidance
+Found 8 URLs after filtering
+Found 8 URLs
+Scraping https://investingnews.com/artificial-intelligence-investing/
+Scraped https://investingnews.com/artificial-intelligence-investing/
+INFO:     127.0.0.1:47796 - "POST /mcp HTTP/1.1" 200 OK
+Searching for Federal Reserve October 2025 interest rates Powell comments inflation
+Found 0 URLs after filtering
+Found 0 URLs
+INFO:     127.0.0.1:47798 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50390 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:50394 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50410 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50402 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50422 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50452 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50432 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50440 - "POST /mcp HTTP/1.1" 200 OK
+Searching for Micron Technology October 2025 earnings guidance HBM AI memory
+Found 4 URLs after filtering
+Found 4 URLs
+Scraping https://investors.micron.com/static-files/5fb98d73-2134-4446-8d1b-0f90285f6c02
+Scraped https://investors.micron.com/static-files/5fb98d73-2134-4446-8d1b-0f90285f6c02
+INFO:     127.0.0.1:50454 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50460 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50472 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50480 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50484 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54274 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54276 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54330 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54314 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:54284 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54336 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:54348 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54352 - "POST /mcp HTTP/1.1" 200 OK
+Searching for stock market news October 2, 2025 tech stocks AI semiconductors rally
+Found 2 URLs after filtering
+Found 2 URLs
+Scraping https://www.cnbc.com/2025/10/27/stock-market-today-live-updates.html
+Scraped https://www.cnbc.com/2025/10/27/stock-market-today-live-updates.html
+INFO:     127.0.0.1:54358 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:54364 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54356 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54292 - "POST /mcp HTTP/1.1" 200 OK
+Searching for NVIDIA Blackwell B200 shipment timeline October 2025 news
+Found 4 URLs after filtering
+Found 4 URLs
+Scraping https://nvidianews.nvidia.com/news/nvidia-blackwell-platform-arrives-to-power-a-new-era-of-computing
+Scraped https://nvidianews.nvidia.com/news/nvidia-blackwell-platform-arrives-to-power-a-new-era-of-computing
+INFO:     127.0.0.1:49674 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49678 - "POST /mcp HTTP/1.1" 200 OK
+Searching for Amazon Prime Day 2025 dates October news
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://www.aboutamazon.com/news/retail/amazon-prime-big-deals-day-when-october-7-8
+Scraped https://www.aboutamazon.com/news/retail/amazon-prime-big-deals-day-when-october-7-8
+INFO:     127.0.0.1:54294 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36362 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36378 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36392 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54310 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36396 - "POST /mcp HTTP/1.1" 200 OK
+Searching for Apple iPhone 17 sales China October 2025 news Bloomberg
+Found 3 URLs after filtering
+Found 3 URLs
+Scraping https://www.bloomberg.com/news/articles/2025-09-17/apple-s-china-iphone-sales-slumped-ahead-of-new-model-s-launch
+Scraped https://www.bloomberg.com/news/articles/2025-09-17/apple-s-china-iphone-sales-slumped-ahead-of-new-model-s-launch
+INFO:     127.0.0.1:36398 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36410 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36418 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36400 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36422 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36440 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:36434 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52140 - "POST /mcp HTTP/1.1" 200 OK
+Searching for Alphabet Google October 2025 antitrust ruling news
+Found 4 URLs after filtering
+Found 4 URLs
+Scraping https://www.emarketer.com/content/google-s-first--100-billion-quarter-overshadowed-by-antitrust-loss
+Scraped https://www.emarketer.com/content/google-s-first--100-billion-quarter-overshadowed-by-antitrust-loss
+INFO:     127.0.0.1:52142 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52156 - "DELETE /mcp HTTP/1.1" 200 OK
+Searching for Microsoft October 2025 Copilot news earnings calendar
+Found 5 URLs after filtering
+Found 5 URLs
+Scraping https://finance.yahoo.com/calendar/earnings?symbol=MSFT
+Scraped https://finance.yahoo.com/calendar/earnings?symbol=MSFT
+INFO:     127.0.0.1:52144 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40028 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40040 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40038 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40056 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40066 - "DELETE /mcp HTTP/1.1" 200 OK

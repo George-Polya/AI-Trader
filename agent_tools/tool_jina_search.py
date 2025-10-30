@@ -103,7 +103,7 @@ class WebScrapingJinaTool:
 
     def __call__(self, query: str) -> List[Dict[str, Any]]:
         print(f"Searching for {query}")
-        all_urls = self._jina_deepsearch(query)
+        all_urls = self._jina_search(query)
         return_content = []
         print(f"Found {len(all_urls)} URLs")
         if len(all_urls)>1:
