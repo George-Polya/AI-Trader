@@ -17,8 +17,28 @@ from tools.price_tools import (get_latest_position, get_open_prices,
                                get_yesterday_date,
                                get_yesterday_open_and_close_price,
                                get_yesterday_profit)
+from integrations.kis_settings import is_kis_broker
+from agent_tools.kis_context import ensure_kis_settings
 
 mcp = FastMCP("TradeTools")
+
+
+def _kis_placeholder(action: str) -> Optional[Dict[str, Any]]:
+    """KIS 브로커 모드에서 아직 미구현인 동작을 안내한다."""
+    if not is_kis_broker():
+        return None
+    try:
+        settings = ensure_kis_settings()
+        masked = settings.masked_dump()
+    except Exception as exc:
+        return {"error": f"KIS 설정 로드에 실패했습니다: {exc}", "broker": "kis", "action": action}
+
+    return {
+        "error": f"BROKER=kis 모드에서 '{action}' 동작은 추후 KIS 연동 단계에서 제공될 예정입니다.",
+        "broker": "kis",
+        "action": action,
+        "settings": masked,
+    }
 
 def _position_lock(signature: str):
     """Context manager for file-based lock to serialize position updates per signature."""
@@ -84,6 +104,10 @@ def buy(symbol: str, amount: int) -> Dict[str, Any]:
         >>> result = buy("600519.SH", 100)  # Chinese A-shares must be multiples of 100
         >>> print(result)  # {"600519.SH": 100, "CASH": 85000.0, ...}
     """
+    kis_guard = _kis_placeholder("buy")
+    if kis_guard:
+        return kis_guard
+
     # Step 1: Get environment variables and basic information
     # Get signature (model name) from environment variable, used to determine data storage path
     signature = get_config_value("SIGNATURE")
@@ -294,6 +318,10 @@ def sell(symbol: str, amount: int) -> Dict[str, Any]:
         >>> result = sell("600519.SH", 100)  # Chinese A-shares must be multiples of 100
         >>> print(result)  # {"600519.SH": 0, "CASH": 115000.0, ...}
     """
+    kis_guard = _kis_placeholder("sell")
+    if kis_guard:
+        return kis_guard
+
     # Step 1: Get environment variables and basic information
     # Get signature (model name) from environment variable, used to determine data storage path
     signature = get_config_value("SIGNATURE")

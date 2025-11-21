@@ -21,6 +21,8 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from tools.general_tools import get_config_value
+from integrations.kis_settings import is_kis_broker
+from agent_tools.kis_context import ensure_kis_settings
 
 
 def _workspace_data_path(filename: str, symbol: Optional[str] = None) -> Path:
@@ -77,6 +79,19 @@ def get_price_local(symbol: str, date: str) -> Dict[str, Any]:
     Returns:
         Dictionary containing symbol, date and ohlcv data.
     """
+    if is_kis_broker():
+        try:
+            settings = ensure_kis_settings()
+        except Exception as exc:
+            return {"error": f"KIS 설정을 불러오지 못했습니다: {exc}", "symbol": symbol, "date": date, "broker": "kis"}
+        return {
+            "error": "BROKER=kis 모드는 시세 연동이 아직 구현되지 않았습니다. 추후 KIS 연동에서 제공될 예정입니다.",
+            "symbol": symbol,
+            "date": date,
+            "broker": "kis",
+            "settings": settings.masked_dump(),
+        }
+
     # Detect date format
     result = None
     if ' ' in date or 'T' in date:
