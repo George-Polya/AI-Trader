@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Optional, Dict, Any
 
 
 @dataclass(frozen=True)
@@ -28,3 +28,28 @@ class OrderResult:
     symbol: str
     qty: int
     limit_price: float
+
+
+@dataclass(frozen=True)
+class BalanceLine:
+    """계좌 잔고 항목을 표현하는 모델."""
+
+    symbol: str
+    qty: int
+    value: float
+    currency: str
+    raw: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class Execution:
+    """체결 내역을 표현하는 모델."""
+
+    symbol: str
+    qty: int
+    price: float
+    status: str
+    side: str
+    order_no: str
+    filled_at: str
+    raw: Dict[str, Any] = field(default_factory=dict)

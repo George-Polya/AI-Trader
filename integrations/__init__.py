@@ -5,6 +5,7 @@ from .kis_auth_manager import KISAuthenticator
 from .kis_client import KISRestClient, KISAPIError
 from .kis_quote import KISQuoteService
 from .kis_order import KISOrderService
+from .kis_account import KISAccountService
 
 __all__ = [
     "KISSettings",
@@ -16,4 +17,5 @@ __all__ = [
     "KISAPIError",
     "KISQuoteService",
     "KISOrderService",
+    "KISAccountService",
 ]

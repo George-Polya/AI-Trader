@@ -1,0 +1,35 @@
+name: KIS Smoke Flow
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  kis-smoke:
+    runs-on: ubuntu-latest
+    env:
+      RUN_KIS_SMOKE: true
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-mock requests cryptography
+
+      - name: Run KIS Smoke Tests
+        env:
+          KIS_APPKEY: ${{ secrets.KIS_APPKEY }}
+          KIS_APPSECRET: ${{ secrets.KIS_APPSECRET }}
+          KIS_CANO: ${{ secrets.KIS_CANO }}
+          KIS_ACNT_PRDT_CD: ${{ secrets.KIS_ACNT_PRDT_CD }}
+        run: |
+          pytest tests/smoke/test_kis_flow.py -m kis_smoke

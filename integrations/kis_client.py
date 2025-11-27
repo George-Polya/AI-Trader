@@ -120,9 +120,12 @@ class KISRestClient:
                 break
 
             fk = response.headers.get("ctx_area_fk100")
+            nk = response.headers.get("ctx_area_nk100")
             br = response.headers.get("ctx_area_br100")
             if fk:
                 params["CTX_AREA_FK100"] = fk
+            if nk:
+                params["CTX_AREA_NK100"] = nk
             if br:
                 params["CTX_AREA_BR100"] = br
 
