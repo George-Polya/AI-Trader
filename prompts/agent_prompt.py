@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 # Add project root directory to Python path
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
-from integrations.kis_settings import is_kis_broker, is_websocket_enabled
+from integrations.kis_settings import is_kis_broker
 from tools.general_tools import get_config_value
 from tools.price_tools import (all_nasdaq_100_symbols, all_sse_50_symbols,
                                format_price_dict_with_names, get_open_prices,
@@ -118,11 +118,7 @@ def get_agent_system_prompt(
 
     # Include KIS broker mode addon when in KIS mode
     if is_kis_broker():
-        # Determine quote source based on WebSocket mode
-        if is_websocket_enabled():
-            quote_source = "KIS WebSocket real-time (with REST fallback)"
-        else:
-            quote_source = "KIS REST API"
+        quote_source = "KIS REST API"
         kis_addon = agent_system_prompt_kis_addon.format(quote_source=quote_source)
         return base_prompt + kis_addon
 

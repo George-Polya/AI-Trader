@@ -92,24 +92,21 @@ def get_market_news(
 ) -> str:
     """
     Retrieve market news articles using KIS News API.
-    Only returns articles published before TODAY_DATE (as configured in runtime config).
 
-    This tool replaces the Alpha Vantage news tool and uses KIS (Korea Investment & Securities)
-    API for fetching overseas stock news.
+    IMPORTANT: Use these exact parameter names - query, tickers, topics.
+    Do NOT use 'symbol' or 'date' as parameters.
 
     Args:
-        query: Search query description (used for logging purposes, not for filtering)
-        tickers: Optional. Stock symbols to filter by.
-                Examples: "AAPL" or "MSFT,GOOG" (only first ticker is used)
-        topics: Optional. News topics (not supported by KIS API, kept for compatibility)
+        query: Required. Search description for logging (e.g., "NVDA earnings news", "tech sector update")
+        tickers: Optional. Stock symbol to filter by. Examples: "AAPL", "NVDA", "MSFT,GOOG"
+        topics: Optional. News topics (kept for compatibility, not used by KIS API)
 
     Returns:
-        A formatted string containing news articles with:
-        - Title: Article title
-        - Source: News source
-        - Date/Time: Publication date and time
-        - Symbol: Related stock symbol and name
-        - Category: News category
+        A formatted string containing news articles with title, source, date/time, symbol, and category.
+
+    Example:
+        get_market_news(query="NVDA news", tickers="NVDA")  # Correct
+        get_market_news(query="tech earnings")  # Correct - general news
     """
     if not is_kis_broker():
         return "Error: This tool requires KIS broker mode. Please set BROKER=kis in your environment."

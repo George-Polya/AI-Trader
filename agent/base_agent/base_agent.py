@@ -97,7 +97,7 @@ class DeepSeekChatOpenAI(ChatOpenAI):
         return result
 
 
-from integrations.kis_settings import get_broker_mode, is_kis_broker, is_websocket_enabled, load_kis_settings
+from integrations.kis_settings import get_broker_mode, is_kis_broker, load_kis_settings
 from prompts.agent_prompt import STOP_SIGNAL, get_agent_system_prompt
 from tools.general_tools import (extract_conversation, extract_tool_messages,
                                  get_config_value, write_config_value)
@@ -264,8 +264,6 @@ class BaseAgent:
         self.basemodel = basemodel
         self.market = market
         self.broker_mode = get_broker_mode()  # "kis" or "local"
-        self.use_websocket = is_websocket_enabled() if self.broker_mode == "kis" else False
-        self._websocket_manager = None  # WebSocket manager instance
 
         # Auto-select stock symbols based on market if not provided
         if stock_symbols is None:
@@ -365,10 +363,6 @@ class BaseAgent:
         # Validate KIS config if in KIS mode
         if self.broker_mode == "kis":
             self._validate_kis_config()
-
-        # Start WebSocket for real-time quotes if enabled
-        if self.use_websocket:
-            await self._start_websocket_quotes()
 
         # Set LangChain verbose mode if enabled
         if self.verbose:
@@ -607,43 +601,6 @@ class BaseAgent:
             print(f"⚠️ Failed to get KIS cash balance: {e}")
             print(f"   Falling back to config initial_cash: ${self.initial_cash:,.2f}")
             return self.initial_cash
-
-    async def _start_websocket_quotes(self) -> None:
-        """Start WebSocket connection for real-time quote updates.
-
-        Subscribes to the agent's tracked symbols (up to 40) and
-        automatically updates the quote cache with incoming ticks.
-        """
-        try:
-            from integrations.kis_websocket import get_websocket_manager
-
-            manager = await get_websocket_manager()
-            symbols_to_subscribe = self.stock_symbols[:40]  # KIS 40개 제한
-
-            await manager.start(symbols_to_subscribe, is_paper=True)
-            self._websocket_manager = manager
-
-            print(f"🔌 WebSocket: Connected and subscribed to {len(symbols_to_subscribe)} symbols")
-            if len(self.stock_symbols) > 40:
-                print(f"   ⚠️ {len(self.stock_symbols) - 40} symbols exceed limit, will use REST fallback")
-        except Exception as e:
-            print(f"⚠️ Failed to start WebSocket: {e}")
-            print(f"   Will continue with REST API fallback")
-            self.use_websocket = False
-
-    async def cleanup(self) -> None:
-        """Cleanup agent resources.
-
-        Stops WebSocket connection if running.
-        Should be called when agent is done processing.
-        """
-        if self._websocket_manager is not None:
-            try:
-                await self._websocket_manager.stop()
-                print("🔌 WebSocket: Connection closed")
-            except Exception as e:
-                print(f"⚠️ Error closing WebSocket: {e}")
-            self._websocket_manager = None
 
     def register_agent(self) -> None:
         """Register new agent, create initial positions"""

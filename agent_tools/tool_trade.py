@@ -71,10 +71,21 @@ def _log_kis_order(
 @mcp.tool()
 def get_position() -> Dict[str, Any]:
     """
-    Get current position information.
-    
+    Get current portfolio position information.
+
+    IMPORTANT: This function takes NO parameters. Call it as get_position() with no arguments.
+    Do NOT pass symbol, date, or any other parameters.
+
+    Returns all held positions and cash balance in a single call.
+
     Returns:
-        Dict[str, Any]: Dictionary containing symbol quantities and CASH balance.
+        Dict[str, Any]: Dictionary containing:
+            - Symbol quantities (e.g., {"AAPL": 10, "NVDA": 5})
+            - CASH balance
+            - broker: "kis"
+
+    Example:
+        get_position()  # Correct - no parameters
     """
     if not is_kis_broker():
         return {"error": "This agent only supports KIS broker mode. Please set BROKER=kis."}
@@ -88,23 +99,25 @@ def get_position() -> Dict[str, Any]:
 
 
 @mcp.tool()
-def buy(symbol: str, amount: int, limit_price: Optional[float] = None) -> Dict[str, Any]:
+def buy(symbol: str, amount: int, limit_price: float) -> Dict[str, Any]:
     """
     Buy stock function via KIS API.
 
+    IMPORTANT: All three parameters are REQUIRED.
+
     Args:
-        symbol: Stock symbol, such as "AAPL", "MSFT", etc.
+        symbol: Stock symbol, such as "AAPL", "MSFT", "NVDA".
         amount: Buy quantity, must be a positive integer.
-        limit_price: Limit price for the order. Required for KIS broker.
+        limit_price: Limit price for the order. REQUIRED - must specify the price.
 
     Returns:
-        Dict[str, Any]: Order result.
+        Dict[str, Any]: Order result containing order_no, status, symbol, qty, price.
+
+    Example:
+        buy(symbol="NVDA", amount=10, limit_price=140.50)
     """
     if not is_kis_broker():
         return {"error": "This agent only supports KIS broker mode. Please set BROKER=kis."}
-
-    if limit_price is None:
-        raise ValueError("limit_price required for KIS broker")
     try:
         res = kis_order_adapter(symbol, amount, limit_price, "buy")
         _log_kis_order(res, side="buy", symbol=symbol, qty=amount, price=limit_price)
@@ -122,23 +135,25 @@ def buy(symbol: str, amount: int, limit_price: Optional[float] = None) -> Dict[s
 
 
 @mcp.tool()
-def sell(symbol: str, amount: int, limit_price: Optional[float] = None) -> Dict[str, Any]:
+def sell(symbol: str, amount: int, limit_price: float) -> Dict[str, Any]:
     """
     Sell stock function via KIS API.
 
+    IMPORTANT: All three parameters are REQUIRED.
+
     Args:
-        symbol: Stock symbol, such as "AAPL", "MSFT", etc.
+        symbol: Stock symbol, such as "AAPL", "MSFT", "NVDA".
         amount: Sell quantity, must be a positive integer.
-        limit_price: Limit price for the order. Required for KIS broker.
+        limit_price: Limit price for the order. REQUIRED - must specify the price.
 
     Returns:
-        Dict[str, Any]: Order result.
+        Dict[str, Any]: Order result containing order_no, status, symbol, qty, price.
+
+    Example:
+        sell(symbol="NVDA", amount=10, limit_price=142.00)
     """
     if not is_kis_broker():
         return {"error": "This agent only supports KIS broker mode. Please set BROKER=kis."}
-
-    if limit_price is None:
-        raise ValueError("limit_price required for KIS broker")
     try:
         res = kis_order_adapter(symbol, amount, limit_price, "sell")
         _log_kis_order(res, side="sell", symbol=symbol, qty=amount, price=limit_price)
