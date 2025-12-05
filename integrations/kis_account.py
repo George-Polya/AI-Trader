@@ -61,9 +61,8 @@ class KISAccountService:
             "ACNT_PRDT_CD": self._acnt_prdt_cd,
             "OVRS_EXCG_CD": self._excg_cd,
             "TR_CRCY_CD": self._currency,
-            "CTX_AREA_FK100": "",
-            "CTX_AREA_NK100": "",
-            "CTX_AREA_BR100": "",
+            "CTX_AREA_FK200": "",
+            "CTX_AREA_NK200": "",
         }
 
         try:
@@ -121,14 +120,18 @@ class KISAccountService:
             "ORD_END_DT": e_dt,
             "SLL_BUY_DVSN": "00",  # 전체
             "CCLD_NCCS_DVSN": "00",  # 전체
-            "OVRS_EXCG_CD": self._excg_cd,
-            "CTX_AREA_FK100": "",
-            "CTX_AREA_NK100": "",
-            "CTX_AREA_BR100": "",
+            "OVRS_EXCG_CD": "%%",  # 전체 거래소
+            "SORT_SQN": "DS",  # 정렬순서
+            "ORD_DT": "",
+            "ORD_GNO_BRNO": "",
+            "ODNO": "",
+            "CTX_AREA_FK200": "",
+            "CTX_AREA_NK200": "",
         }
 
         try:
-            resp = self._client.request("GET", path, tr_id="VTTS5012R", params=params)
+            # 모의투자: VTTS3035R, 실전: TTTS3035R
+            resp = self._client.request("GET", path, tr_id="VTTS3035R", params=params)
         except Exception as exc:
             logger.error(f"KIS fills check failed: {exc}")
             raise
@@ -196,38 +199,43 @@ class KISAccountService:
 
         return executions
 
-    def get_cash_balance(self) -> float:
-        """해외주식 매수 가능 금액(예수금)을 조회합니다."""
-        # 모의투자: VTTS3007R, 실전: TTTS3007R (나중에 분기 필요)
-        # 일단 모의투자 기준 TR ID 사용
+    def get_cash_balance(self, symbol: str = "AAPL", price: float = 1.0) -> float:
+        """해외주식 매수 가능 금액(예수금)을 조회합니다.
+
+        Args:
+            symbol: 조회 기준 종목코드 (기본값: AAPL). API에서 필수 파라미터임.
+            price: 조회 기준 단가 (기본값: 1.0). API에서 필수 파라미터임.
+
+        Returns:
+            float: 매수 가능 외화금액 (USD)
+        """
+        # 모의투자: VTTS3007R, 실전: TTTS3007R
         tr_id = "VTTS3007R"
-        path = "/uapi/overseas-stock/v1/trading/inquire-psbl-order"
-        
+        path = "/uapi/overseas-stock/v1/trading/inquire-psamount"
+
         params = {
             "CANO": self._cano,
             "ACNT_PRDT_CD": self._acnt_prdt_cd,
-            "OVRS_EXCG_CD": self._excg_cd, # NASD
-            "OVRS_ORD_UNPR": "0", # 시장가 조회를 위해 0 또는 현재가
-            "ITEM_CD": "", # 종목코드 (필수 아님, 빈 문자열)
+            "OVRS_EXCG_CD": self._excg_cd,  # NASD
+            "OVRS_ORD_UNPR": str(price),  # 해외주문단가 (필수)
+            "ITEM_CD": symbol.upper(),  # 종목코드 (필수)
         }
 
         try:
             resp = self._client.request("GET", path, tr_id=tr_id, params=params, paginate=False)
         except Exception as exc:
             logger.error(f"KIS cash balance check failed: {exc}")
-            # 실패 시 0.0 반환 또는 에러 전파. 여기선 안전하게 에러 로깅 후 0.0
-            return 0.0
-            
-        # resp가 리스트일 수도 있고 딕셔너리일 수도 있음 (Client 구현상 단일 페이지면 딕셔너리)
+            raise
+
+        # resp가 리스트일 수도 있고 딕셔너리일 수도 있음
         if isinstance(resp, list):
             resp = resp[0]
-            
+
         output = resp.get("output", {})
         # "ord_psbl_frcr_amt": 주문가능외화금액 (USD)
-        # "frcr_drwg_psbl_amt": 외화출금가능금액
-        # 여기서는 매수 가능 금액인 ord_psbl_frcr_amt를 사용
-        cash_str = output.get("ord_psbl_frcr_amt", "0")
-        
+        # "frcr_ord_psbl_amt1": 외화주문가능금액1 (대용 미포함)
+        cash_str = output.get("ord_psbl_frcr_amt") or output.get("frcr_ord_psbl_amt1") or "0"
+
         try:
             return float(cash_str)
         except ValueError:

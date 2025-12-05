@@ -5,7 +5,9 @@ fastmcp==2.12.5
 pydantic>=2.7.0
 PyYAML>=6.0.0
 pytest>=8.3.0
+pandas>=2.0.0
+openpyxl>=3.1.0
 
 # A_stock
-tushare
-efinance
+# tushare
+# efinance

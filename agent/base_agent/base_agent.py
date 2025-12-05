@@ -12,6 +12,9 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import pandas as pd
+from openpyxl.utils import get_column_letter
+
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.globals import set_verbose, set_debug
@@ -94,6 +97,7 @@ class DeepSeekChatOpenAI(ChatOpenAI):
         return result
 
 
+from integrations.kis_settings import get_broker_mode, is_kis_broker, is_websocket_enabled, load_kis_settings
 from prompts.agent_prompt import STOP_SIGNAL, get_agent_system_prompt
 from tools.general_tools import (extract_conversation, extract_tool_messages,
                                  get_config_value, write_config_value)
@@ -259,6 +263,9 @@ class BaseAgent:
         self.signature = signature
         self.basemodel = basemodel
         self.market = market
+        self.broker_mode = get_broker_mode()  # "kis" or "local"
+        self.use_websocket = is_websocket_enabled() if self.broker_mode == "kis" else False
+        self._websocket_manager = None  # WebSocket manager instance
 
         # Auto-select stock symbols based on market if not provided
         if stock_symbols is None:
@@ -306,16 +313,24 @@ class BaseAgent:
         self.data_path = os.path.join(self.base_log_path, self.signature)
         self.position_file = os.path.join(self.data_path, "position", "position.jsonl")
 
+    def _validate_kis_config(self) -> None:
+        """KIS 모드일 때 설정 유효성 검증"""
+        try:
+            settings = load_kis_settings()
+            print(f"✅ KIS 설정 로드 성공")
+            print(f"   계좌: {settings.my_paper_stock[:4]}****")
+        except Exception as e:
+            raise RuntimeError(
+                f"❌ KIS 설정 로드 실패: {e}\n"
+                f"   kis_devlp.yaml 파일을 확인하세요."
+            )
+
     def _get_default_mcp_config(self) -> Dict[str, Dict[str, Any]]:
-        """Get default MCP configuration"""
-        return {
+        """Get default MCP configuration based on broker mode"""
+        config = {
             "math": {
                 "transport": "streamable_http",
                 "url": f"http://localhost:{os.getenv('MATH_HTTP_PORT', '8000')}/mcp",
-            },
-            "stock_local": {
-                "transport": "streamable_http",
-                "url": f"http://localhost:{os.getenv('GETPRICE_HTTP_PORT', '8003')}/mcp",
             },
             "search": {
                 "transport": "streamable_http",
@@ -327,9 +342,33 @@ class BaseAgent:
             },
         }
 
+        # KIS 모드면 stock_local 대신 KIS 시세 사용 (동일 서버, 내부적으로 KIS API 호출)
+        if self.broker_mode == "kis":
+            config["stock_local"] = {
+                "transport": "streamable_http",
+                "url": f"http://localhost:{os.getenv('GETPRICE_HTTP_PORT', '8003')}/mcp",
+            }
+        else:
+            # 로컬 모드: 로컬 데이터 기반 시세 조회
+            config["stock_local"] = {
+                "transport": "streamable_http",
+                "url": f"http://localhost:{os.getenv('GETPRICE_HTTP_PORT', '8003')}/mcp",
+            }
+
+        return config
+
     async def initialize(self) -> None:
         """Initialize MCP client and AI model"""
         print(f"🚀 Initializing agent: {self.signature}")
+        print(f"📊 Broker mode: {self.broker_mode}")
+
+        # Validate KIS config if in KIS mode
+        if self.broker_mode == "kis":
+            self._validate_kis_config()
+
+        # Start WebSocket for real-time quotes if enabled
+        if self.use_websocket:
+            await self._start_websocket_quotes()
 
         # Set LangChain verbose mode if enabled
         if self.verbose:
@@ -442,6 +481,7 @@ class BaseAgent:
             today_date: Trading date
         """
         print(f"📈 Starting trading session: {today_date}")
+        print(f"📊 Broker: {self.broker_mode}")
 
         # Set up logging
         log_file = self._setup_logging(today_date)
@@ -519,8 +559,25 @@ class BaseAgent:
         await self._handle_trading_result(today_date)
 
     async def _handle_trading_result(self, today_date: str) -> None:
-        """Handle trading results"""
+        """Handle trading results.
+
+        For KIS mode: Syncs actual KIS balance to position.jsonl
+        For local mode: Records no-trade entry if no trades occurred
+        """
         if_trade = get_config_value("IF_TRADE")
+
+        # KIS mode: Always sync actual balance from KIS API
+        if self.broker_mode == "kis":
+            try:
+                from tools.price_tools import sync_kis_position_to_log
+                sync_kis_position_to_log(self.signature, today_date)
+            except Exception as e:
+                print(f"⚠️ Failed to sync KIS position: {e}")
+            write_config_value("IF_TRADE", False)
+            print("✅ KIS position synced")
+            return
+
+        # Local mode: Original behavior
         if if_trade:
             write_config_value("IF_TRADE", False)
             print("✅ Trading completed")
@@ -532,6 +589,61 @@ class BaseAgent:
                 print(f"❌ NameError: {e}")
                 raise
             write_config_value("IF_TRADE", False)
+
+    def _get_kis_cash_balance(self) -> float:
+        """Get actual cash balance from KIS API."""
+        try:
+            from integrations.kis_client import KISRestClient
+            from integrations.kis_settings import load_kis_settings
+            from integrations.kis_account import KISAccountService
+
+            settings = load_kis_settings()
+            client = KISRestClient(settings)
+            account_service = KISAccountService(client, settings)
+            cash = account_service.get_cash_balance()
+            print(f"💵 KIS API: Retrieved actual cash balance: ${cash:,.2f}")
+            return cash
+        except Exception as e:
+            print(f"⚠️ Failed to get KIS cash balance: {e}")
+            print(f"   Falling back to config initial_cash: ${self.initial_cash:,.2f}")
+            return self.initial_cash
+
+    async def _start_websocket_quotes(self) -> None:
+        """Start WebSocket connection for real-time quote updates.
+
+        Subscribes to the agent's tracked symbols (up to 40) and
+        automatically updates the quote cache with incoming ticks.
+        """
+        try:
+            from integrations.kis_websocket import get_websocket_manager
+
+            manager = await get_websocket_manager()
+            symbols_to_subscribe = self.stock_symbols[:40]  # KIS 40개 제한
+
+            await manager.start(symbols_to_subscribe, is_paper=True)
+            self._websocket_manager = manager
+
+            print(f"🔌 WebSocket: Connected and subscribed to {len(symbols_to_subscribe)} symbols")
+            if len(self.stock_symbols) > 40:
+                print(f"   ⚠️ {len(self.stock_symbols) - 40} symbols exceed limit, will use REST fallback")
+        except Exception as e:
+            print(f"⚠️ Failed to start WebSocket: {e}")
+            print(f"   Will continue with REST API fallback")
+            self.use_websocket = False
+
+    async def cleanup(self) -> None:
+        """Cleanup agent resources.
+
+        Stops WebSocket connection if running.
+        Should be called when agent is done processing.
+        """
+        if self._websocket_manager is not None:
+            try:
+                await self._websocket_manager.stop()
+                print("🔌 WebSocket: Connection closed")
+            except Exception as e:
+                print(f"⚠️ Error closing WebSocket: {e}")
+            self._websocket_manager = None
 
     def register_agent(self) -> None:
         """Register new agent, create initial positions"""
@@ -546,9 +658,15 @@ class BaseAgent:
             os.makedirs(position_dir)
             print(f"📁 Created position directory: {position_dir}")
 
+        # Determine initial cash: use KIS API for real balance, config for local mode
+        if self.broker_mode == "kis":
+            actual_cash = self._get_kis_cash_balance()
+        else:
+            actual_cash = self.initial_cash
+
         # Create initial positions
         init_position = {symbol: 0 for symbol in self.stock_symbols}
-        init_position["CASH"] = self.initial_cash
+        init_position["CASH"] = actual_cash
 
         with open(self.position_file, "w") as f:  # Use "w" mode to ensure creating new file
             f.write(json.dumps({"date": self.init_date, "id": 0, "positions": init_position}) + "\n")
@@ -556,7 +674,7 @@ class BaseAgent:
         print(f"✅ Agent {self.signature} registration completed")
         print(f"📁 Position file: {self.position_file}")
         currency_symbol = "¥" if self.market == "cn" else "$"
-        print(f"💰 Initial cash: {currency_symbol}{self.initial_cash:,.2f}")
+        print(f"💰 Initial cash: {currency_symbol}{actual_cash:,.2f}")
         print(f"📊 Number of stocks: {len(self.stock_symbols)}")
 
     def get_trading_dates(self, init_date: str, end_date: str) -> List[str]:
@@ -564,7 +682,7 @@ class BaseAgent:
         Get trading date list, filtered by actual trading days in merged.jsonl
 
         Args:
-            init_date: Start date
+            init_date: Start date (actual start date for trading)
             end_date: End date
 
         Returns:
@@ -572,36 +690,20 @@ class BaseAgent:
         """
         from tools.price_tools import is_trading_day
 
-        dates = []
-        max_date = None
-
+        # Ensure agent is registered if position file doesn't exist
         if not os.path.exists(self.position_file):
             self.register_agent()
-            max_date = init_date
-        else:
-            # Read existing position file, find latest date
-            with open(self.position_file, "r") as f:
-                for line in f:
-                    doc = json.loads(line)
-                    current_date = doc["date"]
-                    if max_date is None:
-                        max_date = current_date
-                    else:
-                        current_date_obj = datetime.strptime(current_date, "%Y-%m-%d")
-                        max_date_obj = datetime.strptime(max_date, "%Y-%m-%d")
-                        if current_date_obj > max_date_obj:
-                            max_date = current_date
 
-        # Check if new dates need to be processed
-        max_date_obj = datetime.strptime(max_date, "%Y-%m-%d")
+        # Use init_date as actual start date
+        init_date_obj = datetime.strptime(init_date, "%Y-%m-%d")
         end_date_obj = datetime.strptime(end_date, "%Y-%m-%d")
 
-        if end_date_obj <= max_date_obj:
+        if end_date_obj < init_date_obj:
             return []
 
         # Generate trading date list, filtered by actual trading days
         trading_dates = []
-        current_date = max_date_obj + timedelta(days=1)
+        current_date = init_date_obj
 
         while current_date <= end_date_obj:
             date_str = current_date.strftime("%Y-%m-%d")
@@ -666,6 +768,13 @@ class BaseAgent:
 
         print(f"✅ {self.signature} processing completed")
 
+        # Export portfolio to Excel after all trading sessions complete
+        try:
+            excel_path = self.export_portfolio_to_excel()
+            print(f"📁 Portfolio saved to Excel: {excel_path}")
+        except Exception as e:
+            print(f"⚠️ Failed to export portfolio to Excel: {e}")
+
     def get_position_summary(self) -> Dict[str, Any]:
         """Get position summary"""
         if not os.path.exists(self.position_file):
@@ -686,6 +795,61 @@ class BaseAgent:
             "positions": latest_position.get("positions", {}),
             "total_records": len(positions),
         }
+
+    def export_portfolio_to_excel(self, output_path: Optional[str] = None) -> str:
+        """
+        Export portfolio history to Excel file
+
+        Args:
+            output_path: Optional custom output path. If None, saves to data_path/portfolio_export.xlsx
+
+        Returns:
+            Path to the exported Excel file
+        """
+        if not os.path.exists(self.position_file):
+            raise FileNotFoundError(f"Position file does not exist: {self.position_file}")
+
+        # Read all position records
+        positions = []
+        with open(self.position_file, "r") as f:
+            for line in f:
+                record = json.loads(line)
+                row = {"date": record.get("date"), "id": record.get("id")}
+                row.update(record.get("positions", {}))
+                positions.append(row)
+
+        if not positions:
+            raise ValueError("No position records to export")
+
+        # Create DataFrame
+        df = pd.DataFrame(positions)
+
+        # Reorder columns: date, id, CASH, then alphabetically sorted stocks
+        base_cols = ["date", "id", "CASH"]
+        stock_cols = sorted([col for col in df.columns if col not in base_cols])
+        ordered_cols = base_cols + stock_cols
+        df = df[[col for col in ordered_cols if col in df.columns]]
+
+        # Set output path
+        if output_path is None:
+            output_path = os.path.join(self.data_path, f"portfolio_{self.signature}.xlsx")
+
+        # Export to Excel with formatting
+        with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
+            df.to_excel(writer, sheet_name="Portfolio", index=False)
+
+            # Auto-adjust column widths
+            worksheet = writer.sheets["Portfolio"]
+            for idx, col in enumerate(df.columns):
+                max_length = max(
+                    df[col].astype(str).apply(len).max(),
+                    len(str(col))
+                ) + 2
+                column_letter = get_column_letter(idx + 1)  # get_column_letter is 1-indexed
+                worksheet.column_dimensions[column_letter].width = min(max_length, 20)
+
+        print(f"📊 Portfolio exported to: {output_path}")
+        return output_path
 
     def __str__(self) -> str:
         return (

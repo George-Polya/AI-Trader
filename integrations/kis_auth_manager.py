@@ -110,6 +110,16 @@ class KISAuthenticator:
         except Exception as exc:
             raise RuntimeError(f"KIS 인증에 실패했습니다: {exc}") from exc
 
+        # _TRENV가 제대로 설정되었는지 검증
+        tre = self._ka.getTREnv()
+        my_url = getattr(tre, "my_url", None)
+        if not my_url:
+            raise RuntimeError(
+                "KIS 인증 후 _TRENV.my_url이 설정되지 않았습니다. "
+                "토큰 발급에 실패했거나 설정 파일(kis_devlp.yaml)의 "
+                f"'{self.svr}' 엔드포인트를 확인하세요."
+            )
+
         token = self._extract_token()
         if not token:
             raise RuntimeError("KIS 인증 후 토큰을 가져오지 못했습니다.")

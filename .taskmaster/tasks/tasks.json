@@ -1,0 +1,826 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": "2",
+        "title": "KIS 시세 조회(kis_quote.py) 필드 파싱 수정 및 검증",
+        "description": "해외주식 현재가 조회 API 응답 파싱 로직을 수정하고 실제 API 응답과 매칭되는지 검증한다.",
+        "details": "## 구현 상세\n\n### 1. 현재 문제점 분석\n- `kis_quote.py:54-60`에서 필드명이 API 응답과 불일치 가능성\n- 현재 사용 필드: `ovrs_nmix_prpr`, `ovrs_nmix_basp_prc`, `ovrs_nmix_prdy_vrss_prc`, `ovrs_nmix_prdy_ctrt`\n- 실제 API 응답 필드명 확인 필요 (HHDFS00000300)\n\n### 2. API 문서 기반 필드 매핑 수정\n```python\n# kis_quote.py 수정\ndef get_quote(self, symbol: str) -> Quote:\n    # ... 기존 코드 ...\n    output = payload.get(\"output\") or {}\n    \n    # 해외주식 현재가 조회 응답 필드 (HHDFS00000300)\n    # - last: 현재가\n    # - stck_prpr: 해외 종목 현재가\n    # - stck_hgpr: 해외 종목 최고가\n    # - stck_lwpr: 해외 종목 최저가\n    try:\n        last = float(output.get(\"last\") or output.get(\"stck_prpr\") or 0)\n        prev_close = float(output.get(\"base\") or output.get(\"stck_sdpr\") or last)\n        change = float(output.get(\"diff\") or output.get(\"prdy_vrss\") or 0)\n        rate_raw = output.get(\"rate\") or output.get(\"prdy_ctrt\") or \"0\"\n        change_rate = float(rate_raw.replace(\"%\", \"\"))\n        vol_raw = output.get(\"tvol\") or output.get(\"acml_vol\")\n        volume = int(vol_raw) if vol_raw not in (None, \"\", \"0\") else None\n    except Exception as exc:\n        raise ValueError(f\"KIS 시세 응답 파싱 실패: {symbol_norm}: {exc}\") from exc\n```\n\n### 3. 빌드 파라미터 수정\n```python\ndef _build_params(self, symbol: str) -> Dict[str, Any]:\n    # HHDFS00000300 호출에 필요한 파라미터\n    return {\n        \"AUTH\": \"\",\n        \"EXCD\": self.market,  # NASD, NYSE, AMEX 등\n        \"SYMB\": symbol,\n    }\n```\n\n### 4. 거래소 코드 지원\n- NASD: 나스닥\n- NYSE: 뉴욕\n- AMEX: 아멕스",
+        "testStrategy": "1. KIS 모의투자 API에 직접 요청하여 실제 응답 구조 확인\n2. AAPL, MSFT 등 대표 종목으로 시세 조회 테스트\n3. `scripts/kis_smoke.py --symbol AAPL` 실행하여 시세 조회 성공 확인\n4. 응답 필드가 올바르게 Quote 객체로 변환되는지 검증\n5. 존재하지 않는 심볼 조회 시 적절한 에러 메시지 반환 확인",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "KIS API 문서 대비 현재 필드 매핑 검증",
+            "description": "kis_quote.py의 현재 필드 매핑(last, base, diff, rate, tvol)이 실제 HHDFS00000300 API 응답과 일치하는지 검증합니다.",
+            "dependencies": [],
+            "details": "1. KIS Open API 문서에서 HHDFS00000300 (해외주식 현재체결가 v1_해외주식-009)의 정확한 응답 필드명을 확인합니다.\n2. open-trading-api/examples_llm/overseas_stock/price/price.py 코드를 참조하여 공식 API 응답 구조를 파악합니다.\n3. 현재 kis_quote.py:102-115에서 사용하는 필드(last, base, diff, rate, tvol)가 문서와 일치하는지 비교합니다.\n4. 불일치 필드가 있다면 정확한 매핑 테이블을 작성합니다.\n5. 특히 zdiv(소수점자리수), sign(대비기호), ordy(매수가능여부) 등 추가 필드 활용 가능성도 검토합니다.",
+            "status": "done",
+            "testStrategy": "KIS API 문서의 응답 필드 스펙과 코드의 필드명을 1:1로 매칭하여 검증합니다. open-trading-api/legacy/postman/ 내 샘플 응답과도 비교합니다.",
+            "updatedAt": "2025-12-05T05:19:23.831Z",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "실제 API 호출을 통한 응답 구조 검증",
+            "description": "kis_smoke.py 또는 별도 스크립트를 실행하여 실제 KIS 모의투자 API 응답을 캡처하고 필드명을 확인합니다.",
+            "dependencies": [],
+            "details": "1. RUN_KIS_SMOKE=true python -m pytest tests/test_kis_integration.py -v -m kis_smoke -k test_quote 명령으로 실제 시세 조회를 수행합니다.\n2. 또는 scripts/kis_smoke.py --symbol AAPL 실행으로 AAPL 시세를 조회합니다.\n3. API 응답의 raw output을 로깅하여 실제 필드명(last, base, diff, rate, tvol 등)을 캡처합니다.\n4. kis_quote.py:117-120의 debug 로그 레벨을 INFO로 임시 변경하여 상세 응답을 확인합니다.\n5. AAPL, MSFT, NVDA 등 여러 종목에 대해 응답 구조가 일관적인지 확인합니다.",
+            "status": "done",
+            "testStrategy": "실제 API 호출 결과의 output 딕셔너리를 JSON으로 저장하고, kis_quote.py가 파싱하는 필드와 비교하여 100% 매칭 여부를 확인합니다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T05:20:33.218Z"
+          },
+          {
+            "id": 3,
+            "title": "필드 파싱 로직 수정 및 폴백 처리 강화",
+            "description": "검증 결과에 따라 kis_quote.py의 필드 파싱 로직을 수정하고, 필드 누락 시 폴백 처리를 강화합니다.",
+            "dependencies": [
+              2
+            ],
+            "details": "1. 검증된 필드명으로 kis_quote.py:102-115의 파싱 로직을 수정합니다.\n2. 필드가 누락되거나 빈 값인 경우의 폴백 처리를 개선합니다:\n   - last가 없으면 ValueError 발생\n   - base(전일종가)가 없으면 last와 동일값 사용\n   - diff, rate가 없으면 0.0으로 설정\n   - tvol이 없거나 0이면 None으로 설정\n3. 소수점 처리: zdiv 필드를 활용하여 정밀도를 보장합니다.\n4. 음수 변동률 처리: sign 필드와 diff/rate 부호 일관성을 검증합니다.\n5. 타입 변환 예외 처리를 세분화하여 어떤 필드에서 오류가 발생했는지 명확히 합니다.",
+            "status": "done",
+            "testStrategy": "1. Mock 응답으로 다양한 엣지 케이스(필드 누락, 빈 문자열, 0값, 음수 등) 테스트\n2. tests/test_kis_integration.py의 test_get_quote_success 케이스 업데이트 및 추가",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T05:21:35.591Z"
+          },
+          {
+            "id": 4,
+            "title": "거래소 코드 확장 및 파라미터 검증",
+            "description": "NASD, NYSE, AMEX 외 추가 거래소 지원을 검토하고, _build_params 메서드의 파라미터 검증을 강화합니다.",
+            "dependencies": [],
+            "details": "1. kis_quote.py:30-38의 EXCHANGE_CODES 매핑을 검증합니다:\n   - NASD→NAS, NYSE→NYS, AMEX→AMS가 KIS API 규격과 일치하는지 확인\n2. 추가 거래소 지원 검토:\n   - SEHK(홍콩), SHAA(상해), SZAA(심천), TKSE(도쿄), HASE(하노이), VNSE(호치민)\n3. _build_params의 AUTH 파라미터가 빈 문자열로 충분한지 API 문서에서 확인합니다.\n4. 유효하지 않은 거래소 코드 입력 시 명확한 에러 메시지를 반환하도록 개선합니다.\n5. 심볼 형식 검증: 알파벳과 숫자만 허용, 최대 길이 제한 등을 추가합니다.",
+            "status": "done",
+            "testStrategy": "1. 각 거래소 코드(NAS, NYS, AMS)에 대해 실제 API 호출 성공 여부 확인\n2. 잘못된 거래소 코드 입력 시 적절한 예외 발생 테스트\n3. tests/test_kis_integration.py에 test_exchange_code_mapping 테스트 추가",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T05:22:51.180Z"
+          },
+          {
+            "id": 5,
+            "title": "단위 테스트 및 스모크 테스트 보강",
+            "description": "수정된 kis_quote.py에 대한 단위 테스트를 보강하고, 스모크 테스트에서 모든 필드가 올바르게 파싱되는지 검증합니다.",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "1. tests/test_kis_integration.py의 TestKISQuoteService 클래스에 테스트 케이스 추가:\n   - test_get_quote_with_missing_fields: 일부 필드 누락 시 폴백 동작 검증\n   - test_get_quote_negative_change: 하락 시 음수 변동률 처리 검증\n   - test_get_quote_zero_volume: 거래량 0 처리 검증\n2. 스모크 테스트 test_quote 강화:\n   - quote.last > 0 검증\n   - quote.prev_close > 0 검증\n   - quote.change_rate가 합리적 범위(-100 ~ 100) 내인지 검증\n3. scripts/kis_smoke.py 출력에 raw API 응답 덤프 옵션 추가 검토\n4. 테스트 실행: RUN_KIS_SMOKE=true python -m pytest tests/test_kis_integration.py -v -m kis_smoke",
+            "status": "done",
+            "testStrategy": "1. pytest tests/test_kis_integration.py -v로 Mock 기반 단위 테스트 전체 통과 확인\n2. RUN_KIS_SMOKE=true pytest -m kis_smoke로 실제 API 연동 테스트 통과 확인\n3. 테스트 커버리지 리포트에서 kis_quote.py 라인 커버리지 90% 이상 달성",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:14:23.176Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T06:14:23.176Z"
+      },
+      {
+        "id": "3",
+        "title": "KIS 통합 모듈 단위 테스트 작성",
+        "description": "integrations/ 디렉토리의 KIS 모듈들(kis_order, kis_account, kis_quote, kis_client)에 대한 단위 테스트를 작성한다.",
+        "details": "## 구현 상세\n\n### 1. 테스트 파일 구조\n```\ntests/\n├── conftest.py          # 기존 파일 (KIS 스모크 테스트 마커)\n├── test_kis_settings.py  # 설정 로드 테스트\n├── test_kis_auth.py      # 인증 테스트 (모킹)\n├── test_kis_client.py    # REST 클라이언트 테스트\n├── test_kis_order.py     # 주문 서비스 테스트\n├── test_kis_account.py   # 계좌 서비스 테스트\n├── test_kis_quote.py     # 시세 서비스 테스트\n└── test_kis_context.py   # 컨텍스트 어댑터 테스트\n```\n\n### 2. 테스트 예시 (test_kis_order.py)\n```python\nimport pytest\nfrom unittest.mock import Mock, patch\nfrom integrations.kis_order import KISOrderService\nfrom models.broker import OrderResult\n\nclass TestKISOrderService:\n    @pytest.fixture\n    def mock_client(self):\n        client = Mock()\n        client.request.return_value = {\n            \"rt_cd\": \"0\",\n            \"output\": {\n                \"ODNO\": \"1234567890\",\n                \"ORD_TMD\": \"100000\"\n            }\n        }\n        return client\n    \n    @pytest.fixture\n    def mock_settings(self):\n        settings = Mock()\n        settings.my_paper_stock = \"50123456\"\n        settings.my_prod = \"01\"\n        return settings\n    \n    def test_submit_buy_order(self, mock_client, mock_settings):\n        service = KISOrderService(mock_client, mock_settings)\n        result = service.submit_order(\"AAPL\", 10, 150.0, \"buy\")\n        \n        assert isinstance(result, OrderResult)\n        assert result.order_no == \"1234567890\"\n        assert result.side == \"buy\"\n        mock_client.request.assert_called_once()\n    \n    def test_invalid_qty_raises_error(self, mock_client, mock_settings):\n        service = KISOrderService(mock_client, mock_settings)\n        with pytest.raises(ValueError, match=\"qty는 0보다 커야\"):\n            service.submit_order(\"AAPL\", 0, 150.0, \"buy\")\n```\n\n### 3. KIS 스모크 테스트 마커 활용\n```python\n@pytest.mark.kis_smoke\ndef test_real_api_quote():\n    \"\"\"실제 API 호출 테스트 (RUN_KIS_SMOKE=true 필요)\"\"\"\n    # ...\n```",
+        "testStrategy": "1. `pytest tests/ -v --ignore=tests/test_kis_smoke.py` 실행하여 모킹 테스트 통과 확인\n2. `RUN_KIS_SMOKE=true BROKER=kis pytest tests/ -v -m kis_smoke` 실행하여 실제 API 테스트 (선택적)\n3. 테스트 커버리지 확인: `pytest --cov=integrations tests/`\n4. 각 서비스별 정상/에러 케이스 검증",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "test_kis_client.py 단위 테스트 작성",
+            "description": "KISRestClient 클래스와 KISAPIError 예외에 대한 단위 테스트를 작성합니다.",
+            "dependencies": [],
+            "details": "## 구현 내용\n\n### 테스트 파일: tests/test_kis_client.py\n\n```python\nimport pytest\nfrom unittest.mock import MagicMock, Mock, patch\nfrom requests import Response\n\nfrom integrations.kis_client import KISRestClient, KISAPIError\n\n\nclass TestKISAPIError:\n    \"\"\"KISAPIError 예외 테스트.\"\"\"\n    \n    def test_error_message_format(self):\n        err = KISAPIError(\"EGW001\", \"잘못된 요청\", 400)\n        assert \"[400] EGW001: 잘못된 요청\" in str(err)\n        assert err.code == \"EGW001\"\n        assert err.message == \"잘못된 요청\"\n        assert err.status_code == 400\n    \n    def test_error_without_status_code(self):\n        err = KISAPIError(\"ERROR\", \"메시지\")\n        assert err.status_code is None\n\n\nclass TestKISRestClient:\n    \"\"\"KISRestClient 단위 테스트.\"\"\"\n    \n    @pytest.fixture\n    def mock_authenticator(self):\n        auth = MagicMock()\n        auth.get_base_headers.return_value = {\n            \"authorization\": \"Bearer test-token\",\n            \"appkey\": \"test-app\",\n            \"appsecret\": \"test-secret\",\n        }\n        mock_ka = MagicMock()\n        mock_tre = MagicMock()\n        mock_tre.my_url = \"https://openapivts.koreainvestment.com:29443\"\n        mock_ka.getTREnv.return_value = mock_tre\n        auth._ka = mock_ka\n        return auth\n    \n    def test_build_url_absolute(self, mock_authenticator):\n        client = KISRestClient(mock_authenticator)\n        url = client._build_url(\"https://example.com/api\")\n        assert url == \"https://example.com/api\"\n    \n    def test_build_url_relative(self, mock_authenticator):\n        client = KISRestClient(mock_authenticator)\n        url = client._build_url(\"/uapi/test\")\n        assert \"openapivts\" in url\n        assert \"/uapi/test\" in url\n    \n    @patch.object(KISRestClient, 'session')\n    def test_request_success(self, mock_session, mock_authenticator):\n        # 성공 응답 모킹\n        mock_response = MagicMock()\n        mock_response.status_code = 200\n        mock_response.json.return_value = {\"rt_cd\": \"0\", \"output\": {}}\n        mock_response.headers = {\"tr_cont\": \"\"}\n        ...\n    \n    def test_request_429_retry(self, mock_authenticator):\n        # 429 재시도 로직 테스트\n        ...\n    \n    def test_request_api_error(self, mock_authenticator):\n        # rt_cd != \"0\" 에러 처리 테스트\n        ...\n    \n    def test_pagination_handling(self, mock_authenticator):\n        # TR_CONT 페이징 테스트\n        ...\n```\n\n### 테스트 케이스\n1. KISAPIError 예외 메시지 포맷 검증\n2. _build_url 절대/상대 경로 처리\n3. request 성공 케이스\n4. 429 상태 코드 재시도 로직\n5. API 에러 응답 (rt_cd != \"0\") 처리\n6. HTTP 에러 (status >= 400) 처리\n7. JSON 파싱 실패 에러 처리\n8. TR_CONT 페이징 처리\n9. paginate=False 단일 응답 반환",
+            "status": "done",
+            "testStrategy": "pytest tests/test_kis_client.py -v 실행하여 모든 테스트 통과 확인. Mock을 활용하여 실제 네트워크 호출 없이 KISRestClient의 모든 로직을 검증.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T05:28:16.496Z"
+          },
+          {
+            "id": 2,
+            "title": "test_kis_auth.py 인증 매니저 단위 테스트 작성",
+            "description": "KISAuthenticator 클래스에 대한 단위 테스트를 작성합니다.",
+            "dependencies": [],
+            "details": "## 구현 내용\n\n### 테스트 파일: tests/test_kis_auth.py\n\n```python\nimport pytest\nfrom unittest.mock import MagicMock, patch\nfrom datetime import datetime, timedelta, timezone\nfrom dataclasses import dataclass\nfrom typing import Optional\n\nfrom integrations.kis_auth_manager import KISAuthenticator, _to_ka_cfg\n\n\nclass TestToKaCfg:\n    \"\"\"설정 매핑 함수 테스트.\"\"\"\n    \n    def test_mapping_required_fields(self, mock_kis_settings):\n        cfg = _to_ka_cfg(mock_kis_settings)\n        assert cfg[\"paper_app\"] == mock_kis_settings.paper_app\n        assert cfg[\"paper_sec\"] == mock_kis_settings.paper_sec\n        assert cfg[\"my_paper_stock\"] == mock_kis_settings.my_paper_stock\n\n\nclass TestKISAuthenticator:\n    \"\"\"KISAuthenticator 단위 테스트.\"\"\"\n    \n    @pytest.fixture\n    def mock_kis_module(self):\n        module = MagicMock()\n        mock_tre = MagicMock()\n        mock_tre.my_token = \"test-token-12345\"\n        mock_tre.my_url = \"https://openapivts.koreainvestment.com:29443\"\n        module.getTREnv.return_value = mock_tre\n        module._getBaseHeader.return_value = {\n            \"authorization\": \"Bearer test-token-12345\",\n        }\n        return module\n    \n    def test_authenticate_first_call(self, mock_kis_settings, mock_kis_module):\n        \"\"\"최초 인증 시 토큰을 발급받아야 합니다.\"\"\"\n        auth = KISAuthenticator(mock_kis_settings, kis_module=mock_kis_module)\n        token = auth.authenticate()\n        \n        assert token is not None\n        mock_kis_module.auth.assert_called_once()\n    \n    def test_authenticate_reuse_valid_token(self, mock_kis_settings, mock_kis_module):\n        \"\"\"유효 토큰이 있으면 재사용해야 합니다.\"\"\"\n        auth = KISAuthenticator(mock_kis_settings, kis_module=mock_kis_module)\n        auth._token = \"existing-token\"\n        auth._expires_at = datetime.now(timezone.utc) + timedelta(hours=10)\n        \n        token = auth.authenticate()\n        \n        assert token == \"existing-token\"\n        mock_kis_module.auth.assert_not_called()\n    \n    def test_authenticate_expired_token_refresh(self, mock_kis_settings, mock_kis_module):\n        \"\"\"토큰이 만료 임박하면 재인증해야 합니다.\"\"\"\n        auth = KISAuthenticator(\n            mock_kis_settings,\n            kis_module=mock_kis_module,\n            refresh_margin_seconds=600\n        )\n        auth._token = \"old-token\"\n        auth._expires_at = datetime.now(timezone.utc) + timedelta(seconds=60)\n        \n        token = auth.authenticate()\n        \n        mock_kis_module.auth.assert_called_once()\n    \n    def test_refresh_forces_reauth(self, mock_kis_settings, mock_kis_module):\n        \"\"\"refresh()는 항상 재인증해야 합니다.\"\"\"\n        ...\n    \n    def test_get_base_headers_with_hash(self, mock_kis_settings, mock_kis_module):\n        \"\"\"include_hash=True일 때 hashkey가 설정되어야 합니다.\"\"\"\n        ...\n    \n    def test_get_base_headers_without_hash(self, mock_kis_settings, mock_kis_module):\n        \"\"\"include_hash=False일 때 body 없이 호출 가능해야 합니다.\"\"\"\n        ...\n    \n    def test_authentication_failure_raises_error(self, mock_kis_settings, mock_kis_module):\n        \"\"\"인증 실패 시 RuntimeError를 발생시켜야 합니다.\"\"\"\n        mock_kis_module.auth.side_effect = Exception(\"Auth failed\")\n        auth = KISAuthenticator(mock_kis_settings, kis_module=mock_kis_module)\n        \n        with pytest.raises(RuntimeError, match=\"KIS 인증에 실패했습니다\"):\n            auth.authenticate()\n```\n\n### 테스트 케이스\n1. _to_ka_cfg 설정 매핑 검증\n2. 최초 인증 호출\n3. 유효 토큰 재사용\n4. 만료 임박 토큰 재인증\n5. force=True 강제 재인증\n6. get_base_headers hashkey 포함/미포함\n7. 인증 실패 예외 처리\n8. 토큰 추출 로직 (_extract_token)",
+            "status": "done",
+            "testStrategy": "pytest tests/test_kis_auth.py -v 실행하여 모든 테스트 통과 확인. kis_auth 외부 모듈을 Mock으로 대체하여 인증 로직만 독립적으로 검증.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T05:29:43.598Z"
+          },
+          {
+            "id": 3,
+            "title": "test_kis_settings.py 설정 로더 단위 테스트 작성",
+            "description": "KISSettings 모델과 load_kis_settings, get_broker_mode, is_kis_broker 함수들에 대한 단위 테스트를 작성합니다.",
+            "dependencies": [],
+            "details": "## 구현 내용\n\n### 테스트 파일: tests/test_kis_settings.py\n\n```python\nimport pytest\nimport tempfile\nimport yaml\nfrom pathlib import Path\nfrom unittest.mock import patch\nfrom pydantic import ValidationError\n\nfrom integrations.kis_settings import (\n    KISSettings,\n    load_kis_settings,\n    get_broker_mode,\n    is_kis_broker,\n    _mask_secret,\n)\n\n\nclass TestMaskSecret:\n    \"\"\"비밀 마스킹 함수 테스트.\"\"\"\n    \n    def test_mask_none(self):\n        assert _mask_secret(None) == \"***\"\n    \n    def test_mask_short_value(self):\n        assert _mask_secret(\"abc\") == \"***\"\n    \n    def test_mask_long_value(self):\n        result = _mask_secret(\"abcdefghij\")\n        assert result.startswith(\"abc\")\n        assert result.endswith(\"ij\")\n        assert \"...\" in result\n\n\nclass TestKISSettings:\n    \"\"\"KISSettings 모델 테스트.\"\"\"\n    \n    def test_required_fields_validation(self):\n        with pytest.raises(ValidationError):\n            KISSettings()  # 필수 필드 누락\n    \n    def test_valid_settings(self):\n        settings = KISSettings(\n            paper_app=\"PSxxxxxxxx\",\n            paper_sec=\"secret123456789012345678901234\",\n            my_paper_stock=\"50123456\",\n            my_prod=\"01\",\n            my_agent=\"TestAgent\",\n        )\n        assert settings.paper_app == \"PSxxxxxxxx\"\n    \n    def test_masked_dump(self):\n        settings = KISSettings(\n            paper_app=\"PSxxxxxxxx\",\n            paper_sec=\"secret123456789012345678901234\",\n            my_paper_stock=\"50123456\",\n            my_prod=\"01\",\n            my_agent=\"TestAgent\",\n        )\n        masked = settings.masked_dump()\n        assert \"sec...34\" in masked[\"paper_sec\"] or \"***\" in masked[\"paper_sec\"]\n    \n    def test_default_endpoints(self):\n        settings = KISSettings(\n            paper_app=\"PSxxxxxxxx\",\n            paper_sec=\"secret\",\n            my_paper_stock=\"50123456\",\n            my_prod=\"01\",\n            my_agent=\"TestAgent\",\n        )\n        assert \"openapi\" in settings.prod\n        assert \"openapivts\" in settings.vps\n\n\nclass TestLoadKisSettings:\n    \"\"\"load_kis_settings 함수 테스트.\"\"\"\n    \n    def test_load_valid_yaml(self):\n        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:\n            yaml.dump({\n                \"paper_app\": \"PSxxxxxxxx\",\n                \"paper_sec\": \"secret\",\n                \"my_paper_stock\": \"50123456\",\n                \"my_prod\": \"01\",\n                \"my_agent\": \"TestAgent\",\n            }, f)\n            f.flush()\n            \n            settings = load_kis_settings(f.name)\n            assert settings.paper_app == \"PSxxxxxxxx\"\n    \n    def test_file_not_found(self):\n        with pytest.raises(FileNotFoundError):\n            load_kis_settings(\"/nonexistent/path.yaml\")\n    \n    def test_invalid_yaml_syntax(self):\n        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:\n            f.write(\"invalid: yaml: syntax: [\")\n            f.flush()\n            \n            with pytest.raises(ValueError, match=\"파싱 실패\"):\n                load_kis_settings(f.name)\n    \n    def test_missing_required_field(self):\n        with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml', delete=False) as f:\n            yaml.dump({\"paper_app\": \"test\"}, f)  # 나머지 필수 필드 누락\n            f.flush()\n            \n            with pytest.raises(ValidationError):\n                load_kis_settings(f.name)\n\n\nclass TestBrokerMode:\n    \"\"\"브로커 모드 함수 테스트.\"\"\"\n    \n    @patch.dict('os.environ', {'BROKER': 'kis'})\n    def test_get_broker_mode_kis(self):\n        assert get_broker_mode() == \"kis\"\n    \n    @patch.dict('os.environ', {'BROKER': 'local'})\n    def test_get_broker_mode_local(self):\n        assert get_broker_mode() == \"local\"\n    \n    @patch.dict('os.environ', {}, clear=True)\n    def test_get_broker_mode_default(self):\n        assert get_broker_mode() == \"local\"\n    \n    @patch.dict('os.environ', {'BROKER': 'kis'})\n    def test_is_kis_broker_true(self):\n        assert is_kis_broker() is True\n    \n    @patch.dict('os.environ', {'BROKER': 'local'})\n    def test_is_kis_broker_false(self):\n        assert is_kis_broker() is False\n```\n\n### 테스트 케이스\n1. _mask_secret 마스킹 로직\n2. KISSettings 필수 필드 검증\n3. KISSettings 유효한 설정 생성\n4. masked_dump 민감정보 마스킹\n5. 기본 엔드포인트 값\n6. load_kis_settings 정상 로드\n7. 파일 없음 에러\n8. YAML 문법 에러\n9. 필수 필드 누락 에러\n10. get_broker_mode 환경변수 처리\n11. is_kis_broker 브로커 모드 확인",
+            "status": "done",
+            "testStrategy": "pytest tests/test_kis_settings.py -v 실행하여 모든 테스트 통과 확인. tempfile을 사용하여 임시 YAML 파일로 설정 로드 테스트, 환경변수는 unittest.mock.patch.dict로 모킹.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:07:56.090Z"
+          },
+          {
+            "id": 4,
+            "title": "기존 test_kis_integration.py 테스트 보강 및 누락 케이스 추가",
+            "description": "기존 KISOrderService, KISAccountService 테스트에 에러 케이스와 엣지 케이스를 추가합니다.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "## 구현 내용\n\n### 보강할 테스트 케이스\n\n#### TestKISOrderService 추가\n```python\ndef test_submit_order_no_output(self, mock_kis_settings, mock_kis_client):\n    \"\"\"응답에 output이 없으면 ValueError를 발생시켜야 합니다.\"\"\"\n    mock_kis_client.request.return_value = {\"rt_cd\": \"0\"}\n    service = KISOrderService(mock_kis_client, mock_kis_settings)\n    \n    with pytest.raises(ValueError, match=\"output이 없습니다\"):\n        service.submit_order(\"AAPL\", 10, 150.0, \"buy\")\n\ndef test_submit_order_no_order_number(self, mock_kis_settings, mock_kis_client):\n    \"\"\"응답에 주문번호가 없으면 ValueError를 발생시켜야 합니다.\"\"\"\n    mock_kis_client.request.return_value = {\n        \"rt_cd\": \"0\",\n        \"output\": {\"ORD_TMD\": \"100000\"}  # ODNO 없음\n    }\n    service = KISOrderService(mock_kis_client, mock_kis_settings)\n    \n    with pytest.raises(ValueError, match=\"주문번호가 없습니다\"):\n        service.submit_order(\"AAPL\", 10, 150.0, \"buy\")\n\ndef test_submit_order_api_failure(self, mock_kis_settings, mock_kis_client):\n    \"\"\"API 호출 실패 시 ValueError를 발생시켜야 합니다.\"\"\"\n    mock_kis_client.request.side_effect = Exception(\"Network error\")\n    service = KISOrderService(mock_kis_client, mock_kis_settings)\n    \n    with pytest.raises(ValueError, match=\"KIS 주문 실패\"):\n        service.submit_order(\"AAPL\", 10, 150.0, \"buy\")\n\ndef test_custom_exchange_setting(self, mock_kis_settings, mock_kis_client):\n    \"\"\"커스텀 거래소 설정을 검증합니다.\"\"\"\n    service = KISOrderService(\n        mock_kis_client, mock_kis_settings, exchange=\"NYSE\"\n    )\n    assert service.exchange == \"NYSE\"\n```\n\n#### TestKISAccountService 추가\n```python\ndef test_get_balance_api_failure(self, mock_kis_settings, mock_kis_client):\n    \"\"\"API 호출 실패 시 예외를 발생시켜야 합니다.\"\"\"\n    mock_kis_client.request.side_effect = Exception(\"Network error\")\n    service = KISAccountService(mock_kis_client, mock_kis_settings)\n    \n    with pytest.raises(Exception):\n        service.get_balance()\n\ndef test_get_balance_missing_field(self, mock_kis_settings, mock_kis_client):\n    \"\"\"필수 필드 누락 시 RuntimeError를 발생시켜야 합니다.\"\"\"\n    mock_kis_client.request.return_value = {\n        \"rt_cd\": \"0\",\n        \"output1\": [{\"ovrs_pdno\": \"AAPL\"}]  # qty, value 누락\n    }\n    service = KISAccountService(mock_kis_client, mock_kis_settings)\n    \n    with pytest.raises(RuntimeError, match=\"Balance parsing failed\"):\n        service.get_balance()\n\ndef test_get_fills_success(self, mock_kis_settings, mock_kis_client):\n    \"\"\"체결 내역 조회가 성공해야 합니다.\"\"\"\n    mock_kis_client.request.return_value = {\n        \"rt_cd\": \"0\",\n        \"output\": [{\n            \"pdno\": \"AAPL\",\n            \"ft_ccld_qty\": \"10\",\n            \"ft_ccld_unpr3\": \"150.25\",\n            \"prcs_stat_name\": \"체결완료\",\n            \"sll_buy_dvsn_cd_name\": \"매수\",\n            \"odno\": \"123456\",\n            \"ord_dt\": \"20250605\",\n            \"ord_tmd\": \"100000\",\n        }]\n    }\n    service = KISAccountService(mock_kis_client, mock_kis_settings)\n    fills = service.get_fills(\"20250605\", \"20250605\")\n    \n    assert len(fills) == 1\n    assert fills[0].symbol == \"AAPL\"\n    assert fills[0].qty == 10\n\ndef test_get_fills_parsing_error(self, mock_kis_settings, mock_kis_client):\n    \"\"\"체결 내역 파싱 실패 시 RuntimeError를 발생시켜야 합니다.\"\"\"\n    ...\n\ndef test_get_cash_balance_failure_returns_zero(self, mock_kis_settings, mock_kis_client):\n    \"\"\"예수금 조회 실패 시 0.0을 반환해야 합니다.\"\"\"\n    mock_kis_client.request.side_effect = Exception(\"API error\")\n    service = KISAccountService(mock_kis_client, mock_kis_settings)\n    \n    cash = service.get_cash_balance()\n    assert cash == 0.0\n```\n\n### 테스트 케이스 목록\n1. 주문 응답 output 누락 에러\n2. 주문 응답 주문번호 누락 에러\n3. 주문 API 호출 실패 에러\n4. 커스텀 거래소/계좌 설정\n5. 잔고 조회 API 실패\n6. 잔고 파싱 필수 필드 누락\n7. 체결 내역 조회 성공\n8. 체결 내역 파싱 에러\n9. 예수금 조회 실패 시 0.0 반환\n10. 페이지네이션 응답 처리",
+            "status": "done",
+            "testStrategy": "pytest tests/test_kis_integration.py -v 실행하여 기존 테스트와 새로 추가된 테스트가 모두 통과하는지 확인. 에러 케이스 검증을 통해 예외 처리 로직의 견고성 확인.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:10:01.353Z"
+          },
+          {
+            "id": 5,
+            "title": "테스트 커버리지 확인 및 conftest.py 공통 fixture 정리",
+            "description": "pytest-cov를 사용하여 integrations/ 모듈의 테스트 커버리지를 확인하고, 공통 fixture를 conftest.py로 분리합니다.",
+            "dependencies": [
+              2,
+              3,
+              4
+            ],
+            "details": "## 구현 내용\n\n### 1. conftest.py 공통 fixture 추가\n\n```python\n# tests/conftest.py\nimport os\nimport pytest\nfrom unittest.mock import MagicMock\nfrom dataclasses import dataclass\nfrom typing import Optional\n\n\ndef pytest_collection_modifyitems(config, items):\n    if os.getenv(\"RUN_KIS_SMOKE\") == \"true\":\n        return\n    skip_kis_smoke = pytest.mark.skip(reason=\"need RUN_KIS_SMOKE=true env var to run\")\n    for item in items:\n        if \"kis_smoke\" in item.keywords:\n            item.add_marker(skip_kis_smoke)\n\n\n@pytest.fixture\ndef mock_kis_settings():\n    \"\"\"Mock KISSettings 객체를 생성합니다.\"\"\"\n    @dataclass\n    class MockKISSettings:\n        paper_app: str = \"PSxxxxxxxx\"\n        paper_sec: str = \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"\n        my_paper_stock: str = \"50123456\"\n        my_prod: str = \"01\"\n        my_agent: str = \"Mozilla/5.0\"\n        my_app: Optional[str] = None\n        my_sec: Optional[str] = None\n        my_htsid: Optional[str] = None\n        my_acct_stock: Optional[str] = None\n        my_acct_future: Optional[str] = None\n        my_paper_future: Optional[str] = None\n        my_token: Optional[str] = None\n        prod: str = \"https://openapi.koreainvestment.com:9443\"\n        ops: str = \"ws://ops.koreainvestment.com:21000\"\n        vps: str = \"https://openapivts.koreainvestment.com:29443\"\n        vops: str = \"ws://ops.koreainvestment.com:31000\"\n\n    return MockKISSettings()\n\n\n@pytest.fixture\ndef mock_kis_client():\n    \"\"\"Mock KISRestClient를 생성합니다.\"\"\"\n    client = MagicMock()\n    return client\n\n\n@pytest.fixture\ndef mock_kis_authenticator():\n    \"\"\"Mock KISAuthenticator를 생성합니다.\"\"\"\n    auth = MagicMock()\n    auth.get_base_headers.return_value = {\n        \"authorization\": \"Bearer test-token\",\n        \"appkey\": \"test-app\",\n        \"appsecret\": \"test-secret\",\n    }\n    mock_ka = MagicMock()\n    mock_tre = MagicMock()\n    mock_tre.my_url = \"https://openapivts.koreainvestment.com:29443\"\n    mock_tre.my_token = \"test-token-12345\"\n    mock_ka.getTREnv.return_value = mock_tre\n    auth._ka = mock_ka\n    return auth\n\n\n@pytest.fixture\ndef mock_kis_module():\n    \"\"\"Mock kis_auth 모듈을 생성합니다.\"\"\"\n    module = MagicMock()\n    mock_tre = MagicMock()\n    mock_tre.my_token = \"test-token-12345\"\n    mock_tre.my_url = \"https://openapivts.koreainvestment.com:29443\"\n    module.getTREnv.return_value = mock_tre\n    module._getBaseHeader.return_value = {\n        \"authorization\": \"Bearer test-token-12345\",\n    }\n    return module\n```\n\n### 2. 커버리지 실행 명령\n\n```bash\n# 전체 커버리지 리포트\npytest tests/ --cov=integrations --cov-report=html --cov-report=term-missing -v --ignore=tests/test_kis_e2e.py\n\n# 특정 모듈 커버리지\npytest tests/test_kis_client.py --cov=integrations/kis_client --cov-report=term-missing\n\n# 커버리지 임계값 검증 (80% 이상)\npytest tests/ --cov=integrations --cov-fail-under=80 --ignore=tests/test_kis_e2e.py\n```\n\n### 3. 목표 커버리지\n- kis_client.py: 90%+\n- kis_auth_manager.py: 85%+\n- kis_settings.py: 90%+\n- kis_order.py: 90%+\n- kis_account.py: 85%+\n- kis_quote.py: 95%+\n\n### 4. 최종 테스트 실행\n```bash\n# 모킹 테스트 전체 실행\npytest tests/ -v --ignore=tests/test_kis_e2e.py\n\n# 스모크 테스트 포함 (실제 API 호출)\nRUN_KIS_SMOKE=true BROKER=kis pytest tests/ -v -m kis_smoke\n```",
+            "status": "done",
+            "testStrategy": "1. `pytest tests/ --cov=integrations --cov-report=term-missing -v --ignore=tests/test_kis_e2e.py` 실행하여 커버리지 80% 이상 달성 확인.\n2. 각 서비스별 정상/에러 케이스가 모두 테스트되는지 검증.\n3. `RUN_KIS_SMOKE=true pytest tests/ -v -m kis_smoke` 실행하여 실제 API 연동 테스트 (선택적).",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:11:40.052Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T06:11:40.052Z"
+      },
+      {
+        "id": "4",
+        "title": "KIS 모의투자 E2E 통합 테스트 구현",
+        "description": "시세 조회 → 주문 실행 → 잔고/체결 조회 전체 흐름을 검증하는 E2E 테스트를 구현한다.",
+        "details": "## 구현 상세\n\n### 1. 기존 스크립트 활용 및 확장\n`scripts/kis_smoke.py`가 이미 E2E 흐름을 구현하고 있음. 이를 테스트 형태로 재구성\n\n### 2. E2E 테스트 시나리오 (tests/test_kis_e2e.py)\n```python\nimport pytest\nimport os\n\n@pytest.mark.kis_smoke\n@pytest.mark.skipif(\n    os.getenv(\"RUN_KIS_E2E\") != \"true\",\n    reason=\"E2E 테스트는 RUN_KIS_E2E=true 필요\"\n)\nclass TestKISE2EFlow:\n    \"\"\"KIS 모의투자 E2E 통합 테스트\"\"\"\n    \n    @pytest.fixture(scope=\"class\")\n    def kis_services(self):\n        from integrations.kis_settings import load_kis_settings, is_kis_broker\n        from integrations.kis_auth_manager import KISAuthenticator\n        from integrations.kis_client import KISRestClient\n        from integrations.kis_quote import KISQuoteService\n        from integrations.kis_order import KISOrderService\n        from integrations.kis_account import KISAccountService\n        \n        assert is_kis_broker(), \"BROKER=kis 환경변수 필요\"\n        settings = load_kis_settings()\n        auth = KISAuthenticator(settings, svr=\"vps\", product=\"01\")\n        client = KISRestClient(auth)\n        \n        return {\n            \"quote\": KISQuoteService(client),\n            \"order\": KISOrderService(client, settings),\n            \"account\": KISAccountService(client, settings),\n            \"client\": client\n        }\n    \n    def test_scenario_1_quote_order_balance(self, kis_services):\n        \"\"\"시나리오 1: AAPL 시세 조회 → 1주 매수 → 잔고 확인\"\"\"\n        # 1. 시세 조회\n        quote = kis_services[\"quote\"].get_quote(\"AAPL\")\n        assert quote.last > 0\n        \n        # 2. 매수 주문 (현재가 + 1%)\n        limit_price = quote.last * 1.01\n        order = kis_services[\"order\"].submit_order(\"AAPL\", 1, limit_price, \"buy\")\n        assert order.order_no\n        \n        kis_services[\"client\"]._smart_sleep()\n        \n        # 3. 잔고 조회\n        balances = kis_services[\"account\"].get_balance()\n        # 잔고는 체결 여부에 따라 달라질 수 있음\n        assert isinstance(balances, list)\n    \n    def test_scenario_2_invalid_symbol(self, kis_services):\n        \"\"\"시나리오 2: 잘못된 심볼로 주문 시 에러\"\"\"\n        with pytest.raises(ValueError):\n            kis_services[\"quote\"].get_quote(\"INVALID_SYMBOL_XYZ\")\n```\n\n### 3. 테스트 실행 방법\n```bash\n# 환경 설정\nexport BROKER=kis\nexport RUN_KIS_E2E=true\n\n# E2E 테스트 실행\npytest tests/test_kis_e2e.py -v\n```",
+        "testStrategy": "1. 모의투자 계좌로 실제 API 호출하여 전체 흐름 검증\n2. 테스트 시나리오:\n   - 시세 조회 성공 확인\n   - 지정가 매수 주문 후 주문번호 반환 확인\n   - 잔고 및 체결 내역 조회 확인\n   - 에러 케이스 (잘못된 심볼, 잘못된 수량) 검증\n3. 거래 시간 외 테스트 시 적절한 에러 처리 확인",
+        "priority": "high",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "E2E 테스트 Fixture 확장 및 서비스 컨텍스트 개선",
+            "description": "tests/test_kis_e2e.py의 kis_context fixture를 확장하여 모든 서비스(quote, order, account)가 일관되게 초기화되고, 테스트 간 상태 격리가 보장되도록 개선한다.",
+            "dependencies": [],
+            "details": "## 구현 상세\n\n### 1. 현재 구현 분석\n- `test_kis_e2e.py:36-70`: `kis_context` fixture가 이미 존재하며 settings, auth, client, quote, account, order 서비스 초기화\n- `test_kis_e2e.py:53`: `auth = KISAuthenticator(settings, svr=\"vps\")` - 모의투자 설정\n- `scripts/kis_smoke.py:41`: 동일하게 `svr=\"vps\", product=\"01\"` 사용\n\n### 2. 개선 사항\n```python\n# tests/test_kis_e2e.py fixture 확장\n@pytest.fixture(scope=\"class\")\ndef kis_context(self):\n    # ... 기존 코드 ...\n    \n    # 서비스 인스턴스 캐싱을 위한 lazy initialization\n    # Rate limit 준수를 위한 inter-call delay 설정\n    # 테스트 정리(teardown) 로직 추가\n```\n\n### 3. 변경 파일\n- `tests/test_kis_e2e.py`: fixture 확장\n- `tests/conftest.py`: 공통 fixture 추가 (필요시)",
+            "status": "done",
+            "testStrategy": "1. fixture 초기화 후 모든 서비스 객체가 정상 생성되는지 검증\n2. `scope=\"class\"` 적용으로 인한 서비스 재사용 확인\n3. 인증 토큰 캐싱이 올바르게 동작하는지 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:38:53.576Z"
+          },
+          {
+            "id": 2,
+            "title": "시세 조회 → 지정가 매수 주문 → 잔고 확인 E2E 시나리오 구현",
+            "description": "AAPL 등 대표 종목에 대해 시세 조회 후 지정가 매수 주문을 제출하고, 잔고에 반영되는지 확인하는 핵심 E2E 시나리오를 테스트로 구현한다.",
+            "dependencies": [
+              1
+            ],
+            "details": "## 구현 상세\n\n### 1. 시나리오 흐름\n```python\n# tests/test_kis_e2e.py - 새 테스트 메서드\ndef test_scenario_quote_buy_balance(self, kis_context):\n    \"\"\"시나리오: AAPL 시세 조회 → 1주 매수 → 잔고 확인\"\"\"\n    quote_service = kis_context[\"quote\"]\n    order_service = kis_context[\"order\"]\n    account_service = kis_context[\"account\"]\n    client = kis_context[\"client\"]\n    \n    # 1. 시세 조회\n    quote = quote_service.get_quote(\"AAPL\")\n    assert quote.last > 0\n    \n    # 2. 지정가 매수 (현재가 + 1% - 체결 안 되도록)\n    limit_price = quote.last * 1.01\n    order = order_service.submit_order(\"AAPL\", 1, limit_price, \"buy\")\n    assert order.order_no\n    \n    # 3. Rate limit 대기\n    client._smart_sleep()\n    \n    # 4. 잔고 조회\n    balances = account_service.get_balance()\n    assert isinstance(balances, list)\n```\n\n### 2. 참고 구현\n- `scripts/kis_smoke.py:49-89`: 동일한 흐름 구현되어 있음\n- `test_kis_e2e.py:234-274`: `test_10_full_flow` 이미 유사 시나리오 존재\n\n### 3. 변경 파일\n- `tests/test_kis_e2e.py`: 새 테스트 메서드 추가",
+            "status": "done",
+            "testStrategy": "1. 시세 조회 성공 확인 (quote.last > 0)\n2. 주문 제출 후 주문번호(order.order_no) 반환 확인\n3. 잔고 조회 성공 확인 (리스트 타입)",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:38:55.360Z"
+          },
+          {
+            "id": 3,
+            "title": "체결 내역 조회 및 주문 취소 시나리오 구현",
+            "description": "주문 제출 후 체결 내역(fills)을 조회하고, 미체결 주문에 대한 취소 로직을 테스트하는 시나리오를 구현한다.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "## 구현 상세\n\n### 1. 체결 내역 조회 테스트\n```python\n# tests/test_kis_e2e.py\ndef test_scenario_fills_after_order(self, kis_context):\n    \"\"\"시나리오: 주문 후 체결 내역 조회\"\"\"\n    account = kis_context[\"account\"]\n    \n    # 오늘 날짜 기준 체결 내역 조회\n    from datetime import datetime\n    today = datetime.now().strftime(\"%Y%m%d\")\n    \n    fills = account.get_fills(today, today)\n    assert isinstance(fills, list)\n    \n    # 각 체결 내역 검증\n    for fill in fills:\n        assert fill.symbol  # 심볼 존재\n        assert fill.qty >= 0  # 수량 >= 0\n        assert fill.price >= 0  # 가격 >= 0\n```\n\n### 2. 참고 구현\n- `test_kis_e2e.py:129-142`: `test_05_get_fills` 이미 존재\n- `kis_account.py:109-200`: `get_fills` 메서드 구현\n\n### 3. 주문 취소 (향후 확장)\n- 현재 `kis_order.py`에 취소 메서드 미구현\n- 이 태스크에서는 체결 내역 조회만 검증\n\n### 4. 변경 파일\n- `tests/test_kis_e2e.py`: 체결 내역 조회 테스트 추가/확장",
+            "status": "done",
+            "testStrategy": "1. 체결 내역 조회 후 리스트 타입 확인\n2. 각 Execution 객체의 필수 필드(symbol, qty, price, status, side) 존재 확인\n3. 날짜 범위 검증 (잘못된 날짜 형식 시 에러)",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:38:57.338Z"
+          },
+          {
+            "id": 4,
+            "title": "에러 케이스 및 예외 상황 테스트 구현",
+            "description": "잘못된 심볼, 잘못된 수량, 잘못된 가격, 거래 시간 외 주문 등 예외 상황에 대한 E2E 테스트를 구현한다.",
+            "dependencies": [
+              1
+            ],
+            "details": "## 구현 상세\n\n### 1. 에러 케이스 테스트\n```python\n# tests/test_kis_e2e.py\nclass TestKISE2EErrorCases:\n    \"\"\"E2E 에러 케이스 테스트.\"\"\"\n    \n    def test_invalid_symbol_quote(self, kis_context):\n        \"\"\"잘못된 심볼로 시세 조회 시 에러\"\"\"\n        quote_service = kis_context[\"quote\"]\n        \n        with pytest.raises(ValueError):\n            quote_service.get_quote(\"INVALID_SYMBOL_XYZ123\")\n    \n    def test_empty_symbol_order(self, kis_context):\n        \"\"\"빈 심볼로 주문 시 에러\"\"\"\n        order_service = kis_context[\"order\"]\n        \n        with pytest.raises(ValueError, match=\"symbol은 비어 있을 수 없습니다\"):\n            order_service.submit_order(\"\", 1, 100.0, \"buy\")\n    \n    def test_zero_qty_order(self, kis_context):\n        \"\"\"수량 0으로 주문 시 에러\"\"\"\n        order_service = kis_context[\"order\"]\n        \n        with pytest.raises(ValueError, match=\"qty는 0보다 커야 합니다\"):\n            order_service.submit_order(\"AAPL\", 0, 150.0, \"buy\")\n    \n    def test_invalid_side_order(self, kis_context):\n        \"\"\"잘못된 주문 방향 시 에러\"\"\"\n        order_service = kis_context[\"order\"]\n        \n        with pytest.raises(ValueError, match=\"side는 buy 또는 sell이어야\"):\n            order_service.submit_order(\"AAPL\", 1, 150.0, \"hold\")\n```\n\n### 2. 참고 구현\n- `test_kis_e2e.py:179-186`: `test_08_get_quote_invalid_symbol` 이미 존재\n- `test_kis_e2e.py:191-212`: `test_09_order_validation` 이미 존재\n- `test_kis_integration.py:242-477`: Mock 기반 에러 케이스 테스트 존재\n\n### 3. 변경 파일\n- `tests/test_kis_e2e.py`: 에러 케이스 테스트 확장",
+            "status": "done",
+            "testStrategy": "1. ValueError 예외가 적절한 메시지와 함께 발생하는지 확인\n2. 각 에러 케이스별 예상 에러 메시지 매칭\n3. KISAPIError 발생 시 적절한 에러 코드 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:38:59.232Z"
+          },
+          {
+            "id": 5,
+            "title": "E2E 테스트 실행 환경 및 CI 통합 설정",
+            "description": "E2E 테스트를 위한 환경변수 설정, pytest 마커 활용, 테스트 실행 가이드를 정리하고 CI 환경에서의 스킵 로직을 구현한다.",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "## 구현 상세\n\n### 1. 환경변수 설정\n```bash\n# E2E 테스트 실행을 위한 환경 설정\nexport BROKER=kis\nexport RUN_KIS_SMOKE=true\n```\n\n### 2. pytest 마커 활용\n```python\n# tests/conftest.py - 이미 구현됨\ndef pytest_collection_modifyitems(config, items):\n    if os.getenv(\"RUN_KIS_SMOKE\") == \"true\":\n        return\n    skip_kis_smoke = pytest.mark.skip(reason=\"need RUN_KIS_SMOKE=true\")\n    for item in items:\n        if \"kis_smoke\" in item.keywords:\n            item.add_marker(skip_kis_smoke)\n```\n\n### 3. 테스트 실행 명령어\n```bash\n# 모든 E2E 테스트 실행\nRUN_KIS_SMOKE=true pytest tests/test_kis_e2e.py -v\n\n# 특정 시나리오만 실행\nRUN_KIS_SMOKE=true pytest tests/test_kis_e2e.py::TestKISE2E::test_scenario_quote_buy_balance -v\n\n# 스모크 마커가 있는 모든 테스트\nRUN_KIS_SMOKE=true pytest -m kis_smoke -v\n```\n\n### 4. 참고 구현\n- `pytest.ini`: kis_smoke 마커 정의됨\n- `tests/conftest.py:18-32`: 마커 등록 및 스킵 로직\n\n### 5. 변경 파일\n- `tests/conftest.py`: 필요시 추가 마커 등록\n- `pytest.ini`: 필요시 마커 설명 보강",
+            "status": "done",
+            "testStrategy": "1. RUN_KIS_SMOKE=true 설정 시 E2E 테스트 실행 확인\n2. 환경변수 미설정 시 E2E 테스트 스킵 확인\n3. pytest -m kis_smoke 명령어로 마커 기반 테스트 선택 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:27:08.693Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T06:38:59.232Z"
+      },
+      {
+        "id": "5",
+        "title": "BaseAgent KIS 모드 분기 로직 추가",
+        "description": "기존 BaseAgent가 BROKER=kis 환경변수로 KIS 모드를 활성화하고 모의투자 계좌로 거래할 수 있도록 분기 로직을 추가한다.",
+        "details": "## 구현 상세\n\n### 1. 현재 구조 분석\n- `BaseAgent`는 MCP 도구를 통해 거래 실행 (`tool_trade.py`)\n- `tool_trade.py`는 이미 `is_kis_broker()` 체크 구현됨\n- `kis_context.py`에서 KIS 서비스 어댑터 제공\n\n### 2. BaseAgent 수정 (agent/base_agent/base_agent.py)\n```python\nfrom integrations.kis_settings import is_kis_broker, get_broker_mode\n\nclass BaseAgent:\n    def __init__(self, ...):\n        # ... 기존 코드 ...\n        self.broker_mode = get_broker_mode()  # \"kis\" or \"local\"\n        \n    async def initialize(self) -> None:\n        \"\"\"Initialize MCP client and AI model\"\"\"\n        print(f\"🚀 Initializing agent: {self.signature}\")\n        print(f\"📊 Broker mode: {self.broker_mode}\")\n        \n        if self.broker_mode == \"kis\":\n            self._validate_kis_config()\n        \n        # ... 기존 초기화 로직 ...\n    \n    def _validate_kis_config(self) -> None:\n        \"\"\"KIS 모드일 때 설정 유효성 검증\"\"\"\n        from integrations.kis_settings import load_kis_settings\n        try:\n            settings = load_kis_settings()\n            print(f\"✅ KIS 설정 로드 성공\")\n            print(f\"   계좌: {settings.my_paper_stock[:4]}****\")\n        except Exception as e:\n            raise RuntimeError(\n                f\"❌ KIS 설정 로드 실패: {e}\\n\"\n                f\"   kis_devlp.yaml 파일을 확인하세요.\"\n            )\n```\n\n### 3. MCP 설정 자동 조정\n```python\ndef _get_default_mcp_config(self) -> Dict[str, Dict[str, Any]]:\n    config = {\n        \"math\": {...},\n        \"trade\": {\n            \"transport\": \"streamable_http\",\n            \"url\": f\"http://localhost:{os.getenv('TRADE_HTTP_PORT', '8002')}/mcp\",\n        },\n    }\n    \n    # KIS 모드면 stock_local 대신 KIS 시세 사용 (동일 서버)\n    if self.broker_mode == \"kis\":\n        config[\"stock_local\"] = {\n            \"transport\": \"streamable_http\", \n            \"url\": f\"http://localhost:{os.getenv('GETPRICE_HTTP_PORT', '8003')}/mcp\",\n        }\n    else:\n        config[\"stock_local\"] = {...}  # 기존 로컬 데이터\n    \n    return config\n```\n\n### 4. 거래 세션 로깅 강화\n```python\nasync def run_trading_session(self, today_date: str) -> None:\n    print(f\"📈 Starting trading session: {today_date}\")\n    print(f\"📊 Broker: {self.broker_mode}\")\n    # ...\n```",
+        "testStrategy": "1. `BROKER=kis` 환경변수 설정 후 BaseAgent 초기화 테스트\n2. KIS 설정 파일 없을 때 명확한 에러 메시지 출력 확인\n3. `BROKER=local` (기본값)일 때 기존 동작 유지 확인\n4. MCP 도구 연결 후 `is_kis_broker()` 반환값 일관성 확인",
+        "priority": "high",
+        "dependencies": [
+          "2",
+          "3",
+          "4"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "BaseAgent에 broker_mode 속성 및 get_broker_mode 연동 추가",
+            "description": "BaseAgent 클래스의 __init__ 메서드에 broker_mode 속성을 추가하고, integrations.kis_settings의 get_broker_mode 함수를 통해 현재 브로커 모드(kis/local)를 자동 감지하도록 구현합니다.",
+            "dependencies": [],
+            "details": "agent/base_agent/base_agent.py의 __init__ 메서드에서:\n1. `from integrations.kis_settings import get_broker_mode, is_kis_broker`를 상단에 import\n2. self.broker_mode = get_broker_mode() 속성 추가 (line 259 근처)\n3. 기존 코드와의 호환성을 유지하면서 broker_mode 속성이 'kis' 또는 'local' 값을 가지도록 설정\n4. kis_settings.py의 get_broker_mode()는 이미 BROKER 환경변수를 읽어 정규화된 값을 반환하므로 그대로 활용",
+            "status": "done",
+            "testStrategy": "BROKER=kis 환경변수 설정 시 broker_mode가 'kis'로, BROKER 미설정 또는 local일 때 'local'로 설정되는지 단위 테스트로 검증",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:48:56.678Z"
+          },
+          {
+            "id": 2,
+            "title": "initialize 메서드에 KIS 설정 유효성 검증 로직 추가",
+            "description": "BaseAgent의 initialize 메서드에서 broker_mode가 'kis'일 때 KIS 설정 파일(kis_devlp.yaml)의 존재 여부와 필수 필드를 검증하는 _validate_kis_config 메서드를 구현합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "agent/base_agent/base_agent.py에서:\n1. _validate_kis_config(self) 프라이빗 메서드 추가\n2. integrations.kis_settings의 load_kis_settings() 호출하여 설정 로드 시도\n3. 성공 시: 계좌번호 앞 4자리만 마스킹하여 로그 출력 (예: '✅ KIS 설정 로드 성공, 계좌: 5012****')\n4. 실패 시: RuntimeError를 발생시키고 kis_devlp.yaml 파일 경로와 함께 명확한 에러 메시지 제공\n5. initialize() 메서드(line 330) 시작부에 broker_mode 체크 후 _validate_kis_config() 호출 추가",
+            "status": "done",
+            "testStrategy": "1. KIS 모드에서 설정 파일 존재 시 초기화 성공 확인\n2. KIS 모드에서 설정 파일 없을 때 RuntimeError와 명확한 에러 메시지 출력 확인\n3. local 모드에서는 검증 로직이 스킵되는지 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:48:58.293Z"
+          },
+          {
+            "id": 3,
+            "title": "initialize 및 run_trading_session 로깅에 브로커 모드 정보 추가",
+            "description": "에이전트 초기화 및 거래 세션 시작 시 현재 브로커 모드(kis/local)를 로그로 출력하여 운영자가 쉽게 확인할 수 있도록 합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "agent/base_agent/base_agent.py에서:\n1. initialize() 메서드(line 332)에 `print(f'📊 Broker mode: {self.broker_mode}')` 추가\n2. run_trading_session() 메서드(line 444)에 `print(f'📊 Broker: {self.broker_mode}')` 추가\n3. KIS 모드일 경우 추가 정보 출력: 모의투자/실전투자 구분 (현재는 모의투자 전용이므로 '🧪 Mode: Paper Trading' 출력)\n4. 기존 로깅 패턴(이모지 사용)과 일관성 유지",
+            "status": "done",
+            "testStrategy": "초기화 및 거래 세션 시작 시 콘솔 출력에 브로커 모드 정보가 포함되는지 수동 확인 및 로그 캡처 테스트",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:48:59.937Z"
+          },
+          {
+            "id": 4,
+            "title": "_get_default_mcp_config에서 브로커 모드별 MCP 설정 분기 처리",
+            "description": "기존 _get_default_mcp_config 메서드가 broker_mode에 따라 적절한 MCP 서버 설정을 반환하도록 분기 로직을 추가합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "agent/base_agent/base_agent.py의 _get_default_mcp_config() 메서드(line 309-328)에서:\n1. self.broker_mode 값에 따른 분기 추가\n2. 'kis' 모드: 현재 설정 그대로 유지 (이미 tool_trade.py와 tool_get_price_local.py가 is_kis_broker()로 KIS API 사용)\n3. 'local' 모드: 동일한 MCP 서버를 사용하되, 내부적으로 tool들이 local 모드 처리\n4. 향후 확장성을 위해 stock_local 서버 URL을 모드별로 다르게 설정할 수 있는 구조로 준비\n5. 환경변수 GETPRICE_HTTP_PORT, TRADE_HTTP_PORT 등은 모드와 무관하게 동일하게 사용",
+            "status": "done",
+            "testStrategy": "1. broker_mode='kis'일 때 반환되는 MCP 설정 구조 검증\n2. broker_mode='local'일 때 기존 설정과 동일한지 확인\n3. 설정된 URL로 MCP 클라이언트 연결 가능 여부 통합 테스트",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:49:01.591Z"
+          },
+          {
+            "id": 5,
+            "title": "BaseAgent KIS 모드 분기 로직 통합 테스트 작성",
+            "description": "BaseAgent의 KIS 모드 분기 로직이 올바르게 동작하는지 검증하는 통합 테스트를 작성합니다. 환경변수 설정, 설정 파일 검증, MCP 연결 등을 테스트합니다.",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "tests/test_base_agent_kis.py 파일 생성:\n1. TestBaseAgentBrokerMode 테스트 클래스 작성\n2. test_broker_mode_kis_with_valid_config: BROKER=kis 환경변수 + 유효한 설정으로 초기화 성공 테스트\n3. test_broker_mode_kis_without_config: BROKER=kis 환경변수 + 설정 파일 없을 때 RuntimeError 발생 테스트\n4. test_broker_mode_local_default: BROKER 환경변수 없을 때 local 모드로 동작 테스트\n5. test_is_kis_broker_consistency: BaseAgent.broker_mode와 is_kis_broker() 반환값 일치 테스트\n6. unittest.mock.patch를 사용하여 환경변수와 설정 파일을 모킹\n7. 기존 tests/test_kis_settings.py의 패턴을 참고하여 일관된 테스트 스타일 유지",
+            "status": "done",
+            "testStrategy": "pytest tests/test_base_agent_kis.py 실행하여 모든 테스트 케이스 통과 확인. CI/CD 파이프라인에 통합하여 회귀 방지",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:49:03.252Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T06:49:03.252Z"
+      },
+      {
+        "id": "6",
+        "title": "에이전트 시스템 프롬프트 KIS 모드 안내 추가",
+        "description": "KIS 브로커 모드일 때 에이전트가 지정가 주문만 가능하고, 실시간 시세를 사용한다는 점을 시스템 프롬프트에 안내한다.",
+        "details": "## 구현 상세\n\n### 1. 시스템 프롬프트 수정 (prompts/agent_prompt.py)\n```python\nfrom integrations.kis_settings import is_kis_broker\n\nagent_system_prompt_kis_addon = \"\"\"\n\n## 브로커 정보\n- 브로커: 한국투자증권(KIS) 모의투자\n- 주문 방식: 지정가 주문만 지원 (시장가 미지원)\n- 시세: KIS API 실시간 시세 (REST)\n\n## 주문 시 주의사항\n- buy/sell 호출 시 반드시 limit_price 파라미터를 지정해야 합니다.\n- 시세 조회 후 적절한 지정가를 계산하여 주문하세요.\n- 예: 현재가 * 1.01 (매수), 현재가 * 0.99 (매도)\n\n## 거래 가능 시간\n- 미국 주식: 미국 동부시간 09:30-16:00 (한국시간 23:30-06:00, 섬머타임 적용)\n- 거래 시간 외에는 주문이 체결되지 않을 수 있습니다.\n\"\"\"\n\ndef get_agent_system_prompt(\n    today_date: str, signature: str, market: str = \"us\", stock_symbols: Optional[List[str]] = None\n) -> str:\n    base_prompt = agent_system_prompt.format(...)\n    \n    if is_kis_broker():\n        return base_prompt + agent_system_prompt_kis_addon\n    \n    return base_prompt\n```\n\n### 2. KIS 모드 전용 예시 추가\n```python\nkis_order_example = \"\"\"\n## 주문 예시\n1. AAPL 10주 매수 (현재가 150달러 기준)\n   - get_price_local(\"AAPL\", \"2025-12-05\") 호출\n   - 현재가 확인 후 buy(\"AAPL\", 10, 151.50) 호출\n\n2. 보유 MSFT 5주 매도\n   - get_position() 으로 보유량 확인\n   - get_price_local(\"MSFT\", \"2025-12-05\") 호출\n   - sell(\"MSFT\", 5, 420.00) 호출\n\"\"\"\n```",
+        "testStrategy": "1. `BROKER=kis` 환경변수 설정 후 `get_agent_system_prompt()` 호출하여 KIS 안내 포함 확인\n2. `BROKER=local` 일 때 KIS 안내가 포함되지 않는지 확인\n3. 에이전트 실행 시 limit_price 없이 주문 시도 시 에러 발생 확인",
+        "priority": "medium",
+        "dependencies": [
+          "5"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "KIS 모드용 시스템 프롬프트 애드온 문자열 정의",
+            "description": "prompts/agent_prompt.py에 KIS 브로커 모드에서 추가될 시스템 프롬프트 문자열(agent_system_prompt_kis_addon)을 정의합니다. 브로커 정보, 주문 방식(지정가만 지원), 시세 소스(KIS API REST), 주문 시 주의사항(limit_price 필수), 거래 가능 시간 정보를 포함합니다.",
+            "dependencies": [],
+            "details": "prompts/agent_prompt.py 상단에 새로운 문자열 상수 agent_system_prompt_kis_addon을 추가합니다. 내용에는 브로커 정보(한국투자증권 모의투자), 주문 방식(지정가 주문만 지원, 시장가 미지원), 시세 소스(KIS API 실시간 시세 REST), buy/sell 호출 시 limit_price 파라미터 필수 지정 안내, 현재가 기준 지정가 계산 예시(매수: 현재가*1.01, 매도: 현재가*0.99), 미국 주식 거래 가능 시간(동부시간 09:30-16:00, 한국시간 23:30-06:00, 섬머타임 적용 여부) 등을 포함합니다.",
+            "status": "done",
+            "testStrategy": "agent_system_prompt_kis_addon 문자열이 올바르게 정의되어 있는지 확인하고, 필수 키워드(limit_price, 지정가, KIS, 거래 가능 시간)가 포함되어 있는지 검증합니다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:57:31.072Z"
+          },
+          {
+            "id": 2,
+            "title": "get_agent_system_prompt 함수에 KIS 모드 분기 추가",
+            "description": "get_agent_system_prompt 함수를 수정하여 is_kis_broker() 호출 결과에 따라 KIS 애드온 프롬프트를 기본 프롬프트에 추가하는 로직을 구현합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "prompts/agent_prompt.py의 get_agent_system_prompt 함수 내에서 integrations.kis_settings 모듈의 is_kis_broker 함수를 import합니다. 기존 agent_system_prompt.format(...) 호출 후 반환 전에 is_kis_broker() 조건을 확인하여 True이면 base_prompt에 agent_system_prompt_kis_addon을 이어붙여 반환하고, False이면 기존 base_prompt만 반환합니다. 현재 코드에서는 줄 81-88에서 format 후 바로 반환하므로 이 부분을 수정해야 합니다.",
+            "status": "done",
+            "testStrategy": "BROKER=kis 환경변수 설정 후 get_agent_system_prompt() 호출 시 반환값에 KIS 안내 문구가 포함되는지 확인합니다. BROKER=local일 때 KIS 안내가 포함되지 않는지 확인합니다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:57:32.712Z"
+          },
+          {
+            "id": 3,
+            "title": "KIS 모드 전용 주문 예시 프롬프트 추가",
+            "description": "KIS 모드에서 에이전트가 올바르게 주문할 수 있도록 구체적인 주문 예시(get_price_local 호출 후 buy/sell 호출 플로우)를 포함한 예시 프롬프트를 정의합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "agent_system_prompt_kis_addon 문자열에 주문 예시 섹션을 추가하거나 별도의 kis_order_example 문자열을 정의합니다. 예시 내용: 1) AAPL 10주 매수 - get_price_local(\"AAPL\", \"2025-12-05\") 호출하여 현재가 확인, 현재가 150달러 기준 buy(\"AAPL\", 10, 151.50) 호출. 2) 보유 MSFT 5주 매도 - get_position()으로 보유량 확인, get_price_local(\"MSFT\", \"2025-12-05\") 호출, sell(\"MSFT\", 5, 420.00) 호출. 이 예시는 에이전트가 지정가 주문 플로우를 이해하도록 돕습니다.",
+            "status": "done",
+            "testStrategy": "프롬프트에 주문 예시가 포함되어 있는지 확인하고, 예시 코드가 실제 tool_trade.py의 buy/sell 함수 시그니처와 일치하는지 검증합니다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:57:34.343Z"
+          },
+          {
+            "id": 4,
+            "title": "A주(agent_prompt_astock.py) 및 기타 프롬프트에 KIS 모드 일관성 적용",
+            "description": "agent_prompt_astock.py 등 다른 프롬프트 모듈에도 KIS 모드 분기 로직을 필요에 따라 적용하여 일관된 동작을 보장합니다.",
+            "dependencies": [
+              2
+            ],
+            "details": "현재 prompts/agent_prompt_astock.py는 중국 A주 전용이므로 KIS 모드와 직접적인 관련은 없을 수 있습니다. 그러나 향후 확장성을 고려하여 get_agent_system_prompt_astock 함수에도 is_kis_broker() 체크 패턴을 문서화하거나, 공통 헬퍼 함수를 만들어 프롬프트 확장 로직을 재사용할 수 있도록 리팩토링합니다. 최소한 agent_prompt.py의 변경사항이 다른 프롬프트 모듈에 영향을 주지 않는지 확인합니다.",
+            "status": "done",
+            "testStrategy": "agent_prompt_astock.py의 함수가 기존대로 동작하는지 확인합니다. 중국 시장(market=cn) 설정 시 KIS 안내가 불필요하게 추가되지 않는지 검증합니다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:57:35.984Z"
+          },
+          {
+            "id": 5,
+            "title": "KIS 모드 프롬프트 통합 테스트 및 에이전트 동작 검증",
+            "description": "BROKER=kis 환경에서 에이전트를 실행하여 시스템 프롬프트에 KIS 안내가 포함되고, limit_price 없이 주문 시 에러가 발생하는지 종합 검증합니다.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "1) BROKER=kis 환경변수 설정 후 get_agent_system_prompt() 호출하여 반환값에 '지정가', 'limit_price', 'KIS', '거래 가능 시간' 등의 키워드가 포함되어 있는지 단위 테스트로 확인합니다. 2) BROKER=local일 때 KIS 안내가 포함되지 않는지 확인합니다. 3) tool_trade.py의 buy/sell 함수에서 limit_price=None일 때 ValueError가 발생하는지 기존 테스트를 통해 확인합니다(scripts/kis_smoke.py 활용 가능). 4) 실제 에이전트 세션 시작 시 로그에 KIS 관련 안내가 출력되는지 확인합니다.",
+            "status": "done",
+            "testStrategy": "pytest를 사용한 단위 테스트: is_kis_broker() True/False에 따른 프롬프트 반환값 검증. 통합 테스트: BROKER=kis로 BaseAgent 초기화 후 run_trading_session 호출 시 에러 없이 실행되고 프롬프트가 올바르게 구성되는지 확인.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T06:57:37.612Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T06:57:37.612Z"
+      },
+      {
+        "id": "7",
+        "title": "포지션 로그 통합 (position.jsonl + kis_orders.jsonl)",
+        "description": "기존 position.jsonl 로그와 KIS 주문 로그(kis_orders.jsonl)를 통합하거나 연동하는 메커니즘을 구현한다.",
+        "details": "## 구현 상세\n\n### 1. 현재 로그 구조\n- `position.jsonl`: 일별 포지션 스냅샷\n  ```json\n  {\"date\": \"2025-12-05\", \"id\": 0, \"positions\": {\"AAPL\": 10, \"CASH\": 5000}}\n  ```\n- `kis_orders.jsonl`: KIS 주문 기록\n  ```json\n  {\"timestamp\": \"2025-12-05\", \"order_no\": \"123\", \"message\": \"...\", \"status\": \"...\"}\n  ```\n\n### 2. 통합 로그 포맷 설계\n```python\n# agent_tools/tool_trade.py 수정\ndef _log_kis_order(result: Any, side: str, symbol: str, qty: int, price: float) -> None:\n    \"\"\"KIS 주문 결과를 kis_orders.jsonl에 기록.\"\"\"\n    entry = {\n        \"timestamp\": datetime.now().isoformat(),\n        \"date\": get_config_value(\"TODAY_DATE\"),\n        \"order_no\": result.order_no,\n        \"symbol\": symbol,\n        \"side\": side,\n        \"qty\": qty,\n        \"limit_price\": price,\n        \"message\": result.message,\n        \"status\": \"submitted\",  # submitted, filled, cancelled\n        \"broker\": \"kis\"\n    }\n    # 파일 기록 로직...\n```\n\n### 3. 포지션 동기화 함수\n```python\n# tools/price_tools.py 또는 새 파일에 추가\ndef sync_kis_position_to_log(signature: str, date: str) -> None:\n    \"\"\"KIS 잔고를 조회하여 position.jsonl에 동기화.\"\"\"\n    from agent_tools.kis_context import kis_balance_adapter\n    \n    if not is_kis_broker():\n        return\n    \n    # KIS 잔고 조회\n    balance = kis_balance_adapter()\n    \n    # position.jsonl 형식으로 변환\n    positions = {k: v for k, v in balance.items() if not k.startswith(\"_\")}\n    \n    # 로그 기록\n    log_entry = {\n        \"date\": date,\n        \"id\": _get_next_id(signature),\n        \"positions\": positions,\n        \"source\": \"kis_api\"\n    }\n    # 파일 기록...\n```\n\n### 4. 거래 세션 종료 시 동기화\n```python\n# BaseAgent._handle_trading_result() 수정\nasync def _handle_trading_result(self, today_date: str) -> None:\n    if self.broker_mode == \"kis\":\n        sync_kis_position_to_log(self.signature, today_date)\n    # ... 기존 로직 ...\n```",
+        "testStrategy": "1. KIS 모드에서 주문 실행 후 kis_orders.jsonl에 기록 확인\n2. 거래 세션 종료 후 position.jsonl에 KIS 잔고 동기화 확인\n3. 두 로그 파일 간 일관성 검증 (동일 날짜, 동일 포지션)\n4. 기존 local 모드에서 position.jsonl 동작 유지 확인",
+        "priority": "medium",
+        "dependencies": [
+          "5"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "kis_orders.jsonl 로그 포맷 확장 및 표준화",
+            "description": "_log_kis_order() 함수를 확장하여 symbol, side, qty, limit_price 등 주문 상세 정보를 기록하고, position.jsonl과 연동 가능한 표준 필드 구조를 정의한다.",
+            "dependencies": [],
+            "details": "agent_tools/tool_trade.py의 _log_kis_order() 함수(line 20-44)를 수정하여 현재 누락된 필드들(symbol, side, qty, price)을 entry에 추가한다. 'date' 필드는 position.jsonl과 동일한 YYYY-MM-DD 형식으로 저장하고, 'source': 'kis_api' 필드를 추가하여 KIS 주문임을 명시한다. buy()와 sell() 함수에서 _log_kis_order() 호출 시 필요한 파라미터를 전달하도록 수정한다.",
+            "status": "done",
+            "testStrategy": "KIS 모드에서 buy/sell 주문 실행 후 kis_orders.jsonl에 모든 필드(timestamp, date, order_no, symbol, side, qty, limit_price, message, status, broker, source)가 올바르게 기록되는지 확인한다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:01:39.404Z"
+          },
+          {
+            "id": 2,
+            "title": "sync_kis_position_to_log() 동기화 함수 구현",
+            "description": "KIS API 잔고를 조회하여 position.jsonl 형식으로 변환하고 기록하는 sync_kis_position_to_log() 함수를 구현한다.",
+            "dependencies": [
+              1
+            ],
+            "details": "새로운 함수 sync_kis_position_to_log(signature, date)를 구현한다. kis_balance_adapter()(kis_context.py:74)를 호출하여 현재 KIS 잔고를 조회하고, _TOTAL_VALUE, _FILLS 같은 내부 메타데이터 필드를 제외한 순수 포지션 데이터를 추출한다. position.jsonl의 마지막 id를 읽어 다음 id를 부여하고, {'date': date, 'id': next_id, 'positions': positions, 'source': 'kis_api'} 형식으로 기록한다. 이 함수는 agent_tools/kis_context.py 또는 새 파일(tools/position_sync.py)에 위치시킨다.",
+            "status": "done",
+            "testStrategy": "테스트용 KIS 계좌에서 sync_kis_position_to_log() 호출 후 position.jsonl에 KIS 잔고가 올바르게 반영되는지 확인한다. CASH와 보유 종목 수량이 KIS API 응답과 일치하는지 검증한다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:04:03.135Z"
+          },
+          {
+            "id": 3,
+            "title": "BaseAgent._handle_trading_result()에 KIS 동기화 로직 통합",
+            "description": "거래 세션 종료 시 KIS 모드인 경우 자동으로 sync_kis_position_to_log()를 호출하여 포지션을 동기화한다.",
+            "dependencies": [
+              2
+            ],
+            "details": "agent/base_agent/base_agent.py의 _handle_trading_result() 메서드(line 552-565)를 수정한다. self.broker_mode == 'kis'인 경우 sync_kis_position_to_log(self.signature, today_date)를 호출하여 KIS 실제 잔고를 position.jsonl에 동기화한다. 기존 local 모드 로직(add_no_trade_record)은 그대로 유지하고, KIS 모드에서는 실제 잔고 기반으로 동기화한다. 오류 발생 시 적절한 로깅과 예외 처리를 추가한다.",
+            "status": "done",
+            "testStrategy": "KIS 모드에서 거래 세션 완료 후 position.jsonl에 'source': 'kis_api' 필드가 포함된 새 레코드가 추가되는지 확인한다. KIS API 잔고와 기록된 포지션이 일치하는지 검증한다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:04:28.690Z"
+          },
+          {
+            "id": 4,
+            "title": "로그 일관성 검증 유틸리티 함수 구현",
+            "description": "position.jsonl과 kis_orders.jsonl 간 데이터 일관성을 검증하는 유틸리티 함수를 구현한다.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "validate_log_consistency(signature, date) 함수를 구현하여 동일 날짜의 kis_orders.jsonl 주문 기록과 position.jsonl 포지션 변화가 일관성이 있는지 검증한다. 매수 주문이 있으면 해당 종목 포지션이 증가했는지, 매도 주문이 있으면 감소했는지 확인한다. 불일치 발견 시 경고 로그를 출력하고 불일치 상세 정보를 반환한다. 이 함수는 디버깅 및 감사 목적으로 사용된다.",
+            "status": "done",
+            "testStrategy": "의도적으로 불일치 상황을 만들어 validate_log_consistency()가 올바르게 감지하는지 확인한다. 정상적인 거래 시나리오에서 일관성 검증이 통과하는지 확인한다.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:04:04.758Z"
+          },
+          {
+            "id": 5,
+            "title": "Local 모드 역호환성 테스트 및 통합 테스트 작성",
+            "description": "기존 local 모드에서 position.jsonl 동작이 변경 없이 유지되는지 확인하고, KIS 모드 통합 테스트를 작성한다.",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "tests/test_position_log_integration.py 테스트 파일을 작성한다. 테스트 케이스: (1) BROKER=local일 때 기존 position.jsonl 기록 방식 유지 확인, (2) BROKER=kis일 때 주문 후 kis_orders.jsonl 기록 확인, (3) BROKER=kis일 때 세션 종료 후 position.jsonl에 KIS 잔고 동기화 확인, (4) 두 로그 파일 간 일관성 검증 확인. 모의투자 환경 또는 mock을 사용하여 테스트한다.",
+            "status": "done",
+            "testStrategy": "pytest로 test_position_log_integration.py 실행하여 모든 테스트 케이스 통과 확인. CI 파이프라인에서 RUN_KIS_E2E=true 환경변수로 실제 API 테스트 수행.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:07:39.986Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T07:07:39.986Z"
+      },
+      {
+        "id": "8",
+        "title": "KIS WebSocket 클라이언트 구현 (kis_websocket.py)",
+        "description": "KIS Open API WebSocket을 통해 실시간 시세 및 체결 통보를 수신하는 클라이언트를 구현한다.",
+        "details": "## 구현 상세\n\n### 1. WebSocket 클라이언트 클래스\n```python\n# integrations/kis_websocket.py\nimport asyncio\nimport json\nimport logging\nfrom typing import Callable, Dict, Optional, Any\nimport websockets\nfrom dataclasses import dataclass\nfrom datetime import datetime\n\nfrom integrations.kis_settings import KISSettings\n\nlogger = logging.getLogger(__name__)\n\n@dataclass\nclass RealtimeTick:\n    symbol: str\n    price: float\n    volume: int\n    timestamp: datetime\n    side: str  # \"buy\" or \"sell\"\n\n\nclass KISWebSocketClient:\n    \"\"\"KIS 실시간 시세 WebSocket 클라이언트.\"\"\"\n    \n    # TR ID 매핑 (모의투자)\n    TR_REALTIME_QUOTE = \"HDFSCNT0\"   # 실시간 체결가\n    TR_REALTIME_ORDERBOOK = \"HDFSASP0\"  # 실시간 호가\n    TR_EXECUTION_NOTICE = \"H0GSCNI9\"  # 체결 통보 (모의)\n    \n    def __init__(\n        self,\n        settings: KISSettings,\n        *,\n        on_tick: Optional[Callable[[RealtimeTick], None]] = None,\n        on_execution: Optional[Callable[[Dict], None]] = None,\n        reconnect_interval: float = 5.0,\n        heartbeat_interval: float = 30.0,\n    ) -> None:\n        self.settings = settings\n        self.ws_url = settings.vops  # 모의투자 WebSocket URL\n        self.on_tick = on_tick\n        self.on_execution = on_execution\n        self.reconnect_interval = reconnect_interval\n        self.heartbeat_interval = heartbeat_interval\n        \n        self._ws: Optional[websockets.WebSocketClientProtocol] = None\n        self._running = False\n        self._subscribed_symbols: set[str] = set()\n    \n    async def connect(self) -> None:\n        \"\"\"WebSocket 연결 수립.\"\"\"\n        try:\n            self._ws = await websockets.connect(self.ws_url)\n            logger.info(f\"WebSocket 연결 성공: {self.ws_url}\")\n            self._running = True\n        except Exception as e:\n            logger.error(f\"WebSocket 연결 실패: {e}\")\n            raise\n    \n    async def subscribe_quote(self, symbol: str, exchange: str = \"NAS\") -> None:\n        \"\"\"실시간 체결가 구독.\"\"\"\n        tr_key = f\"D{exchange}{symbol}\"  # 예: DNASAAPL\n        msg = {\n            \"header\": {\n                \"approval_key\": self._get_ws_approval_key(),\n                \"custtype\": \"P\",\n                \"tr_type\": \"1\",  # 등록\n                \"content-type\": \"utf-8\",\n            },\n            \"body\": {\n                \"input\": {\n                    \"tr_id\": self.TR_REALTIME_QUOTE,\n                    \"tr_key\": tr_key,\n                }\n            }\n        }\n        await self._send(msg)\n        self._subscribed_symbols.add(symbol)\n    \n    async def _recv_loop(self) -> None:\n        \"\"\"메시지 수신 루프.\"\"\"\n        while self._running and self._ws:\n            try:\n                data = await asyncio.wait_for(\n                    self._ws.recv(),\n                    timeout=self.heartbeat_interval + 10\n                )\n                await self._handle_message(data)\n            except asyncio.TimeoutError:\n                logger.warning(\"WebSocket 타임아웃, 재연결 시도...\")\n                await self._reconnect()\n            except websockets.exceptions.ConnectionClosed:\n                logger.warning(\"WebSocket 연결 종료, 재연결 시도...\")\n                await self._reconnect()\n    \n    async def _handle_message(self, data: str) -> None:\n        \"\"\"수신 메시지 파싱 및 콜백 호출.\"\"\"\n        # 파싱 로직 (open-trading-api 참조)\n        # ...\n```\n\n### 2. WebSocket 승인키 발급\n```python\ndef _get_ws_approval_key(self) -> str:\n    \"\"\"WebSocket 접속용 승인키 발급.\"\"\"\n    # REST API로 승인키 발급 후 반환\n    # POST /oauth2/Approval\n    pass\n```\n\n### 3. 참조 코드\n- `open-trading-api/examples_user/overseas_stock/overseas_stock_functions_ws.py`",
+        "testStrategy": "1. WebSocket 연결 수립 테스트\n2. AAPL 실시간 시세 구독 및 수신 테스트\n3. 체결 통보 구독 및 수신 테스트 (주문 실행 후)\n4. 연결 끊김 시 자동 재연결 테스트\n5. 하트비트 타임아웃 처리 테스트",
+        "priority": "medium",
+        "dependencies": [
+          "2"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "WebSocket 승인키 발급 기능 구현 (KISWebSocketAuthenticator)",
+            "description": "KIS WebSocket 접속을 위한 승인키(approval_key) 발급 기능을 구현한다. REST API POST /oauth2/Approval 엔드포인트를 호출하여 승인키를 발급받고 캐싱하는 클래스를 작성한다.",
+            "dependencies": [],
+            "details": "## 구현 내용\n\n### 1. 파일 위치\n`integrations/kis_websocket.py`\n\n### 2. KISWebSocketAuthenticator 클래스\n```python\nclass KISWebSocketAuthenticator:\n    \"\"\"WebSocket 승인키 발급 및 관리.\"\"\"\n    \n    APPROVAL_ENDPOINT = \"/oauth2/Approval\"\n    \n    def __init__(self, settings: KISSettings, svr: str = \"vps\") -> None:\n        self.settings = settings\n        self.svr = svr  # \"vps\" 모의투자 / \"prod\" 실전\n        self._approval_key: Optional[str] = None\n        self._expires_at: Optional[datetime] = None\n    \n    def _get_base_url(self) -> str:\n        return self.settings.vps if self.svr == \"vps\" else self.settings.prod\n    \n    def get_approval_key(self, force: bool = False) -> str:\n        \"\"\"승인키 발급/캐시 반환.\"\"\"\n        # 캐시된 키가 유효하면 재사용\n        # 만료되었거나 force=True면 재발급\n        pass\n    \n    def _request_approval_key(self) -> str:\n        \"\"\"POST /oauth2/Approval 호출.\"\"\"\n        # grant_type: client_credentials\n        # appkey: paper_app (모의) / my_app (실전)\n        # secretkey: paper_sec (모의) / my_sec (실전)\n        pass\n```\n\n### 3. 참조\n- `open-trading-api/examples_user/kis_auth.py:475-510` (auth_ws 함수)\n- `open-trading-api/examples_llm/auth/auth_ws_token/auth_ws_token.py`\n\n### 4. 주의사항\n- 승인키는 1일 유효, 재발급 시 기존 키 무효화\n- KISSettings.paper_app/paper_sec (모의) 또는 my_app/my_sec (실전) 사용\n- requests 라이브러리로 동기 HTTP 호출",
+            "status": "done",
+            "testStrategy": "1. Mock requests로 승인키 발급 응답 테스트\n2. 캐시된 승인키 재사용 확인\n3. 만료 후 재발급 확인\n4. 잘못된 설정 시 적절한 예외 발생 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:20:06.501Z"
+          },
+          {
+            "id": 2,
+            "title": "KISWebSocketClient 기본 연결 및 메시지 핸들링 구현",
+            "description": "asyncio와 websockets 라이브러리를 사용하여 KIS WebSocket에 연결하고, 메시지를 수신/파싱하는 기본 클라이언트 클래스를 구현한다.",
+            "dependencies": [
+              1
+            ],
+            "details": "## 구현 내용\n\n### 1. 파일 위치\n`integrations/kis_websocket.py`\n\n### 2. 데이터 클래스\n```python\n@dataclass\nclass RealtimeTick:\n    symbol: str\n    price: float\n    volume: int\n    timestamp: datetime\n    side: str  # \"buy\" or \"sell\"\n    change: float\n    change_rate: float\n```\n\n### 3. KISWebSocketClient 클래스\n```python\nclass KISWebSocketClient:\n    # TR ID 상수\n    TR_REALTIME_QUOTE = \"HDFSCNT0\"  # 해외주식 실시간지연체결가\n    TR_REALTIME_ORDERBOOK = \"HDFSASP0\"  # 해외주식 실시간호가\n    TR_EXECUTION_NOTICE_DEMO = \"H0GSCNI9\"  # 체결 통보 (모의)\n    TR_EXECUTION_NOTICE_PROD = \"H0GSCNI0\"  # 체결 통보 (실전)\n    \n    def __init__(\n        self,\n        authenticator: KISWebSocketAuthenticator,\n        *,\n        on_tick: Optional[Callable[[RealtimeTick], Awaitable[None]]] = None,\n        on_execution: Optional[Callable[[Dict], Awaitable[None]]] = None,\n    ) -> None:\n        pass\n    \n    async def connect(self) -> None:\n        \"\"\"WebSocket URL에 연결.\"\"\"\n        # settings.vops (모의) 또는 settings.ops (실전)\n        pass\n    \n    async def _recv_loop(self) -> None:\n        \"\"\"메시지 수신 루프.\"\"\"\n        pass\n    \n    async def _handle_message(self, data: str) -> None:\n        \"\"\"수신 메시지 파싱 및 콜백 호출.\"\"\"\n        # 첫 글자가 0/1이면 데이터, 아니면 시스템 응답\n        pass\n```\n\n### 4. 메시지 파싱 로직\n- `open-trading-api/examples_user/kis_auth.py:666-708` 참조\n- 데이터: `0|TR_ID|CNT|DATA` 또는 `1|TR_ID|CNT|ENCRYPTED_DATA`\n- 시스템: JSON 형식 (등록 확인, PINGPONG 등)\n\n### 5. AES-CBC 복호화\n- encrypt=\"Y\"인 경우 kis_auth.py의 aes_cbc_base64_dec 활용\n- pycryptodome 패키지 필요",
+            "status": "done",
+            "testStrategy": "1. Mock websockets로 연결 테스트\n2. 데이터 메시지 파싱 테스트 (체결가 응답)\n3. 시스템 메시지 (PINGPONG, 등록확인) 처리 테스트\n4. 암호화된 메시지 복호화 테스트",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:20:08.165Z"
+          },
+          {
+            "id": 3,
+            "title": "실시간 시세 구독/해제 기능 구현",
+            "description": "특정 종목의 실시간 체결가(HDFSCNT0) 및 호가(HDFSASP0)를 구독하고 해제하는 기능을 구현한다.",
+            "dependencies": [
+              2
+            ],
+            "details": "## 구현 내용\n\n### 1. 구독 메시지 형식\n```python\nasync def subscribe_quote(self, symbol: str, exchange: str = \"NAS\") -> None:\n    \"\"\"실시간 체결가 구독.\n    \n    Args:\n        symbol: 종목 코드 (예: AAPL)\n        exchange: 거래소 코드 (NAS, NYS, AMS 등)\n    \"\"\"\n    tr_key = f\"D{exchange}{symbol}\"  # 예: DNASAAPL\n    msg = {\n        \"header\": {\n            \"approval_key\": self._auth.get_approval_key(),\n            \"custtype\": \"P\",\n            \"tr_type\": \"1\",  # 1=등록, 2=해제\n            \"content-type\": \"utf-8\",\n        },\n        \"body\": {\n            \"input\": {\n                \"tr_id\": self.TR_REALTIME_QUOTE,\n                \"tr_key\": tr_key,\n            }\n        }\n    }\n    await self._send(msg)\n    self._subscribed_symbols.add(symbol)\n\nasync def unsubscribe_quote(self, symbol: str, exchange: str = \"NAS\") -> None:\n    \"\"\"실시간 체결가 구독 해제.\"\"\"\n    # tr_type: \"2\"\n    pass\n```\n\n### 2. TR_KEY 형식\n- 해외주식 체결가: `D{거래소}{종목코드}` 예: DNASAAPL\n- 미국주간거래: 거래소=BAQ(나스닥)/BAY(뉴욕)/BAA(아멕스)\n\n### 3. 응답 컬럼 매핑 (HDFSCNT0)\n```python\nQUOTE_COLUMNS = [\n    \"SYMB\", \"ZDIV\", \"TYMD\", \"XYMD\", \"XHMS\", \"KYMD\", \"KHMS\",\n    \"OPEN\", \"HIGH\", \"LOW\", \"LAST\", \"SIGN\", \"DIFF\", \"RATE\",\n    \"PBID\", \"PASK\", \"VBID\", \"VASK\", \"EVOL\", \"TVOL\", \"TAMT\",\n    \"BIVL\", \"ASVL\", \"STRN\", \"MTYP\"\n]\n```\n\n### 4. 참조\n- `open-trading-api/examples_user/overseas_stock/overseas_stock_functions_ws.py:223-293` (delayed_ccnl)\n- `open-trading-api/examples_user/overseas_stock/overseas_stock_examples_ws.py:44` (구독 예시)",
+            "status": "done",
+            "testStrategy": "1. 구독 메시지 형식 검증\n2. tr_key 생성 로직 테스트 (거래소별)\n3. 구독 후 _subscribed_symbols 업데이트 확인\n4. 해제 시 tr_type=\"2\" 전송 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:20:09.800Z"
+          },
+          {
+            "id": 4,
+            "title": "체결 통보 구독 및 파싱 구현",
+            "description": "WebSocket을 통해 주문 체결 통보(H0GSCNI9/H0GSCNI0)를 수신하고 파싱하는 기능을 구현한다.",
+            "dependencies": [
+              2
+            ],
+            "details": "## 구현 내용\n\n### 1. 체결 통보 구독\n```python\nasync def subscribe_execution_notice(self, hts_id: str) -> None:\n    \"\"\"체결 통보 구독.\n    \n    Args:\n        hts_id: HTS ID (my_htsid)\n    \"\"\"\n    tr_id = self.TR_EXECUTION_NOTICE_DEMO if self._is_demo else self.TR_EXECUTION_NOTICE_PROD\n    msg = {\n        \"header\": {\n            \"approval_key\": self._auth.get_approval_key(),\n            \"custtype\": \"P\",\n            \"tr_type\": \"1\",\n            \"content-type\": \"utf-8\",\n        },\n        \"body\": {\n            \"input\": {\n                \"tr_id\": tr_id,\n                \"tr_key\": hts_id,\n            }\n        }\n    }\n    await self._send(msg)\n```\n\n### 2. 체결 통보 응답 컬럼 (H0GSCNI9)\n```python\nEXECUTION_COLUMNS = [\n    \"CUST_ID\", \"ACNT_NO\", \"ODER_NO\", \"OODER_NO\",\n    \"SELN_BYOV_CLS\", \"RCTF_CLS\", \"ODER_KIND2\",\n    \"STCK_SHRN_ISCD\", \"CNTG_QTY\", \"CNTG_UNPR\",\n    \"STCK_CNTG_HOUR\", \"RFUS_YN\", \"CNTG_YN\", \"ACPT_YN\",\n    \"BRNC_NO\", \"ODER_QTY\", \"ACNT_NAME\", \"CNTG_ISNM\",\n    \"ODER_COND\", \"DEBT_GB\", \"DEBT_DATE\",\n    \"START_TM\", \"END_TM\", \"TM_DIV_TP\"\n]\n```\n\n### 3. 파싱 함수\n```python\ndef parse_execution_notice(self, data: str) -> Dict[str, Any]:\n    \"\"\"체결 통보 메시지 파싱.\"\"\"\n    parts = data.split(\"^\")\n    result = dict(zip(self.EXECUTION_COLUMNS, parts))\n    return {\n        \"order_no\": result.get(\"ODER_NO\"),\n        \"symbol\": result.get(\"STCK_SHRN_ISCD\"),\n        \"qty\": int(result.get(\"CNTG_QTY\", 0)),\n        \"price\": float(result.get(\"CNTG_UNPR\", 0)),\n        \"side\": \"sell\" if result.get(\"SELN_BYOV_CLS\") == \"01\" else \"buy\",\n        \"timestamp\": result.get(\"STCK_CNTG_HOUR\"),\n        \"is_filled\": result.get(\"CNTG_YN\") == \"Y\",\n    }\n```\n\n### 4. 참조\n- `open-trading-api/examples_user/overseas_stock/overseas_stock_functions_ws.py:79-152` (ccnl_notice)",
+            "status": "done",
+            "testStrategy": "1. 체결 통보 구독 메시지 형식 검증\n2. 응답 파싱 테스트 (^로 분리된 데이터)\n3. 매수/매도 구분 (SELN_BYOV_CLS) 테스트\n4. on_execution 콜백 호출 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:20:11.407Z"
+          },
+          {
+            "id": 5,
+            "title": "자동 재연결 및 하트비트 처리 구현",
+            "description": "WebSocket 연결 끊김 시 자동 재연결, PINGPONG 하트비트 응답, 구독 복원 기능을 구현한다.",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "## 구현 내용\n\n### 1. 재연결 로직\n```python\nclass KISWebSocketClient:\n    def __init__(\n        self,\n        ...,\n        reconnect_interval: float = 5.0,\n        max_retries: int = 3,\n        heartbeat_timeout: float = 40.0,  # PINGPONG 간격 30초 + 여유\n    ) -> None:\n        self._reconnect_interval = reconnect_interval\n        self._max_retries = max_retries\n        self._heartbeat_timeout = heartbeat_timeout\n        self._retry_count = 0\n    \n    async def _reconnect(self) -> None:\n        \"\"\"재연결 수행.\"\"\"\n        if self._retry_count >= self._max_retries:\n            raise ConnectionError(\"최대 재연결 횟수 초과\")\n        \n        self._retry_count += 1\n        await asyncio.sleep(self._reconnect_interval)\n        await self.connect()\n        await self._resubscribe_all()  # 기존 구독 복원\n        self._retry_count = 0  # 성공 시 리셋\n    \n    async def _resubscribe_all(self) -> None:\n        \"\"\"모든 구독 복원.\"\"\"\n        for symbol in self._subscribed_symbols:\n            await self.subscribe_quote(symbol)\n```\n\n### 2. PINGPONG 처리\n```python\nasync def _handle_message(self, data: str) -> None:\n    # ... 기존 파싱 로직 ...\n    \n    if data[0] not in (\"0\", \"1\"):  # 시스템 메시지\n        parsed = json.loads(data)\n        if parsed.get(\"header\", {}).get(\"tr_id\") == \"PINGPONG\":\n            await self._ws.pong(data)  # 그대로 응답\n            return\n```\n\n### 3. 수신 루프 타임아웃\n```python\nasync def _recv_loop(self) -> None:\n    while self._running and self._ws:\n        try:\n            data = await asyncio.wait_for(\n                self._ws.recv(),\n                timeout=self._heartbeat_timeout\n            )\n            await self._handle_message(data)\n        except asyncio.TimeoutError:\n            logger.warning(\"WebSocket 하트비트 타임아웃, 재연결...\")\n            await self._reconnect()\n        except websockets.ConnectionClosed:\n            logger.warning(\"WebSocket 연결 종료, 재연결...\")\n            await self._reconnect()\n```\n\n### 4. 참조\n- `open-trading-api/examples_user/kis_auth.py:698-701` (PINGPONG 처리)\n- `open-trading-api/examples_user/kis_auth.py:715-731` (재연결 루프)",
+            "status": "done",
+            "testStrategy": "1. 연결 끊김 시 자동 재연결 테스트\n2. 최대 재시도 횟수 초과 시 예외 발생 확인\n3. PINGPONG 메시지 수신 시 pong 응답 확인\n4. 재연결 후 기존 구독 복원 확인\n5. 하트비트 타임아웃 시 재연결 트리거 테스트",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:20:13.016Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T07:20:13.016Z"
+      },
+      {
+        "id": "9",
+        "title": "실시간 시세 캐싱 및 에이전트 연동",
+        "description": "WebSocket으로 수신한 실시간 시세를 캐싱하고, 에이전트가 이를 활용할 수 있도록 연동한다.",
+        "details": "## 구현 상세\n\n### 1. 시세 캐시 매니저\n```python\n# integrations/kis_quote_cache.py\nfrom collections import defaultdict\nfrom datetime import datetime, timedelta\nfrom threading import Lock\nfrom typing import Dict, Optional\nfrom dataclasses import dataclass\n\n@dataclass\nclass CachedQuote:\n    symbol: str\n    price: float\n    timestamp: datetime\n    source: str  # \"rest\" or \"websocket\"\n\n\nclass KISQuoteCache:\n    \"\"\"실시간 시세 캐시.\"\"\"\n    \n    def __init__(self, ttl_seconds: float = 5.0) -> None:\n        self._cache: Dict[str, CachedQuote] = {}\n        self._lock = Lock()\n        self._ttl = timedelta(seconds=ttl_seconds)\n    \n    def update(self, symbol: str, price: float, source: str = \"websocket\") -> None:\n        \"\"\"시세 업데이트.\"\"\"\n        with self._lock:\n            self._cache[symbol] = CachedQuote(\n                symbol=symbol,\n                price=price,\n                timestamp=datetime.now(),\n                source=source\n            )\n    \n    def get(self, symbol: str) -> Optional[CachedQuote]:\n        \"\"\"캐시된 시세 조회 (TTL 초과 시 None).\"\"\"\n        with self._lock:\n            quote = self._cache.get(symbol)\n            if quote and datetime.now() - quote.timestamp < self._ttl:\n                return quote\n            return None\n    \n    def get_or_fetch(self, symbol: str, fetch_fn) -> float:\n        \"\"\"캐시 히트 시 캐시값, 미스 시 REST 조회.\"\"\"\n        cached = self.get(symbol)\n        if cached:\n            return cached.price\n        \n        # REST API로 조회\n        price = fetch_fn(symbol)\n        self.update(symbol, price, source=\"rest\")\n        return price\n\n\n# 전역 캐시 인스턴스\n_quote_cache: Optional[KISQuoteCache] = None\n\ndef get_quote_cache() -> KISQuoteCache:\n    global _quote_cache\n    if _quote_cache is None:\n        _quote_cache = KISQuoteCache()\n    return _quote_cache\n```\n\n### 2. kis_context.py 수정\n```python\ndef kis_quote_adapter(symbol: str) -> Quote:\n    cache = get_quote_cache()\n    \n    def fetch_from_rest(sym: str) -> float:\n        service = ensure_kis_quote_service()\n        quote = service.get_quote(sym)\n        return quote.last\n    \n    # 캐시 우선 조회\n    price = cache.get_or_fetch(symbol, fetch_from_rest)\n    \n    # Quote 객체 반환 (간소화)\n    return Quote(\n        symbol=symbol,\n        last=price,\n        prev_close=0,  # 캐시에서는 간소화\n        change=0,\n        change_rate=0,\n        volume=None\n    )\n```\n\n### 3. WebSocket과 캐시 연동\n```python\n# WebSocket 콜백에서 캐시 업데이트\ndef on_tick_received(tick: RealtimeTick) -> None:\n    cache = get_quote_cache()\n    cache.update(tick.symbol, tick.price, source=\"websocket\")\n```",
+        "testStrategy": "1. 캐시 TTL 내 동일 심볼 조회 시 캐시 히트 확인\n2. TTL 초과 후 REST API 재조회 확인\n3. WebSocket 시세 수신 시 캐시 자동 업데이트 확인\n4. 멀티스레드 환경에서 캐시 동시 접근 안정성 테스트",
+        "priority": "medium",
+        "dependencies": [
+          "8"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "KISQuoteCache 클래스 및 CachedQuote 데이터 모델 구현",
+            "description": "실시간 시세를 저장하고 관리하기 위한 캐시 매니저 클래스와 캐시 데이터 모델을 구현합니다. TTL 기반 만료 로직과 스레드 안전한 접근을 지원합니다.",
+            "dependencies": [],
+            "details": "integrations/kis_quote_cache.py 파일을 새로 생성합니다. CachedQuote 데이터클래스(symbol, price, timestamp, source, volume 등)와 KISQuoteCache 클래스를 구현합니다. KISQuoteCache는 threading.Lock을 사용한 스레드 안전한 딕셔너리 기반 캐시, TTL(기본 5초) 기반 만료 로직, update()/get()/get_or_fetch() 메서드를 포함합니다. 전역 싱글톤 인스턴스 패턴(get_quote_cache())도 함께 구현합니다.",
+            "status": "done",
+            "testStrategy": "1. 캐시 인스턴스 생성 및 데이터 저장/조회 테스트\n2. TTL 내 조회 시 캐시 히트 확인\n3. TTL 초과 후 조회 시 None 반환 확인\n4. threading.Lock을 통한 동시 접근 안전성 테스트",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:30:30.760Z"
+          },
+          {
+            "id": 2,
+            "title": "WebSocket 시세 수신 시 캐시 자동 업데이트 연동",
+            "description": "Task 8에서 구현될 KISWebSocket 클라이언트의 실시간 시세 수신 콜백에서 캐시를 자동으로 업데이트하는 로직을 구현합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "kis_websocket.py의 on_tick_received 또는 유사한 콜백 함수에서 get_quote_cache().update() 호출을 추가합니다. RealtimeTick 데이터(symbol, price, volume, timestamp)를 파싱하여 CachedQuote 형태로 캐시에 저장합니다. source는 'websocket'으로 설정하여 REST API 조회와 구분합니다. 연결 상태와 구독 상태에 따른 예외 처리도 포함합니다.",
+            "status": "done",
+            "testStrategy": "1. Mock WebSocket 메시지 수신 시 캐시 업데이트 확인\n2. 동일 심볼의 연속 업데이트 시 최신값 유지 확인\n3. 잘못된 형식의 메시지 수신 시 예외 처리 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:31:36.263Z"
+          },
+          {
+            "id": 3,
+            "title": "kis_context.py의 kis_quote_adapter 캐시 연동 수정",
+            "description": "agent_tools/kis_context.py의 kis_quote_adapter 함수를 수정하여 캐시를 우선 조회하고, 캐시 미스 시에만 REST API를 호출하도록 변경합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "kis_quote_adapter() 함수에서 get_quote_cache().get(symbol)을 먼저 호출합니다. 캐시 히트 시 CachedQuote의 price를 사용하여 Quote 객체를 생성합니다. 캐시 미스 시 기존 KISQuoteService.get_quote()를 호출하고, 결과를 캐시에 저장(source='rest')합니다. get_or_fetch() 패턴을 활용하여 코드를 간결하게 유지합니다.",
+            "status": "done",
+            "testStrategy": "1. 캐시 히트 시 REST API 호출 없이 캐시값 반환 확인\n2. 캐시 미스 시 REST API 호출 및 캐시 저장 확인\n3. TTL 만료 후 REST API 재호출 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:32:13.603Z"
+          },
+          {
+            "id": 4,
+            "title": "캐시 통계 및 모니터링 메서드 추가",
+            "description": "캐시 성능 모니터링을 위한 통계 메서드와 디버깅용 유틸리티를 KISQuoteCache 클래스에 추가합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "KISQuoteCache에 다음 메서드를 추가합니다: get_stats() - 캐시 히트/미스 카운트, 현재 캐시 항목 수 반환, clear() - 전체 캐시 초기화, get_all_symbols() - 현재 캐시된 모든 심볼 목록 반환, is_fresh(symbol) - 특정 심볼의 캐시가 유효한지 확인. 내부적으로 _hit_count, _miss_count 카운터를 관리합니다.",
+            "status": "done",
+            "testStrategy": "1. 캐시 히트/미스 발생 시 카운트 증가 확인\n2. clear() 호출 후 캐시 비움 및 통계 리셋 확인\n3. get_all_symbols() 반환값 정확성 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:33:04.045Z"
+          },
+          {
+            "id": 5,
+            "title": "캐시 모듈 단위 테스트 및 멀티스레드 테스트 작성",
+            "description": "KISQuoteCache의 전체 기능에 대한 단위 테스트와 멀티스레드 환경에서의 동시성 테스트를 작성합니다.",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "tests/test_kis_quote_cache.py 파일을 생성합니다. 테스트 케이스: 기본 CRUD 동작 테스트, TTL 만료 테스트(time.sleep 또는 mock), get_or_fetch 콜백 호출 테스트, 멀티스레드 동시 접근 테스트(concurrent.futures.ThreadPoolExecutor 사용), 캐시 통계 정확성 테스트. pytest fixture를 활용하여 테스트 격리를 보장합니다.",
+            "status": "done",
+            "testStrategy": "1. 모든 단위 테스트 통과 확인 (pytest tests/test_kis_quote_cache.py)\n2. 10개 이상의 스레드에서 동시 읽기/쓰기 시 데이터 무결성 확인\n3. 코드 커버리지 80% 이상 달성",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:34:48.232Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T07:34:48.232Z"
+      },
+      {
+        "id": "10",
+        "title": "체결 통보 수신 및 로깅 구현",
+        "description": "WebSocket으로 주문 체결 통보를 수신하고 kis_orders.jsonl에 체결 상태를 업데이트한다.",
+        "details": "## 구현 상세\n\n### 1. 체결 통보 핸들러\n```python\n# integrations/kis_websocket.py 확장\nfrom typing import Dict, Any\n\ndef parse_execution_notice(data: str) -> Dict[str, Any]:\n    \"\"\"체결 통보 메시지 파싱.\"\"\"\n    # H0GSCNI9 (모의투자 체결 통보) 응답 파싱\n    # 참조: overseas_stock_functions_ws.py의 ccnl_notice 함수\n    parts = data.split(\"^\")\n    columns = [\n        \"CUST_ID\", \"ACNT_NO\", \"ODER_NO\", \"OODER_NO\",\n        \"SELN_BYOV_CLS\", \"RCTF_CLS\", \"ODER_KIND2\",\n        \"STCK_SHRN_ISCD\", \"CNTG_QTY\", \"CNTG_UNPR\",\n        \"STCK_CNTG_HOUR\", \"RFUS_YN\", \"CNTG_YN\", \"ACPT_YN\",\n        # ...\n    ]\n    return dict(zip(columns, parts))\n\n\nclass KISWebSocketClient:\n    # ... 기존 코드 ...\n    \n    async def subscribe_execution_notice(self) -> None:\n        \"\"\"체결 통보 구독.\"\"\"\n        tr_id = self.TR_EXECUTION_NOTICE  # H0GSCNI9\n        msg = {\n            \"header\": {\n                \"approval_key\": self._get_ws_approval_key(),\n                \"custtype\": \"P\",\n                \"tr_type\": \"1\",\n                \"content-type\": \"utf-8\",\n            },\n            \"body\": {\n                \"input\": {\n                    \"tr_id\": tr_id,\n                    \"tr_key\": self.settings.my_htsid,  # HTS ID\n                }\n            }\n        }\n        await self._send(msg)\n    \n    async def _handle_execution(self, data: Dict[str, Any]) -> None:\n        \"\"\"체결 통보 처리.\"\"\"\n        execution = {\n            \"order_no\": data.get(\"ODER_NO\"),\n            \"symbol\": data.get(\"STCK_SHRN_ISCD\"),\n            \"qty\": int(data.get(\"CNTG_QTY\", 0)),\n            \"price\": float(data.get(\"CNTG_UNPR\", 0)),\n            \"side\": \"buy\" if data.get(\"SELN_BYOV_CLS\") == \"02\" else \"sell\",\n            \"filled_at\": data.get(\"STCK_CNTG_HOUR\"),\n            \"status\": \"filled\" if data.get(\"CNTG_YN\") == \"Y\" else \"pending\",\n        }\n        \n        # 로그 업데이트\n        self._update_order_log(execution)\n        \n        # 콜백 호출\n        if self.on_execution:\n            self.on_execution(execution)\n```\n\n### 2. 로그 업데이트 로직\n```python\ndef _update_order_log(self, execution: Dict[str, Any]) -> None:\n    \"\"\"kis_orders.jsonl의 해당 주문 상태 업데이트.\"\"\"\n    # 기존 로그 파일 읽기\n    # order_no 매칭하여 status 업데이트\n    # 또는 체결 기록 추가\n    log_entry = {\n        \"timestamp\": datetime.now().isoformat(),\n        \"type\": \"execution\",\n        **execution\n    }\n    # 파일 기록...\n```\n\n### 3. 에이전트에 체결 알림\n```python\n# 체결 시 에이전트 컨텍스트에 알림\ndef notify_agent_execution(execution: Dict) -> None:\n    \"\"\"에이전트에 체결 통보 전달.\"\"\"\n    symbol = execution[\"symbol\"]\n    qty = execution[\"qty\"]\n    side = execution[\"side\"]\n    print(f\"🔔 체결 통보: {symbol} {qty}주 {side}\")\n```",
+        "testStrategy": "1. 주문 실행 후 체결 통보 수신 확인\n2. kis_orders.jsonl에 체결 상태(filled) 업데이트 확인\n3. 부분 체결 시 잔여 수량 처리 확인\n4. 체결 콜백 함수 정상 호출 확인",
+        "priority": "medium",
+        "dependencies": [
+          "7",
+          "8"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "체결 통보 수신 핸들러 및 콜백 시스템 확장",
+            "description": "KISWebSocketClient의 체결 통보 수신 기능을 확장하여 ExecutionNotice를 처리하고 외부 핸들러에 전달하는 시스템을 구현한다.",
+            "dependencies": [],
+            "details": "kis_websocket.py의 KISWebSocketClient 클래스에 체결 통보 처리를 위한 추가 핸들러 등록 기능을 구현한다. 현재 on_execution 콜백만 있는데, 주문 로그 업데이트용 on_execution_log_update 콜백을 추가하거나, ExecutionNoticeHandler 프로토콜을 정의하여 여러 핸들러를 등록할 수 있도록 확장한다. _dispatch_callback 메서드에서 체결 통보 TR_ID(H0GSCNI0/H0GSCNI9) 수신 시 파싱된 ExecutionNotice 객체를 모든 등록된 핸들러에 전달하도록 수정한다.",
+            "status": "done",
+            "testStrategy": "체결 통보 메시지 mock 데이터를 생성하여 _handle_data_message 호출 시 on_execution 콜백이 정상 호출되는지 확인. 여러 핸들러 등록 후 모두 호출되는지 테스트.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:38:08.833Z"
+          },
+          {
+            "id": 2,
+            "title": "kis_orders.jsonl 주문 상태 업데이트 로직 구현",
+            "description": "체결 통보 수신 시 kis_orders.jsonl 파일의 해당 주문 상태를 업데이트하는 OrderLogUpdater 클래스를 구현한다.",
+            "dependencies": [
+              1
+            ],
+            "details": "tools/price_tools.py 또는 새 모듈에 OrderLogUpdater 클래스를 생성한다. 이 클래스는 ExecutionNotice를 받아 kis_orders.jsonl에서 order_no가 일치하는 엔트리를 찾아 status를 'submitted'에서 'filled' 또는 'partial_filled'로 업데이트한다. 부분 체결의 경우 filled_qty 필드를 추가하고 잔여 수량을 계산한다. JSONL 파일 특성상 전체 파일을 읽고 업데이트된 내용으로 다시 쓰거나, 새 체결 기록 라인을 추가하는 방식 중 선택하여 구현한다. 파일 경로는 tool_trade.py의 _log_kis_order와 동일한 패턴을 따른다.",
+            "status": "done",
+            "testStrategy": "테스트용 kis_orders.jsonl 파일을 생성하고, ExecutionNotice로 상태 업데이트 호출 후 파일 내용이 올바르게 변경되었는지 확인. 부분 체결 시나리오도 테스트.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:38:10.509Z"
+          },
+          {
+            "id": 3,
+            "title": "체결 통보와 주문 로그 연동 핸들러 통합",
+            "description": "WebSocket 체결 통보 수신 시 자동으로 kis_orders.jsonl이 업데이트되도록 콜백 핸들러를 연결한다.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "KISWebSocketClient 인스턴스 생성 시 또는 connect 이후에 OrderLogUpdater의 update 메서드를 on_execution 콜백으로 등록하는 팩토리 함수 또는 헬퍼 메서드를 구현한다. agent_tools/kis_context.py 또는 integrations/__init__.py에서 WebSocket 클라이언트 초기화 시 자동으로 로그 업데이트 핸들러가 연결되도록 한다. 체결 통보의 order_no와 kis_orders.jsonl의 order_no 매핑이 정확히 이루어지는지 확인하는 검증 로직도 포함한다.",
+            "status": "done",
+            "testStrategy": "통합 테스트로 WebSocket 연결 → 주문 제출 → 체결 통보 수신 → kis_orders.jsonl 상태 변경까지의 전체 플로우를 mock으로 시뮬레이션하여 검증.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:38:12.167Z"
+          },
+          {
+            "id": 4,
+            "title": "에이전트 체결 통보 알림 기능 구현",
+            "description": "체결 발생 시 에이전트 컨텍스트에 알림을 전달하여 에이전트가 체결 결과를 인지할 수 있도록 한다.",
+            "dependencies": [
+              1
+            ],
+            "details": "agent/base_agent/base_agent.py 또는 agent_tools 모듈에 ExecutionNotificationService 클래스를 구현한다. 체결 통보 수신 시 심볼, 수량, 체결가, 매수/매도 구분 등의 정보를 포함한 알림 메시지를 생성하고 로깅한다. 콘솔 출력(print)과 logging 모듈을 통한 기록을 병행한다. 나중에 에이전트의 컨텍스트 업데이트나 다음 의사결정에 활용할 수 있도록 최근 체결 내역을 메모리에 캐싱하는 기능도 고려한다.",
+            "status": "done",
+            "testStrategy": "체결 통보 수신 시 알림 로그가 정상 출력되는지 확인. 다양한 체결 시나리오(완전 체결, 부분 체결, 주문 거부)에 대한 알림 메시지 형식 테스트.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:39:07.055Z"
+          },
+          {
+            "id": 5,
+            "title": "체결 통보 수신 및 로깅 통합 테스트 작성",
+            "description": "전체 체결 통보 파이프라인(WebSocket 수신 → 파싱 → 로그 업데이트 → 에이전트 알림)에 대한 단위/통합 테스트를 작성한다.",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "tests/test_execution_notice.py 파일을 생성하여 다음 테스트 케이스를 구현한다: 1) 주문 실행 후 체결 통보 수신 시 ExecutionNotice 파싱 정확성, 2) kis_orders.jsonl에 체결 상태(status='filled') 업데이트 확인, 3) 부분 체결 시 filled_qty와 잔여 수량 처리 확인, 4) 체결 콜백 함수(에이전트 알림)가 정상 호출되는지 확인, 5) 주문 거부(RFUS_YN='Y') 시 적절한 상태 업데이트 확인. pytest fixture로 mock WebSocket과 테스트용 jsonl 파일을 설정한다.",
+            "status": "done",
+            "testStrategy": "pytest로 모든 테스트 케이스 실행. Task 설명의 Test Strategy에 명시된 4가지 항목(체결 통보 수신, 상태 업데이트, 부분 체결, 콜백 호출)을 모두 커버하는지 확인.",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:41:42.450Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T07:41:42.450Z"
+      },
+      {
+        "id": "11",
+        "title": "오류 처리 및 Rate Limit 로직 강화",
+        "description": "KIS API 호출 시 오류 처리를 강화하고, Rate Limit(초당 20회) 준수 로직을 검증한다.",
+        "details": "## 구현 상세\n\n### 1. 현재 구현 확인\n- `kis_client.py:92-95`: 429 에러 시 재시도 로직 이미 구현\n- `_smart_sleep()`: kis_auth의 smart_sleep 호출 또는 0.5초 대기\n\n### 2. Rate Limiter 강화\n```python\n# integrations/kis_rate_limiter.py\nimport time\nfrom collections import deque\nfrom threading import Lock\n\nclass RateLimiter:\n    \"\"\"초당 호출 횟수 제한기.\"\"\"\n    \n    def __init__(self, calls_per_second: int = 20) -> None:\n        self.calls_per_second = calls_per_second\n        self._timestamps: deque = deque(maxlen=calls_per_second)\n        self._lock = Lock()\n    \n    def acquire(self) -> None:\n        \"\"\"호출 전 rate limit 확인, 필요 시 대기.\"\"\"\n        with self._lock:\n            now = time.time()\n            \n            # 오래된 타임스탬프 제거\n            while self._timestamps and now - self._timestamps[0] > 1.0:\n                self._timestamps.popleft()\n            \n            # 제한 초과 시 대기\n            if len(self._timestamps) >= self.calls_per_second:\n                sleep_time = 1.0 - (now - self._timestamps[0])\n                if sleep_time > 0:\n                    time.sleep(sleep_time)\n            \n            self._timestamps.append(time.time())\n\n\n# kis_client.py에 적용\nclass KISRestClient:\n    def __init__(self, ...):\n        # ...\n        self._rate_limiter = RateLimiter(calls_per_second=20)\n    \n    def request(self, ...):\n        self._rate_limiter.acquire()  # Rate limit 확인\n        # ... 기존 요청 로직 ...\n```\n\n### 3. 에러 분류 및 처리\n```python\n# integrations/kis_client.py 확장\nclass KISAPIError(RuntimeError):\n    RETRYABLE_CODES = {\"429\", \"EGW00123\"}  # Rate limit, 일시적 오류\n    \n    @property\n    def is_retryable(self) -> bool:\n        return self.code in self.RETRYABLE_CODES\n\n\ndef request(self, ...):\n    for attempt in range(self.max_retries):\n        try:\n            # ... 요청 로직 ...\n        except KISAPIError as e:\n            if e.is_retryable and attempt < self.max_retries - 1:\n                self._smart_sleep()\n                continue\n            raise\n```\n\n### 4. 토큰 만료 자동 갱신\n```python\n# kis_auth_manager.py (이미 구현됨)\ndef authenticate(self, force: bool = False) -> str:\n    now = datetime.now(timezone.utc)\n    if (\n        not force\n        and self._token\n        and self._expires_at\n        and now + self.refresh_margin < self._expires_at\n    ):\n        return self._token\n    \n    # 재인증 로직...\n```",
+        "testStrategy": "1. Rate Limiter 테스트: 25회 연속 호출 시 20회 후 대기 발생 확인\n2. 429 에러 시뮬레이션: 재시도 후 성공 확인\n3. 토큰 만료 시나리오: 24시간 경과 후 자동 갱신 확인\n4. 부하 테스트: 1분간 지속 호출 시 Rate Limit 준수 확인",
+        "priority": "medium",
+        "dependencies": [
+          "3",
+          "4"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "RateLimiter 클래스 구현 (integrations/kis_rate_limiter.py)",
+            "description": "초당 20회 API 호출 제한을 관리하는 RateLimiter 클래스를 새 파일로 생성합니다.",
+            "dependencies": [],
+            "details": "integrations/kis_rate_limiter.py 파일을 생성하여 다음을 구현합니다:\n- `RateLimiter` 클래스: `calls_per_second` 파라미터(기본값 20)를 받음\n- `deque`를 사용한 타임스탬프 관리 (maxlen=calls_per_second)\n- `threading.Lock`을 사용한 스레드 안전성 보장\n- `acquire()` 메서드: 호출 전 rate limit 확인, 1초 내 calls_per_second 초과 시 필요한 시간만큼 대기\n- 오래된 타임스탬프(1초 이상 경과)를 자동으로 제거하는 로직\n- 타입 힌트와 docstring 포함",
+            "status": "done",
+            "testStrategy": "RateLimiter 단위 테스트 작성:\n1. 기본 초기화 테스트 (calls_per_second=20)\n2. 20회 연속 호출 시 대기 없이 통과 확인\n3. 25회 연속 호출 시 20회 후 대기 발생 확인 (time.sleep mock 사용)\n4. 1초 경과 후 타임스탬프 자동 제거 확인\n5. 멀티스레드 환경에서 동시성 테스트",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:48:50.186Z"
+          },
+          {
+            "id": 2,
+            "title": "KISAPIError 클래스에 재시도 가능 여부 판단 로직 추가",
+            "description": "KISAPIError 클래스를 확장하여 특정 에러 코드에 대한 재시도 가능 여부를 판단하는 로직을 추가합니다.",
+            "dependencies": [],
+            "details": "integrations/kis_client.py의 KISAPIError 클래스를 수정합니다:\n- `RETRYABLE_CODES` 클래스 상수 추가: {'429', 'EGW00123', 'EGW00121'} (Rate limit 및 일시적 오류 코드)\n- `is_retryable` 프로퍼티 구현: self.code가 RETRYABLE_CODES에 포함되거나 status_code가 429, 503인 경우 True 반환\n- `is_server_error` 프로퍼티 추가: status_code가 500-599 범위인지 확인\n- 기존 코드와의 하위 호환성 유지",
+            "status": "done",
+            "testStrategy": "KISAPIError 테스트 확장:\n1. RETRYABLE_CODES에 포함된 코드로 생성 시 is_retryable=True 확인\n2. 429 상태 코드로 생성 시 is_retryable=True 확인\n3. 일반 에러 코드로 생성 시 is_retryable=False 확인\n4. 500대 상태 코드로 is_server_error 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:48:51.822Z"
+          },
+          {
+            "id": 3,
+            "title": "KISRestClient에 RateLimiter 통합 및 재시도 로직 개선",
+            "description": "KISRestClient 클래스에 RateLimiter를 통합하고, 에러 분류 기반의 지능적인 재시도 로직을 구현합니다.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "integrations/kis_client.py의 KISRestClient 클래스를 수정합니다:\n1. `__init__`에서 `RateLimiter(calls_per_second=20)` 인스턴스 생성\n2. `request()` 메서드 시작 시 `self._rate_limiter.acquire()` 호출\n3. 재시도 로직 개선:\n   - try-except로 KISAPIError 포착\n   - `e.is_retryable`이 True이고 남은 재시도 횟수가 있으면 `_smart_sleep()` 후 재시도\n   - 지수 백오프(exponential backoff) 옵션 추가: 재시도마다 대기 시간 증가\n4. 기존 429 처리 로직을 새로운 is_retryable 기반 로직으로 대체\n5. 로깅 추가: 재시도 발생 시 warning 레벨 로그 출력",
+            "status": "done",
+            "testStrategy": "KISRestClient 재시도 테스트:\n1. RateLimiter.acquire()가 매 요청 전 호출되는지 확인 (mock)\n2. is_retryable=True 에러 시 재시도 동작 확인\n3. is_retryable=False 에러 시 즉시 예외 발생 확인\n4. max_retries 초과 시 마지막 예외 발생 확인\n5. 지수 백오프 대기 시간 증가 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:48:53.446Z"
+          },
+          {
+            "id": 4,
+            "title": "Rate Limiter 및 재시도 로직 통합 테스트 작성",
+            "description": "실제 시나리오를 모방한 통합 테스트를 작성하여 Rate Limiter와 재시도 로직의 전체 흐름을 검증합니다.",
+            "dependencies": [
+              3
+            ],
+            "details": "tests/test_kis_rate_limit.py 파일을 생성하여 다음 테스트를 작성합니다:\n1. Rate Limiter 통합 테스트:\n   - KISRestClient를 통한 25회 연속 요청 시뮬레이션\n   - 20회 후 대기가 발생하고 이후 요청이 정상 처리되는지 확인\n2. 429 에러 재시도 통합 테스트:\n   - Mock 서버로 첫 2회 429 응답, 3회째 성공 응답 시뮬레이션\n   - 최종적으로 성공 응답 반환 확인\n3. 복합 시나리오 테스트:\n   - Rate limit 도달 + 429 에러가 동시에 발생하는 시나리오\n   - 토큰 만료 후 자동 갱신과 함께 요청 재시도 확인\n4. 부하 테스트:\n   - 60초 동안 지속적인 API 호출 시뮬레이션\n   - 초당 20회 제한이 유지되는지 확인 (총 호출 수 <= 1200)",
+            "status": "done",
+            "testStrategy": "테스트 자체가 검증 항목이므로 모든 테스트가 통과하는지 확인:\n1. pytest tests/test_kis_rate_limit.py 실행\n2. 각 테스트 케이스의 assertion 통과 확인\n3. 테스트 커버리지가 RateLimiter와 재시도 로직의 주요 경로를 포함하는지 확인",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:48:55.065Z"
+          },
+          {
+            "id": 5,
+            "title": "토큰 만료 자동 갱신 검증 및 에러 핸들링 문서화",
+            "description": "기존 토큰 자동 갱신 로직을 검증하고, 전체 에러 처리 흐름을 코드 주석과 docstring으로 문서화합니다.",
+            "dependencies": [
+              3
+            ],
+            "details": "1. kis_auth_manager.py의 토큰 갱신 로직 검증:\n   - `authenticate()` 메서드의 refresh_margin 동작 확인\n   - 24시간 경과 시 자동 재인증 트리거 확인\n   - 토큰 만료 시 RuntimeError 대신 자동 갱신 수행 확인\n2. 에러 핸들링 문서화:\n   - kis_client.py에 에러 코드별 의미 주석 추가 (429, EGW00123 등)\n   - KISAPIError 클래스에 사용 예시 docstring 추가\n   - RateLimiter 클래스에 동작 원리 docstring 추가\n3. README 또는 docs 업데이트:\n   - Rate Limit 정책 설명 (초당 20회)\n   - 자동 재시도 동작 설명\n   - 토큰 관리 흐름도 또는 설명 추가",
+            "status": "done",
+            "testStrategy": "1. 토큰 만료 시나리오 테스트: _expires_at를 과거 시간으로 설정 후 요청 시 자동 갱신 확인\n2. 강제 갱신 테스트: refresh() 호출 시 새 토큰 발급 확인\n3. 문서 검토: 각 클래스/메서드에 docstring이 포함되어 있는지 확인\n4. 실제 KIS 모의투자 환경에서 24시간 이상 동작 테스트 (수동)",
+            "parentId": "undefined",
+            "updatedAt": "2025-12-05T07:48:56.672Z"
+          }
+        ],
+        "updatedAt": "2025-12-05T07:48:56.672Z"
+      },
+      {
+        "id": "12",
+        "title": "문서화 및 사용 가이드 작성",
+        "description": "KIS 모의투자 연동 사용 가이드와 설정 방법을 문서화한다.",
+        "details": "## 구현 상세\n\n### 1. README.md 업데이트 또는 docs/KIS_INTEGRATION.md 생성\n```markdown\n# KIS 모의투자 연동 가이드\n\n## 개요\nAI-Trader는 한국투자증권(KIS) Open API를 통해 미국 주식 모의투자를 지원합니다.\n\n## 사전 준비\n1. KIS Developers 회원가입: https://apiportal.koreainvestment.com\n2. 모의투자 앱 키 발급\n3. 모의투자 계좌 개설\n\n## 설정\n\n### 1. 설정 파일 생성\n```bash\ncp open-trading-api/kis_devlp.yaml.template open-trading-api/kis_devlp.yaml\n```\n\n### 2. 설정 파일 편집\n```yaml\npaper_app: \"발급받은 앱키\"\npaper_sec: \"발급받은 앱시크릿\"\nmy_paper_stock: \"모의투자 계좌번호 8자리\"\nmy_prod: \"01\"\nmy_agent: \"AI-Trader/1.0\"\n```\n\n### 3. 환경변수 설정\n```bash\nexport BROKER=kis\n```\n\n## 실행\n\n### 에이전트 실행\n```bash\npython main.py\n```\n\n### 스모크 테스트\n```bash\npython scripts/kis_smoke.py --symbol AAPL --qty 1\n```\n\n## 지원 기능\n- [x] 시세 조회 (REST API)\n- [x] 지정가 주문 (매수/매도)\n- [x] 잔고 조회\n- [x] 체결 내역 조회\n- [x] 예수금 조회\n- [ ] 실시간 시세 (WebSocket) - Phase 3\n- [ ] 체결 통보 (WebSocket) - Phase 3\n\n## 주의사항\n- 모의투자 전용 설정입니다. 실전투자 전환 시 별도 설정 필요.\n- 시장가 주문은 지원되지 않습니다. 반드시 지정가를 사용하세요.\n- API 호출 제한: 초당 20회\n```\n\n### 2. 코드 주석 보강\n- 각 모듈에 docstring 추가\n- 복잡한 로직에 인라인 주석 추가\n\n### 3. API 참조 문서\n- TR ID 매핑 테이블\n- 에러 코드 목록\n- 응답 필드 설명",
+        "testStrategy": "1. 문서를 따라 신규 환경에서 설정 완료 가능 여부 확인\n2. 각 단계별 명령어 실행 후 예상 결과 일치 확인\n3. 문서 내 링크 유효성 확인\n4. 코드 예시 실행 가능 여부 확인",
+        "priority": "low",
+        "dependencies": [
+          "5",
+          "6",
+          "7"
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2025-12-05T07:48:56.673Z",
+      "taskCount": 11,
+      "completedCount": 10,
+      "tags": [
+        "master"
+      ]
+    }
+  }
+}

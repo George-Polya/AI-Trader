@@ -13,6 +13,7 @@ from typing import Dict, List, Optional
 # Add project root directory to Python path
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
+from integrations.kis_settings import is_kis_broker, is_websocket_enabled
 from tools.general_tools import get_config_value
 from tools.price_tools import (all_nasdaq_100_symbols, all_sse_50_symbols,
                                format_price_dict_with_names, get_open_prices,
@@ -58,6 +59,34 @@ When you think your task is complete, output
 {STOP_SIGNAL}
 """
 
+# KIS broker mode system prompt addon (with placeholder for quote source)
+agent_system_prompt_kis_addon = """
+
+## Broker Information
+- Broker: Korea Investment & Securities (KIS) Paper Trading
+- Order Type: Limit orders only (market orders not supported)
+- Quotes: {quote_source}
+
+## Order Guidelines
+- You MUST specify the limit_price parameter when calling buy/sell.
+- Query the current price first, then calculate an appropriate limit price.
+- Example: current_price * 1.01 (buy), current_price * 0.99 (sell)
+
+## Trading Hours
+- US Stocks: 09:30-16:00 ET (23:30-06:00 KST, daylight saving time applies)
+- Orders placed outside trading hours may not be executed.
+
+## Order Examples
+1. Buy 10 shares of AAPL (assuming current price $150)
+   - Call get_price_local("AAPL", "2025-12-05")
+   - After confirming the price, call buy("AAPL", 10, 151.50)
+
+2. Sell 5 shares of MSFT from holdings
+   - Call get_position() to check holdings
+   - Call get_price_local("MSFT", "2025-12-05")
+   - Call sell("MSFT", 5, 420.00)
+"""
+
 
 def get_agent_system_prompt(
     today_date: str, signature: str, market: str = "us", stock_symbols: Optional[List[str]] = None
@@ -77,8 +106,8 @@ def get_agent_system_prompt(
     today_buy_price = get_open_prices(today_date, stock_symbols, market=market)
     today_init_position = get_today_init_position(today_date, signature)
     # yesterday_profit = get_yesterday_profit(today_date, yesterday_buy_prices, yesterday_sell_prices, today_init_position)
-    
-    return agent_system_prompt.format(
+
+    base_prompt = agent_system_prompt.format(
         date=today_date,
         positions=today_init_position,
         STOP_SIGNAL=STOP_SIGNAL,
@@ -86,6 +115,18 @@ def get_agent_system_prompt(
         today_buy_price=today_buy_price,
         # yesterday_profit=yesterday_profit
     )
+
+    # Include KIS broker mode addon when in KIS mode
+    if is_kis_broker():
+        # Determine quote source based on WebSocket mode
+        if is_websocket_enabled():
+            quote_source = "KIS WebSocket real-time (with REST fallback)"
+        else:
+            quote_source = "KIS REST API"
+        kis_addon = agent_system_prompt_kis_addon.format(quote_source=quote_source)
+        return base_prompt + kis_addon
+
+    return base_prompt
 
 
 if __name__ == "__main__":

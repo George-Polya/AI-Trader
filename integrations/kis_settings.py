@@ -15,6 +15,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_KIS_CONFIG_PATH = PROJECT_ROOT / "open-trading-api" / "kis_devlp.yaml"
 _BROKER_ENV_KEY = "BROKER"
 _DEFAULT_BROKER = "local"
+_WEBSOCKET_ENV_KEY = "USE_WEBSOCKET"
 _SENSITIVE_KEYS = {"paper_app", "paper_sec", "my_app", "my_sec", "my_token"}
 
 
@@ -115,3 +116,18 @@ def get_broker_mode(default: str = _DEFAULT_BROKER) -> str:
 def is_kis_broker() -> bool:
     """현재 브로커 모드가 kis인지 여부."""
     return get_broker_mode() == "kis"
+
+
+def is_websocket_enabled() -> bool:
+    """WebSocket 실시간 시세 활성화 여부.
+
+    BROKER=kis이고 USE_WEBSOCKET=true인 경우에만 True 반환.
+    WebSocket은 KIS 브로커 모드에서만 사용 가능.
+
+    Returns:
+        bool: WebSocket 활성화 여부
+    """
+    if not is_kis_broker():
+        return False
+    raw = get_config_value(_WEBSOCKET_ENV_KEY, "false")
+    return str(raw).strip().lower() in ("true", "1", "yes")

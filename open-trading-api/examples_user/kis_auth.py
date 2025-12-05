@@ -83,13 +83,17 @@ def read_token():
             tkg_tmp = yaml.load(f, Loader=yaml.FullLoader)
 
         # 토큰 만료 일,시간
-        exp_dt = datetime.strftime(tkg_tmp["valid-date"], "%Y-%m-%d %H:%M:%S")
-        # 현재일자,시간
-        now_dt = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+        valid_date = tkg_tmp["valid-date"]
+        # valid-date가 문자열이면 datetime으로 변환
+        if isinstance(valid_date, str):
+            valid_date = datetime.strptime(valid_date, "%Y-%m-%d %H:%M:%S")
 
-        # print('expire dt: ', exp_dt, ' vs now dt:', now_dt)
+        # 현재일자,시간
+        now_dt = datetime.now()
+
+        # print('expire dt: ', valid_date, ' vs now dt:', now_dt)
         # 저장된 토큰 만료일자 체크 (만료일시 > 현재일시 인경우 보관 토큰 리턴)
-        if exp_dt > now_dt:
+        if valid_date > now_dt:
             return tkg_tmp["token"]
         else:
             # print('Need new token: ', tkg_tmp['valid-date'])
@@ -224,8 +228,9 @@ def auth(svr="prod", product=_cfg["my_prod"], url=None):
             ).access_token_token_expired  # 토큰값 만료일시 가져오기
             save_token(my_token, my_expired)  # 새로 발급 받은 토큰 저장
         else:
-            print("Get Authentification token fail!\nYou have to restart your app!!!")
-            return
+            error_msg = f"토큰 발급 실패 (HTTP {rescode}): {res.text}"
+            print(f"Get Authentification token fail!\n{error_msg}")
+            raise RuntimeError(error_msg)
     else:
         my_token = saved_token  # 기존 발급 토큰 확인되어 기존 토큰 사용
 

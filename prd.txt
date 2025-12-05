@@ -1,0 +1,346 @@
+# PRD: AI-Trader KIS 해외주식 모의투자 통합
+
+## 1. 개요
+
+### 1.1 목적
+기존 AI-Trader 에이전트 시스템을 한국투자증권(KIS) Open API와 통합하여
+미국 주식 모의투자(Paper Trading)를 실행할 수 있도록 한다.
+
+### 1.2 범위 및 우선순위
+| 기능 | 우선순위 | 비고 |
+|------|----------|------|
+| 미국 주식 거래 (NASDAQ, NYSE) | 🔴 높음 | MVP 필수 |
+| 모의투자 환경 | 🔴 높음 | MVP 필수 |
+| 실시간 WebSocket 데이터 | 🟡 중간 | Phase 3에서 구현 |
+| 한국 주식 거래 | ⚪ 낮음 | 범위 외 |
+| 실전 투자 | ⚪ 낮음 | 추후 확장 |
+
+---
+
+## 2. 현재 상태 분석
+
+### 2.1 기존 AI-Trader 구조
+```
+AI-Trader/
+├── agent/                  # 트레이딩 에이전트 (BaseAgent 등)
+├── agent_tools/            # MCP 도구 서버
+│   ├── tool_trade.py       # 매수/매도/포지션 조회
+│   ├── tool_get_price_local.py  # 로컬 가격 데이터
+│   └── kis_context.py      # KIS 서비스 어댑터
+├── integrations/           # KIS API 래퍼 (부분 구현)
+│   ├── kis_auth_manager.py
+│   ├── kis_client.py
+│   ├── kis_order.py        # 해외주식 주문
+│   ├── kis_account.py      # 잔고/체결 조회
+│   ├── kis_quote.py        # 시세 조회
+│   └── kis_settings.py
+└── open-trading-api/       # KIS API 샘플 코드
+    ├── examples_user/
+    │   └── overseas_stock/ # 해외주식 API 함수들
+    └── MCP/                # MCP 서버 (별도)
+```
+
+### 2.2 현재 구현된 기능
+| 모듈 | 상태 | 설명 |
+|------|------|------|
+| kis_order.py | ✅ 구현됨 | 해외주식 지정가 주문 (VTTT1002U/VTTT1001U) |
+| kis_account.py | ✅ 구현됨 | 잔고 조회 (VTTS3012R), 체결 조회 (VTTS5012R), 예수금 조회 (VTTS3007R) |
+| kis_quote.py | ⚠️ 부분 구현 | 시세 조회 (HHDFS00000300) - 일부 필드 파싱 오류 가능 |
+| kis_client.py | ✅ 구현됨 | REST 클라이언트, 페이지네이션, 재시도 로직 |
+| kis_auth_manager.py | ✅ 구현됨 | 토큰 관리 |
+| tool_trade.py | ✅ 구현됨 | MCP 도구 (get_position, buy, sell) |
+| WebSocket | ❌ 미구현 | 실시간 시세/체결 통보 |
+
+### 2.3 미구현/개선 필요 사항
+1. **에이전트-KIS 연동 흐름 미완성**: BaseAgent가 KIS 도구를 사용하는 전체 흐름 미검증
+2. **실시간 가격 조회 미연동**: 현재 로컬 데이터 사용, KIS 실시간 시세 미연동
+3. **WebSocket 미구현**: 실시간 시세 및 체결 통보 기능 없음
+4. **설정 파일 구조화 필요**: kis_devlp.yaml 템플릿 및 가이드 부재
+5. **오류 처리 강화 필요**: API 오류 시 에이전트 복구 로직 부족
+6. **거래 로그 통합 필요**: 기존 position.jsonl과 kis_orders.jsonl 이원화
+
+---
+
+## 3. 요구사항
+
+### 3.1 기능 요구사항
+
+#### FR-1: 에이전트 KIS 모드 실행 [🔴 높음]
+- 기존 BaseAgent가 `BROKER=kis` 환경변수로 KIS 모드 활성화
+- 모의투자 계좌로 미국 주식 매수/매도 실행
+- 포지션 및 예수금 실시간 조회
+
+#### FR-2: 가격 데이터 통합 [🔴 높음]
+- KIS API를 통한 미국 주식 현재가 조회
+- 기존 tool_get_price_local.py와 병행 사용 가능
+- 에이전트 결정 시 실시간 가격 반영
+
+#### FR-3: 주문 실행 [🔴 높음]
+- 지정가 주문 (시장가 미지원 - KIS 모의투자 제약)
+- 매수/매도 주문 제출 및 결과 확인
+- 주문 실패 시 에러 메시지 반환
+
+#### FR-4: 포지션 관리 [🔴 높음]
+- 현재 보유 종목 및 수량 조회
+- 예수금(매수 가능 금액) 조회
+- 체결 내역 조회
+
+#### FR-5: 거래 로그 [🔴 높음]
+- 모든 주문을 kis_orders.jsonl에 기록
+- 기존 position 로그와 통합 또는 연동
+
+#### FR-6: 실시간 WebSocket 데이터 [🟡 중간]
+- 실시간 호가/체결가 수신
+- 체결 통보 (주문 체결 시 즉시 알림)
+- 에이전트에 실시간 시세 제공 (옵션)
+
+### 3.2 비기능 요구사항
+
+#### NFR-1: 안정성
+- API 호출 실패 시 재시도 (최대 3회)
+- Rate Limit 준수 (초당 20회 제한)
+- 토큰 만료 시 자동 갱신
+- WebSocket 연결 끊김 시 자동 재연결
+
+#### NFR-2: 설정 용이성
+- kis_devlp.yaml 템플릿 제공
+- 환경변수 기반 설정 오버라이드
+- 모의투자/실전 환경 분리
+
+#### NFR-3: 호환성
+- 기존 에이전트 코드 최소 변경
+- MCP 도구 인터페이스 유지
+- 백테스팅 모드와 공존
+
+---
+
+## 4. 기술 설계
+
+### 4.1 아키텍처
+```
+┌─────────────────────────────────────────────────────────┐
+│                    AI Trading Agent                      │
+│                  (BaseAgent / Claude)                    │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                    MCP Tool Server                       │
+│              (tool_trade.py - port 8002)                │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐  │
+│  │get_position │  │    buy      │  │      sell       │  │
+│  └─────────────┘  └─────────────┘  └─────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                   KIS Context Layer                      │
+│                   (kis_context.py)                       │
+│  ┌──────────────────┐  ┌────────────────────────────┐   │
+│  │kis_balance_adapter│  │   kis_order_adapter       │   │
+│  └──────────────────┘  └────────────────────────────┘   │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                 KIS Integration Layer                    │
+│                   (integrations/)                        │
+│                                                          │
+│  ┌─────────── REST API ───────────┐  ┌─ WebSocket ──┐   │
+│  │                                │  │              │   │
+│  │ ┌────────────┐ ┌────────────┐  │  │ ┌──────────┐ │   │
+│  │ │KISOrderSvc │ │KISAccountSvc│ │  │ │KISWSSvc  │ │   │
+│  │ └────────────┘ └────────────┘  │  │ │(Phase 3) │ │   │
+│  │ ┌────────────┐                 │  │ └──────────┘ │   │
+│  │ │KISQuoteSvc │                 │  │              │   │
+│  │ └────────────┘                 │  └──────────────┘   │
+│  └────────────────────────────────┘                     │
+│                        │                                 │
+│                        ▼                                 │
+│              ┌─────────────────┐                        │
+│              │  KISRestClient  │                        │
+│              └─────────────────┘                        │
+│                        │                                 │
+│                        ▼                                 │
+│              ┌─────────────────┐                        │
+│              │KISAuthManager   │                        │
+│              └─────────────────┘                        │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│              Korea Investment & Securities               │
+│                  Open API (모의투자)                      │
+│         REST: https://openapivts.koreainvestment.com    │
+│         WS: wss://openapivts.koreainvestment.com        │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 4.2 TR ID 매핑 (모의투자)
+
+#### REST API
+| 기능 | TR ID | 엔드포인트 |
+|------|-------|-----------|
+| 매수 주문 | VTTT1002U | /uapi/overseas-stock/v1/trading/order |
+| 매도 주문 | VTTT1001U | /uapi/overseas-stock/v1/trading/order |
+| 잔고 조회 | VTTS3012R | /uapi/overseas-stock/v1/trading/inquire-balance |
+| 체결 조회 | VTTS5012R | /uapi/overseas-stock/v1/trading/inquire-ccnl |
+| 예수금 조회 | VTTS3007R | /uapi/overseas-stock/v1/trading/inquire-psbl-order |
+| 현재가 조회 | HHDFS00000300 | /uapi/overseas-price/v1/quotations/price |
+
+#### WebSocket (Phase 3)
+| 기능 | TR ID | 설명 |
+|------|-------|------|
+| 해외주식 실시간 체결가 | HDFSCNT0 | 실시간 체결 데이터 |
+| 해외주식 실시간 호가 | HDFSASP0 | 실시간 호가 데이터 |
+| 해외주식 체결 통보 | H0GSCNI0 | 주문 체결 알림 |
+
+### 4.3 설정 파일 구조
+```yaml
+# kis_devlp.yaml
+# 모의투자 앱 키
+paper_app: "PSxxxxxxxx"
+paper_sec: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# 계좌 정보
+my_paper_stock: "50123456"   # 모의투자 계좌번호 (8자리)
+my_prod: "01"                 # 계좌 상품코드
+
+# HTS ID (체결 통보용)
+my_htsid: "myid123"
+
+# 기타
+my_agent: "AI-Trader"
+```
+
+### 4.4 데이터 모델
+```python
+# models/broker.py (기존)
+@dataclass
+class Quote:
+    symbol: str
+    last: float
+    prev_close: float
+    change: float
+    change_rate: float
+    volume: Optional[int]
+
+@dataclass
+class OrderResult:
+    order_no: str
+    message: str
+    side: str
+    symbol: str
+    qty: int
+    limit_price: float
+
+@dataclass
+class BalanceLine:
+    symbol: str
+    qty: int
+    value: float
+    currency: str
+    raw: dict
+
+# Phase 3 추가
+@dataclass
+class RealtimeTick:
+    symbol: str
+    price: float
+    volume: int
+    timestamp: datetime
+    side: str  # "buy" or "sell"
+```
+
+---
+
+## 5. 구현 태스크
+
+### Phase 1: 기반 검증 및 수정 [🔴 높음]
+- [ ] Task 1.1: kis_devlp.yaml 템플릿 생성 및 문서화
+- [ ] Task 1.2: kis_quote.py 해외주식 시세 조회 수정/검증
+- [ ] Task 1.3: 기존 integrations/ 모듈 단위 테스트 작성
+- [ ] Task 1.4: KIS 모의투자 연결 E2E 테스트
+
+### Phase 2: 에이전트 통합 [🔴 높음]
+- [ ] Task 2.1: BaseAgent KIS 모드 분기 로직 추가
+- [ ] Task 2.2: tool_get_price.py KIS 시세 조회 통합 (옵션)
+- [ ] Task 2.3: 에이전트 시스템 프롬프트에 KIS 모드 안내 추가
+- [ ] Task 2.4: 포지션 로그 통합 (position.jsonl + kis_orders.jsonl)
+
+### Phase 3: WebSocket 및 안정화 [🟡 중간]
+- [ ] Task 3.1: KIS WebSocket 클라이언트 구현 (kis_websocket.py)
+- [ ] Task 3.2: 실시간 시세 수신 및 캐싱
+- [ ] Task 3.3: 체결 통보 수신 및 로깅
+- [ ] Task 3.4: WebSocket 연결 관리 (재연결, 하트비트)
+- [ ] Task 3.5: 오류 처리 강화 (재시도, 복구)
+- [ ] Task 3.6: Rate Limit 준수 로직 검증
+
+### Phase 4: 문서화 및 마무리
+- [ ] Task 4.1: 사용 가이드 작성
+- [ ] Task 4.2: 거래 대시보드 연동 (선택)
+- [ ] Task 4.3: 코드 리뷰 및 리팩토링
+
+---
+
+## 6. 성공 기준
+
+### 6.1 MVP 완료 조건 (Phase 1-2)
+1. AI 에이전트가 KIS 모의투자로 미국 주식 매수/매도 실행 가능
+2. 포지션 및 예수금 조회 정상 동작
+3. 주문 결과가 로그에 기록됨
+4. 에러 발생 시 에이전트가 적절히 대응
+
+### 6.2 Phase 3 완료 조건
+1. WebSocket으로 실시간 시세 수신
+2. 체결 통보 정상 수신 및 로깅
+3. 연결 끊김 시 자동 재연결
+
+### 6.3 테스트 시나리오
+1. AAPL 100주 지정가 매수 → 주문번호 반환 확인
+2. 보유 중인 MSFT 50주 매도 → 체결 확인
+3. 잔고 조회 → 보유 종목 및 예수금 확인
+4. 잘못된 심볼 주문 → 에러 메시지 반환 확인
+5. (Phase 3) WebSocket 연결 후 AAPL 실시간 시세 수신 확인
+6. (Phase 3) 주문 체결 시 체결 통보 수신 확인
+
+---
+
+## 7. 리스크 및 고려사항
+
+### 7.1 기술적 리스크
+- KIS API 변경 시 코드 수정 필요
+- 모의투자와 실전투자 TR ID 상이 (전환 시 분기 필요)
+- 시장 운영 시간 외 주문 제약
+- WebSocket 연결 불안정 가능성
+
+### 7.2 운영 고려사항
+- 모의투자 예수금 한도 (기본 1억원)
+- 토큰 유효기간 (24시간)
+- API 호출 제한 (초당 20회)
+- WebSocket 구독 종목 수 제한
+
+### 7.3 보안 고려사항
+- kis_devlp.yaml은 .gitignore에 포함
+- 앱 키/시크릿 환경변수 우선 사용 권장
+- 로그에 민감 정보 마스킹
+
+---
+
+## 8. 참고 자료
+
+- KIS Open API 문서: https://apiportal.koreainvestment.com
+- KIS WebSocket 가이드: https://apiportal.koreainvestment.com (실시간 시세 섹션)
+- open-trading-api/examples_user/overseas_stock/
+- open-trading-api/examples_user/overseas_stock/overseas_stock_functions_ws.py
+- 기존 integrations/ 모듈 코드
+- agent_tools/tool_trade.py
+
+---
+
+## 변경 이력
+
+| 버전 | 날짜 | 작성자 | 변경 내용 |
+|------|------|--------|----------|
+| 1.0 | 2025-12-05 | AI Assistant | 초안 작성 |
+| 1.1 | 2025-12-05 | AI Assistant | WebSocket 우선순위 중간으로 변경, Phase 3에 WebSocket 태스크 추가 |

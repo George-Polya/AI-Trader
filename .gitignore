@@ -139,5 +139,10 @@ node_modules/
 
 # Task files
 # tasks.json
-# tasks/ 
-.taskmaster/
+# tasks/
+
+# KIS API credentials (보안)
+kis_devlp.yaml
+**/kis_devlp.yaml
+KIS*
+!kis_devlp.yaml.example
