@@ -144,5 +144,7 @@ node_modules/
 # KIS API credentials (보안)
 kis_devlp.yaml
 **/kis_devlp.yaml
-KIS*
+
 !kis_devlp.yaml.example
+data/
+configs/default_config.json
